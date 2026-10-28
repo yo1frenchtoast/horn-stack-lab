@@ -1834,7 +1834,7 @@ function drawSpec() {
   }
   ctx.restore(); isoDraw();
 }
-// ---------- isolator: steep band-pass on the simulated system only (the raw source is left untouched), selected by dragging on the spectrum ----------
+// ---------- isolator: steep band-pass on the simulated system only (the raw source and the spectrum graph are left untouched), selected by dragging on the spectrum ----------
 // 4 cascaded Butterworth biquads per side = 8th order (48 dB/octave). Bypassed (not in the signal path) when no range is selected.
 const ISO = { lo: 0, hi: 0, on: false, hp: [], lp: [], drag: null };
 function isoApply() {
@@ -1850,7 +1850,7 @@ function isoApply() {
   }
   if (ISO.on) { for (const h of ISO.hp) h.frequency.setTargetAtTime(ISO.lo, t, 0.01); for (const l of ISO.lp) l.frequency.setTargetAtTime(ISO.hi, t, 0.01); }
   if (ISO.wired !== ISO.on) {
-    AUD.sysGain.disconnect();
+    AUD.sysGain.disconnect(); AUD.sysGain.connect(AUD.tap);
     AUD.sysGain.connect(ISO.on ? ISO.hp[0] : AUD.mix);
     ISO.wired = ISO.on;
   }
@@ -2082,7 +2082,7 @@ function ensureAudio() {
   AUD.srcGain.connect(AUD.rawGain); AUD.rawGain.connect(AUD.mix); AUD.sysGain.connect(AUD.mix); AUD.mix.connect(AUD.master); AUD.master.connect(lim); lim.connect(ctx.destination);
   AUD.anOut = ctx.createAnalyser(); AUD.anSrc = ctx.createAnalyser();
   for (const a of [AUD.anOut, AUD.anSrc]) { a.fftSize = 16384; a.smoothingTimeConstant = 0.8; a.minDecibels = -120; a.maxDecibels = 0; }
-  AUD.mix.connect(AUD.anOut); AUD.srcGain.connect(AUD.anSrc);
+  AUD.tap = ctx.createGain(); AUD.rawGain.connect(AUD.tap); AUD.sysGain.connect(AUD.tap); AUD.tap.connect(AUD.anOut); // spectrum tap taken before the isolator AUD.srcGain.connect(AUD.anSrc);
   AUD.master.gain.value = 0; isoApply(); applyAB(); return true;
 }
 // playback position in the imported file (s)
