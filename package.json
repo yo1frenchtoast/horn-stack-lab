@@ -2,10 +2,11 @@
   "name": "horn-stack-lab",
   "version": "1.0.0",
   "private": true,
-  "description": "Simulateur de stacks de sono à pavillons et bass-reflex à partir de scripts Hornresp",
+  "description": "Horn and bass-reflex PA stack simulator based on Hornresp scripts",
   "scripts": {
     "gen": "node gen.js",
-    "build": "node gen.js && node build.js"
+    "build": "node gen.js && node build.js",
+    "test": "node tests/i18n_roundtrip.js && node tests/i18n_fr.js && node tests/t42.js && node tests/t46.js && node tests/t47.js && node tests/t50.js"
   },
   "devDependencies": {
     "playwright": "^1.45.0"

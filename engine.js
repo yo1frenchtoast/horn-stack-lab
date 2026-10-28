@@ -1,5 +1,5 @@
-// Moteur de calcul "façon Hornresp" : pilote + chambres + pavillon (tubes en escalier) + rayonnement de bouche.
-// Convention e^{+jwt}. Complexes = [re, im].
+// "Hornresp-style" calculation engine: driver + chambers + horn (stepped tubes) + mouth radiation.
+// Convention e^{+jwt}. Complex numbers = [re, im].
 const RHO = 1.205, CSND = 343.4;
 const cx = {
   add: (a, b) => [a[0] + b[0], a[1] + b[1]],
@@ -13,7 +13,7 @@ const cx = {
   fromPolar: (m, ph) => [m * Math.cos(ph), m * Math.sin(ph)],
 };
 
-// ---------- Bessel J0, J1 (Abramowitz & Stegun 9.4) et fonction de Struve H1 (Aarts & Janssen) ----------
+// ---------- Bessel J0, J1 (Abramowitz & Stegun 9.4) and Struve function H1 (Aarts & Janssen) ----------
 function besselJ0(x) {
   const ax = Math.abs(x);
   if (ax < 8) {
@@ -42,11 +42,11 @@ function besselJ1(x) {
 }
 function struveH1(x) {
   if (x < 1e-6) return 0;
-  if (x < 2) { // série de Taylor
-    let sum = 0, term = x * x / 3; // H1(x) = (2/pi) * (x^2/3 - x^4/(3^2*5) + ...) approximé
-    // forme exacte : H1 = sum_{m>=0} (-1)^m (x/2)^{2m+2} / (Gamma(m+3/2)Gamma(m+5/2))
+  if (x < 2) { // Taylor series
+    let sum = 0, term = x * x / 3; // H1(x) = (2/pi) * (x^2/3 - x^4/(3^2*5) + ...) approximated
+    // exact form: H1 = sum_{m>=0} (-1)^m (x/2)^{2m+2} / (Gamma(m+3/2)Gamma(m+5/2))
     sum = 0;
-    const gam = n => { // Gamma(n+1/2) pour n entier >=1 : (2n)!/(4^n n!) sqrt(pi)
+    const gam = n => { // Gamma(n+1/2) for integer n >= 1: (2n)!/(4^n n!) sqrt(pi)
       let g = Math.sqrt(Math.PI);
       for (let i = 1; i <= n; i++) g *= (i - 0.5);
       return g;
@@ -58,14 +58,14 @@ function struveH1(x) {
   }
   return 2 / Math.PI - besselJ0(x) + (16 / Math.PI - 5) * Math.sin(x) / x + (12 - 36 / Math.PI) * (1 - Math.cos(x)) / (x * x);
 }
-// Impédance de rayonnement d'un piston plan dans un baffle infini (demi-espace 2π), rapportée à rho*c/S
+// Radiation impedance of a flat piston in an infinite baffle (2π half-space), relative to rho*c/S
 function pistonZnorm(ka) {
   const x = 2 * ka;
   if (x < 1e-6) return [0, 0];
   return [1 - 2 * besselJ1(x) / x, 2 * struveH1(x) / x];
 }
 
-// ---------- Lecture d'un fichier Hornresp (formats compact et détaillé) ----------
+// ---------- Reading a Hornresp file (compact and detailed formats) ----------
 function parseHornresp(text) {
   const lines = text.split(/\r?\n/);
   const kv = [];
@@ -94,7 +94,7 @@ function parseHornresp(text) {
       if (len > 0 || segs.length === 0 || true) segs.push({ S1: S[i], S2: S[i + 1], L: len, F: fs[i - 1] || 0 });
     } else break;
   }
-  // Nd haut-parleurs identiques en parallèle -> pilote équivalent unique
+  // Nd identical drivers in parallel -> a single equivalent driver
   const Nd = Math.max(1, Math.round(num('Nd', 1)));
   return {
     Nd,
@@ -108,7 +108,7 @@ function parseHornresp(text) {
   };
 }
 
-// ---------- Découpage du pavillon en tranches ----------
+// ---------- Slicing the horn ----------
 function hornSlices(p, maxdx = 0.01) {
   const sl = [];
   for (const g of p.segs) {
@@ -121,10 +121,10 @@ function hornSlices(p, maxdx = 0.01) {
       let S;
       if (!g.F) { const r = Math.sqrt(S1) + (Math.sqrt(S2) - Math.sqrt(S1)) * t; S = r * r; }
       else {
-        // hyperbolo-exponentiel : S = S1 (cosh(mx) + T sinh(mx))^2
+        // hyperbolic-exponential: S = S1 (cosh(mx) + T sinh(mx))^2
         const T = g.F;
         const target = Math.sqrt(S2 / S1);
-        let lo = 1e-6, hi = 60; // résoudre m*L
+        let lo = 1e-6, hi = 60; // solve m*L
         const fn = u => Math.cosh(u) + T * Math.sinh(u) - target;
         for (let it = 0; it < 80; it++) { const mid = (lo + hi) / 2; (fn(mid) < 0) ? lo = mid : hi = mid; }
         const u = (lo + hi) / 2 * t;
@@ -136,7 +136,7 @@ function hornSlices(p, maxdx = 0.01) {
   return sl;
 }
 
-// ---------- Calcul complet d'une enceinte ----------
+// ---------- Full calculation of a speaker ----------
 function simulate(p, freqs) {
   const sl = hornSlices(p);
   const hasHorn = sl.length > 0;
@@ -152,10 +152,10 @@ function simulate(p, freqs) {
   const amouth = Math.sqrt(Smouth / Math.PI);
   for (const f of freqs) {
     const w = 2 * Math.PI * f, k = w / CSND;
-    // charge de bouche
+    // mouth load
     const zn = pistonZnorm(k * amouth);
     const Zm = cx.sc(zn, RHO * CSND / Smouth);
-    // propagation de la bouche vers la gorge (U_bouche = 1)
+    // propagation from the mouth to the throat (U_mouth = 1)
     let P = Zm, U = [1, 0];
     for (let i = sl.length - 1; i >= 0; i--) {
       const { S, dx } = sl[i];
@@ -166,10 +166,10 @@ function simulate(p, freqs) {
       P = nP; U = nU;
     }
     const Zhorn = hasHorn ? cx.div(P, U) : Zm;
-    // chambre de compression en parallèle de l'entrée du pavillon
+    // compression chamber in parallel with the horn input
     const Yfront = cx.add([0, w * Ctc], cx.inv(Zhorn));
     const Zfront = cx.inv(Yfront);
-    // arrière
+    // rear
     let Zrear = [0, 0], Zp = null;
     if (hasPort) {
       Zp = cx.add([Math.sqrt(Mport / Crc) / Qp, 0], [0, w * Mport]);
@@ -186,20 +186,20 @@ function simulate(p, freqs) {
       const Uin = cx.mul(Ud, cx.div(Zfront, Zhorn));
       Umouth = cx.div(Uin, U);
     } else Umouth = Ud;
-    // évent arrière rayonnant (bass-reflex) : débit sortant = -Ud * Zc/(Zc+Zp), en opposition de phase sous l'accord
+    // radiating rear port (bass-reflex): outgoing flow = -Ud * Zc/(Zc+Zp), in antiphase below the tuning
     if (hasPort && p.portOut) {
       const Zc = [0, -1 / (w * Crc)];
       Umouth = cx.add(Umouth, cx.sc(cx.mul(Ud, cx.div(Zc, cx.add(Zc, Zp))), -1));
     }
-    // pression à 1 m dans l'angle solide Ang
+    // pressure at 1 m in the solid angle Ang
     const pr = cx.mul([0, w * RHO / p.ang], Umouth);
     out.push({ f, p: pr, Ze, x: cx.abs(v) / w * Math.SQRT2 * 1000, Ud, Zin: cx.add(Ze, [p.Rg, 0]) });
   }
   return { out, mouthArea: Smouth, mouthRadius: amouth };
 }
 
-// ---------- Filtres de répartition ----------
-const BESSEL = { // [coefs de theta_n(s) du plus haut degré au plus bas ; fréquence -3 dB du polynôme normalisé]
+// ---------- Crossover filters ----------
+const BESSEL = { // [coefficients of theta_n(s) from the highest degree to the lowest; -3 dB frequency of the normalised polynomial]
   1: { c: [1, 1], w3: 1 },
   2: { c: [1, 3, 3], w3: 1.3617 },
   3: { c: [1, 6, 15, 15], w3: 1.7557 },

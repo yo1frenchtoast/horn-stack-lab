@@ -21,4 +21,4 @@ Vtc=160000
 Atc=460
 Pmax=3600
 Xmax=17.5
-Comment=S218 NTLW (estimé) / 2x 18NTLW5000
+Comment=S218 NTLW (estimated) / 2x 18NTLW5000

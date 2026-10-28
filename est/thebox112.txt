@@ -17,4 +17,4 @@ Vtc=0
 Atc=0
 Pmax=350
 Xmax=8
-Comment=the box Achat 112 Sub A (estimé) / 12" bass-reflex 4 Ω
+Comment=the box Achat 112 Sub A (estimated) / 12" bass-reflex 4 Ω

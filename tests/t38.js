@@ -10,5 +10,5 @@ for(const p of ['cubo18:1,kick15:1,mt130:1','cubo18:4,kick15:2,mt130:1','cubo18:
  const a=await cnt();const t0=Date.now();await pg.click('#advall');await pg.waitForTimeout(400);
  const msg=await pg.textContent('#advmsg');const c=await cnt();
  const again=await pg.evaluate(()=>{const b=JSON.stringify(snapAdv());applyAllAdvice();return b===JSON.stringify(snapAdv())});
- console.log(p,'avant',a,'après',c,'ms',Date.now()-t0,'idempotent',again,'|',msg.slice(0,230));}
+ console.log(p,'before',a,'after',c,'ms',Date.now()-t0,'idempotent',again,'|',msg.slice(0,230));}
 console.log(errs);await b.close()})();

@@ -1,6 +1,6 @@
-// Génère les scripts Hornresp ESTIMÉS (depuis les plans) pour les 10 enclosures
+// Generates the ESTIMATED Hornresp scripts (from the plans) for the enclosures
 const fs=require('fs');
-const D={ // proxys de haut-parleurs
+const D={ // driver proxies
  d18:{Sd:1225,Bl:24.41,Cms:'1.39E-04',Rms:5.13,Mmd:164.97,Le:2.30,Re:5.00,Pmax:1400,Xmax:9.0},
  d15:{Sd:873,Bl:14.70,Cms:'2.22E-04',Rms:2.92,Mmd:60.19,Le:1.37,Re:6.11,Pmax:800,Xmax:4.8},
  cuw18:{Sd:1210,Bl:25.17,Cms:'1.23E-04',Rms:6.16,Mmd:120.5,Le:2.0,Re:6.0,Pmax:500,Xmax:6.0},

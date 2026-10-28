@@ -1,39 +1,32 @@
 # Horn Stack Lab
 
-Simulateur de stacks de sono à pavillons et bass-reflex, calculé à partir de scripts Hornresp (modèle d'ondes planes). Une seule page HTML autonome, en français et en anglais, thème clair/sombre.
+Simulator for horn and bass-reflex PA stacks, computed from Hornresp scripts (plane-wave model). The UI is available in English and French (selector in the page; defaults to the browser language).
 
-**Fonctions** : empilement en colonne ou pyramide, orientation et convergence par étage, filtres de répartition, délais, gains, égaliseur et Auto-EQ, conseils de réglage appliqués récursivement, bibliothèque de haut-parleurs personnalisables, réponse au point d'écoute (SPL, phase, retard de groupe, excursion, impédance), carte d'ondes 2D/3D (avec suivi multi-bandes), écoute simulée, configurations enregistrées dans le navigateur.
+**Features**: column or pyramid stacking, per-stage aiming and convergence, crossover filters, delays, gains, polarity, SPL / phase / group delay / excursion / impedance curves, 2D/3D pressure maps, multi-band listening-spot following, automatic advice engine with undo, simulated listening (kick, tempo), saved stack configurations, light/dark theme.
 
-## Structure
-
-| Fichier | Rôle |
+| File | Role |
 |---|---|
-| `template.html` | Page (HTML/CSS/JS). Marqueurs `/*I18N*/`, `/*ENGINE*/`, `/*DATA*/` |
-| `i18n.js` | Traduction FR → EN (dictionnaire de libellés et de phrases) |
-| `engine.js` | Moteur Hornresp : `parseHornresp`, `simulate`, `filterResponse` |
-| `data/` | Scripts Hornresp réels (Cubo 18, Cubo Sub, Kick 15, Kick 12, MT130, MT121, X1) |
-| `params.js`, `gen.js` | Enceintes estimées ou mesurées : pilotes `D` et fonction `mk` ; `node gen.js` écrit `est/*.txt` |
-| `build.js` | Assemble `page.html` (moteur + données + traduction + template) et vérifie la syntaxe |
-| `tests/` | Tests headless Playwright (`node tests/t43.js`, etc., à lancer depuis la racine) |
-| `index.html` | Page construite, autonome (`<!doctype>`, charset, viewport) : c'est celle que sert GitHub Pages |
-| `page.html` | Même page sans squelette HTML (format de l'artefact Claude). Généré, non commité |
+| `template.html` | Page source (markers `/*I18N*/`, `/*ENGINE*/`, `/*DATA*/`) |
+| `engine.js` | Hornresp-style simulation: `simulate(par, freqs)` |
+| `i18n.js` | English → French translator (labels, phrases, plural rules), language and theme handling |
+| `data/` | Real Hornresp scripts (Cubo 18, Cubo Sub, Kick 15, Kick 12, MT130, MT121, X1) |
+| `params.js`, `gen.js` | Estimated or measured cabinets: drivers `D` and `mk` helper; `node gen.js` writes `est/*.txt` |
+| `build.js` | Assembles `index.html` (and `page.html`, the Claude artifact fragment) and checks syntax |
+| `tests/` | Headless Playwright tests (run from the repository root, e.g. `node tests/t43.js`) |
+| `index.html` | Generated standalone page, committed and served by GitHub Pages |
 
-## Construire
-
-```sh
-node gen.js && node build.js   # écrit index.html (et page.html pour l'artefact)
+```
+npm install                  # playwright (tests only)
+node gen.js && node build.js # writes index.html (and page.html)
+npm test
 ```
 
-Les tests demandent Playwright (`npm install`) et lisent `page.html` : lancer d'abord la construction.
+GitHub Pages builds nothing: it serves the committed `index.html` (Settings → Pages → Deploy from a branch → `main` / root).
 
-## Publier sur GitHub Pages
+## Adding a cabinet
 
-Pages ne construit rien : il sert `index.html`, qui est commité. Réglages : *Settings → Pages → Deploy from a branch → `main` / `(root)`*. Après une modification, lancer `node gen.js && node build.js`, puis commiter `index.html`.
+1. Real Hornresp script: put the `.txt` in `data/`, read it in `build.js`, add a line to the `EST` list.
+2. Estimated cabinet: add the driver to `D` (`gen.js`) and a `mk(...)` to `params.js`, then add the line to `EST`.
+3. Add French translations in `i18n.js` for any new text.
 
-## Ajouter une enceinte
-
-1. Script Hornresp réel : déposer le `.txt` dans `data/`, le lire dans `build.js`, puis ajouter une ligne dans la liste `EST` de `template.html`.
-2. Enceinte estimée : ajouter le pilote dans `D` (`gen.js`) et un `mk(...)` dans `params.js`, puis ajouter la ligne dans `EST`.
-3. Ajouter les libellés traduits dans `i18n.js` si de nouveaux textes apparaissent.
-
-Les enceintes « estimées » sont reconstruites depuis des plans (pavillon équivalent, haut-parleur proxy) : leurs courbes sont indicatives.
+"Estimated" cabinets are rebuilt from plans (equivalent horn, proxy driver): their curves are indicative only.

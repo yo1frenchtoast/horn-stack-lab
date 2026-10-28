@@ -29,4 +29,4 @@ Vtc=6000
 Atc=420
 Pmax=450
 Xmax=2
-Comment=MHB-30 (estimé) / 12" équiv. PD12SB30
+Comment=MHB-30 (estimated) / 12" equiv. PD12SB30

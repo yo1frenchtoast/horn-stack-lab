@@ -29,4 +29,4 @@ Vtc=2500
 Atc=450
 Pmax=450
 Xmax=2
-Comment=Kick Planar BR (estimé) / 12"
+Comment=Kick Planar BR (estimated) / 12"

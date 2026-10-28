@@ -1,6 +1,6 @@
 ID = 54.10
 
-Comment = Kick 15 mini x28,8 % (estimé) / H04-003A 4" (paramètres estimés)
+Comment = Kick 15 mini x28.8% (estimated) / H04-003A 4" (estimated parameters)
 
 |RADIATION, SOURCE AND MOUTH PARAMETER VALUES:
 

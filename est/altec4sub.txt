@@ -17,4 +17,4 @@ Vtc=0
 Atc=0
 Pmax=20
 Xmax=4
-Comment=Sub 4" bass-reflex 6,6 L / Altec Lansing H04-003A-08-D (mesuré)
+Comment=Sub 4" bass-reflex 6.6 L / Altec Lansing H04-003A-08-D (measured)

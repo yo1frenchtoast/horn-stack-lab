@@ -29,4 +29,4 @@ Vtc=25000
 Atc=900
 Pmax=1400
 Xmax=9
-Comment=HR118 (estimé) / 18"
+Comment=HR118 (estimated) / 18"

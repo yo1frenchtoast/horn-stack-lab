@@ -8,10 +8,10 @@ await pg.evaluate(p=>{const b=document.createElement('button');b.dataset.preset=
 await pg.waitForTimeout(800);console.log('init ',await dump());
 for(let n=0;n<14;n++){
  const r=await pg.evaluate(()=>{computeCurves();updateAdvice();const btns=[...document.querySelectorAll('[data-adv]')].filter(b=>!b.disabled);
-  // appliquer en priorité hp/lp
+  // apply hp/lp first
   const b=btns.find(b=>b.dataset.adv==='hp'||b.dataset.adv==='lp')||btns[0];if(!b)return 'NOBTN '+document.querySelectorAll('[data-adv]').length+' '+ADV.out.length;const t=b.closest('.hint').textContent.slice(0,120);b.click();return t});
  if(!r||r.startsWith('NOBTN')){console.log('plus de bouton',r);break}
  await pg.waitForTimeout(250);console.log(n,r.slice(0,80),'=>',await dump());
- const bad=await pg.evaluate(()=>SRC.some(s=>s.hp.type!=='off'&&s.lp.type!=='off'&&s.hp.f>=s.lp.f/1.5));if(bad){console.log('!!! bande dégénérée');break}
+ const bad=await pg.evaluate(()=>SRC.some(s=>s.hp.type!=='off'&&s.lp.type!=='off'&&s.hp.f>=s.lp.f/1.5));if(bad){console.log('!!! degenerate band');break}
 }
 console.log(errs);await b.close()})();

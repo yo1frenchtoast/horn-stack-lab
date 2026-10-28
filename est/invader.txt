@@ -29,4 +29,4 @@ Vtc=6000
 Atc=1100
 Pmax=1400
 Xmax=9
-Comment=Invader Bin (estimé) / 18"
+Comment=Invader Bin (estimated) / 18"

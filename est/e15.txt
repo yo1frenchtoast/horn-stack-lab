@@ -17,4 +17,4 @@ Vtc=0
 Atc=0
 Pmax=800
 Xmax=4.8
-Comment=Audiophony E15 (estimé) / 15" bass-reflex
+Comment=Audiophony E15 (estimated) / 15" bass-reflex

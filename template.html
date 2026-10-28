@@ -1,8 +1,8 @@
 <title>Horn Stack Lab</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
-/* Mise en page : colonne de réglages (3 voies) à gauche, courbes et carte d'ondes à droite ; une seule colonne sur téléphone.
-   Palette : gris bleuté froid, une couleur par voie (bleu, ambre, magenta), somme en couleur de texte. */
+/* Layout: settings column (3 ways) on the left, curves and wave map on the right; a single column on phones.
+   Palette: cold blue-grey, one colour per way (blue, amber, magenta), sum in the text colour. */
 :root {
   --bg: #f1f4f6; --surface: #ffffff; --surface2: #e7edf0; --fg: #14212b; --muted: #55666f; --line: #ccd6dc;
   --accent: #0f766e; --c1: #2b6cb0; --c2: #c2650a; --c3: #a52a8c; --c4: #3d7a1f; --c5: #0e7490; --c6: #a16207; --c7: #6d28d9; --c8: #be123c; --warn: #b42318;
@@ -103,39 +103,39 @@ button.btn.sm { padding: 3px 9px; }
 <div class="wrap">
   <div class="head">
     <h1>Horn Stack Lab</h1>
-    <div class="tools"><label class="f inline">Thème <select id="themesel" aria-label="Thème"><option value="auto">Auto</option><option value="light">Clair</option><option value="dark">Sombre</option></select></label><label class="f inline">Langue <select id="langsel" aria-label="Langue"><option value="fr">Français</option><option value="en">English</option></select></label></div>
-    <p>Simulateur de stacks de sono à pavillons et bass-reflex, calculé à partir de scripts Hornresp : Cubo 18, Cubo Sub, Kick, MT130, MHB, E15, GK MB112 et d'autres. Empile les caissons en colonne ou en pyramide, oriente-les, règle filtres, délais, gains et égaliseur, ajoute tes propres haut-parleurs, puis lis la réponse au point d'écoute (SPL, phase, retard de groupe, excursion, impédance), les ondes en 2D ou 3D et une écoute simulée.</p>
+    <div class="tools"><label class="f inline">Theme <select id="themesel" aria-label="Theme"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option></select></label><label class="f inline">Language <select id="langsel" aria-label="Language"><option value="fr">Français</option><option value="en">English</option></select></label></div>
+    <p>Horn and bass-reflex PA stack simulator, computed from Hornresp scripts: Cubo 18, Cubo Sub, Kick, MT130, MHB, E15, GK MB112 and more. Stack the cabinets in a column or a pyramid, aim them, set filters, delays, gains and equaliser, add your own drivers, then read the response at the listening spot (SPL, phase, group delay, excursion, impedance), the waves in 2D or 3D and a simulated listening.</p>
   </div>
 
   <div class="panel">
-    <div class="row"><h2>Réglages généraux <span class="info" tabindex="0" role="note" aria-label="Informations"><b>i</b><span class="tip">Le nombre de groupes répète toute la configuration côte à côte. Chaque caisson reçoit le même signal que les autres de sa voie (un canal d'ampli par caisson). Clique sur la carte pour déplacer le point d'écoute.</span></span></h2></div>
+    <div class="row"><h2>General settings <span class="info" tabindex="0" role="note" aria-label="Information"><b>i</b><span class="tip">The number of groups repeats the whole configuration side by side. Each cabinet receives the same signal as the others of its way (one amp channel per cabinet). Click on the map to move the listening spot.</span></span></h2></div>
     <div class="row">
-      <label class="f">Niveau d'attaque (dB re 2,83 V)<input type="number" id="drive" value="20" step="1" min="-20" max="40"></label>
-      <label class="f">Nombre de groupes<input type="number" id="stacks" value="1" step="1" min="1" max="8"></label>
-      <label class="f">Espace entre groupes (m)<input type="number" id="spacing" value="1" step="0.1" min="0"></label>
-      <label class="f">Jeu entre caissons (m)<input type="number" id="gap" value="0" step="0.01" min="0"></label>
-      <label class="f">Convergence des groupes, tous les étages (°)<input type="number" id="gsplay" value="0" step="1" min="-45" max="45"></label>
-      <label class="f" title="Tous les caissons visent le point (x = 0, y = distance) de l'axe central ; 0 désactive">Tous les étages convergent à y = (m, 0 = non)<input type="number" id="focus" value="0" step="0.5" min="0" max="60"></label>
-      <label class="f" title="Hauteur du point visé : les caissons s'inclinent aussi vers lui. Vide = pas de convergence verticale">Tous les étages convergent à z = (m, vide = non)<input type="number" id="fz" step="0.1" min="0" max="30"></label>
-      <label class="f">Hauteur du sol au 1er caisson (m)<input type="number" id="base" value="0" step="0.1" min="0"></label>
-      <label class="f">Écoute x (m)<input type="number" id="lx" value="0" step="0.5"></label>
-      <label class="f">Écoute y (m)<input type="number" id="ly" value="4" step="0.5" min="0.3"></label>
-      <label class="f">Écoute z (m)<input type="number" id="lz" value="1.7" step="0.1" min="0"></label>
-      <label class="f inline"><input type="checkbox" id="auto" checked> Empilement automatique</label>
+      <label class="f">Drive level (dB re 2.83 V)<input type="number" id="drive" value="20" step="1" min="-20" max="40"></label>
+      <label class="f">Number of groups<input type="number" id="stacks" value="1" step="1" min="1" max="8"></label>
+      <label class="f">Spacing between groups (m)<input type="number" id="spacing" value="1" step="0.1" min="0"></label>
+      <label class="f">Gap between cabinets (m)<input type="number" id="gap" value="0" step="0.01" min="0"></label>
+      <label class="f">Group convergence, all stages (°)<input type="number" id="gsplay" value="0" step="1" min="-45" max="45"></label>
+      <label class="f" title="All cabinets aim at the point (x = 0, y = distance) on the centre axis; 0 disables">All stages converge at y = (m, 0 = off)<input type="number" id="focus" value="0" step="0.5" min="0" max="60"></label>
+      <label class="f" title="Height of the aim point: the cabinets also tilt towards it. Empty = no vertical convergence">All stages converge at z = (m, empty = off)<input type="number" id="fz" step="0.1" min="0" max="30"></label>
+      <label class="f">Floor to 1st cabinet height (m)<input type="number" id="base" value="0" step="0.1" min="0"></label>
+      <label class="f">Listening x (m)<input type="number" id="lx" value="0" step="0.5"></label>
+      <label class="f">Listening y (m)<input type="number" id="ly" value="4" step="0.5" min="0.3"></label>
+      <label class="f">Listening z (m)<input type="number" id="lz" value="1.7" step="0.1" min="0"></label>
+      <label class="f inline"><input type="checkbox" id="auto" checked> Automatic stacking</label>
     </div>
     <div class="row" style="align-items:flex-end;gap:12px">
-      <label class="f">Critère<select id="spcrit"><option value="flat">Réponse la plus plate</option><option value="mix" selected>Plat + niveau</option><option value="level">Niveau moyen maximal</option></select></label>
-      <label class="f">Distance min (m)<input type="number" id="spy0" value="3" min="0.5" step="0.5" style="width:80px"></label>
-      <label class="f">Distance max (m)<input type="number" id="spy1" value="12" min="1" step="0.5" style="width:80px"></label>
-      <label class="f">Demi-largeur (m)<input type="number" id="spx" value="6" min="0" step="0.5" style="width:80px"></label>
-      <button class="btn" id="spfind" title="Cherche, à la hauteur d'écoute réglée, la position qui donne la meilleure somme entre 40 Hz et 4 kHz, selon le critère choisi.">Trouver le meilleur point d'écoute</button>
-      <button class="btn" id="spundo" disabled>Annuler</button>
+      <label class="f">Criterion<select id="spcrit"><option value="flat">Flattest response</option><option value="mix" selected>Flat + level</option><option value="level">Highest mean level</option></select></label>
+      <label class="f">Min distance (m)<input type="number" id="spy0" value="3" min="0.5" step="0.5" style="width:80px"></label>
+      <label class="f">Max distance (m)<input type="number" id="spy1" value="12" min="1" step="0.5" style="width:80px"></label>
+      <label class="f">Half-width (m)<input type="number" id="spx" value="6" min="0" step="0.5" style="width:80px"></label>
+      <button class="btn" id="spfind" title="Searches, at the set listening height, the position that gives the best sum between 40 Hz and 4 kHz, according to the chosen criterion.">Find the best listening spot</button>
+      <button class="btn" id="spundo" disabled>Undo</button>
       <span class="note" id="spmsg" style="flex:1 1 260px"></span>
     </div>
     <div class="row">
       
-      <div class="row" style="flex:1 1 100%;gap:8px;align-items:center"><button class="btn" id="advall" title="Applique les conseils dans le bon ordre (filtres, polarité, délais, gains, niveau) et recalcule entre chaque étape jusqu'à stabilisation">Appliquer tous les conseils</button><button class="btn" id="advundo" disabled>Annuler</button><button class="btn" id="advreset" title="Remet filtres, gains, délais, polarité et décalage de chaque étage à leurs valeurs d'origine (annulable)">Réinitialiser les réglages</button><span class="note" id="advmsg" style="flex:1 1 260px"></span></div>
-      <details class="advice" style="flex:1 1 100%"><summary>Conseils de réglage <span class="advcount" id="advcountg"></span></summary>
+      <div class="row" style="flex:1 1 100%;gap:8px;align-items:center"><button class="btn" id="advall" title="Applies the advice in the right order (filters, polarity, delays, gains, level) and recomputes between each step until it settles">Apply all advice</button><button class="btn" id="advundo" disabled>Undo</button><button class="btn" id="advreset" title="Puts the filters, gains, delays, polarity and offset of every stage back to their original values (can be undone)">Reset settings</button><span class="note" id="advmsg" style="flex:1 1 260px"></span></div>
+      <details class="advice" style="flex:1 1 100%"><summary>Tuning advice <span class="advcount" id="advcountg"></span></summary>
         <div class="hints" id="ghints"></div></details>
 
     </div>
@@ -143,37 +143,37 @@ button.btn.sm { padding: 3px 9px; }
 
   <div class="panel" id="editor">
     <div class="row" style="justify-content:space-between">
-      <h2>Éditeur de stack <span class="info" tabindex="0" role="note" aria-label="Informations"><b>i</b><span class="tip">La ligne du haut du tableau est le haut de la pile. Les nombres décroissants vers le haut donnent une pyramide symétrique, chaque rangée étant centrée sur x = 0. Pour 2 subs puis 2 subs, ajoute deux étages Cubo 18. Les filtres de chaque étage se règlent dans les cartes ci-dessous. Les enceintes marquées « estimé » (MHB, Kick Planar BR, HBR212, HD15, SAKB28, Invader Bin, BPH118, HR118, S218 NTLW, Cubo 12, Audiophony E15 et sa voie HF, Audiophony CB118) sont reconstruites depuis les plans : pavillon équivalent, haut-parleur proxy et volumes approximatifs. Les courbes sont indicatives ; remplace-les par un vrai fichier Hornresp si tu en as un.</span></span></h2>
+      <h2>Stack editor <span class="info" tabindex="0" role="note" aria-label="Information"><b>i</b><span class="tip">The top row of the table is the top of the stack. Numbers decreasing upwards give a symmetric pyramid, each row being centred on x = 0. For 2 subs then 2 subs, add two Cubo 18 stages. Each stage's filters are set in the cards below. Speakers marked "estimated" (MHB, Kick Planar BR, HBR212, HD15, SAKB28, Invader Bin, BPH118, HR118, S218 NTLW, Cubo 12, Audiophony E15 and its HF way, Audiophony CB118) are rebuilt from the plans: equivalent horn, proxy driver and approximate volumes. The curves are indicative; replace them with a real Hornresp file if you have one.</span></span></h2>
       <div class="row" style="gap:8px">
-        <label class="f inline">Ajouter <select id="addtype" aria-label="Enceinte à ajouter"></select></label>
-        <button class="btn" id="addrow">+ Étage au-dessus</button>
+        <label class="f inline">Add <select id="addtype" aria-label="Speaker to add"></select></label>
+        <button class="btn" id="addrow">+ Stage above</button>
       </div>
     </div>
     <div style="overflow-x:auto">
       <table class="stk">
-        <thead><tr><th>Étage</th><th>Enceinte</th><th>Caissons</th><th>Rangée</th><th>Largeur (m)</th><th>Centre z (m)</th><th>Ordre</th></tr></thead>
+        <thead><tr><th>Stage</th><th>Speaker</th><th>Cabinets</th><th>Row</th><th>Width (m)</th><th>Centre z (m)</th><th>Order</th></tr></thead>
         <tbody id="stkbody"></tbody>
       </table>
     </div>
-    <div class="row"><div class="tabs" id="presets" style="align-items:center"><span class="note">Configurations (du bas vers le haut) :</span>
-        <button class="btn" data-preset="cubo18:1,kick15:1,mt130:1">Colonne 1·1·1</button>
-        <button class="btn" data-preset="cubo18:4,kick15:2,mt130:1">Pyramide 4·2·1</button>
-        <button class="btn" data-preset="cubo18:2,kick15:2,mt130:1">Pyramide 2·2·1</button>
-        <button class="btn" data-preset="cubo18:4,kick15:4,mt130:2">Mur 4·4·2</button>
+    <div class="row"><div class="tabs" id="presets" style="align-items:center"><span class="note">Configurations (bottom to top):</span>
+        <button class="btn" data-preset="cubo18:1,kick15:1,mt130:1">Column 1·1·1</button>
+        <button class="btn" data-preset="cubo18:4,kick15:2,mt130:1">Pyramid 4·2·1</button>
+        <button class="btn" data-preset="cubo18:2,kick15:2,mt130:1">Pyramid 2·2·1</button>
+        <button class="btn" data-preset="cubo18:4,kick15:4,mt130:2">Wall 4·4·2</button>
         <button class="btn" data-preset="cubo18:2,cubo18:2,kick15:2,mt130:1">Sub 2+2 · Kick 2 · MT 1</button>
-        <button class="btn" data-preset="cubo18:4,kick15:2,mt121:1">Pyramide 4·2·1 (MT121)</button>
+        <button class="btn" data-preset="cubo18:4,kick15:2,mt121:1">Pyramid 4·2·1 (MT121)</button>
         <button class="btn" data-preset="mhb46:4,hd15:2,mt130:1">MHB-46 4 · HD15 2 · MT130</button>
         <button class="btn" data-preset="cubo12:4,kick12:2,mt121:1">Cubo 12 ×4 · Kick 12 ×2 · MT121</button>
         <button class="btn" data-preset="cubosub:2,kick15:2,mt130:1">Cubo Sub 2 · Kick 2 · MT 1</button>
         <button class="btn" data-preset="gkmb112:2">GK MB112 ×2</button>
-        <button class="btn" data-preset="kick15mini:1">Kick 15 mini ×28,8 % (4")</button>
-        <button class="btn" data-preset="e15:1">Audiophony E15 (grave + pavillon HF)</button>
+        <button class="btn" data-preset="kick15mini:1">Kick 15 mini ×28.8% (4")</button>
+        <button class="btn" data-preset="e15:1">Audiophony E15 (bass + HF horn)</button>
         <button class="btn" data-preset="s218:2,hbr212:2,mt130:1">S218 2 · HBR212 2 · MT130</button>
         <button class="btn" data-preset="mhb30:4,kickpl:2,sakb28:1">MHB-30 4 · Kick Planar 2 · SAKB28</button>
       </div></div>
     <div class="row" style="align-items:flex-end;gap:8px">
-      <label class="f">Nom de la configuration<input type="text" id="cfgname" maxlength="40" placeholder="ex. Ma sono du samedi" style="width:230px"></label>
-      <button class="btn" id="cfgsave" title="Enregistre dans ce navigateur : étages, enceintes, filtres, délais, orientations, position d'écoute et égaliseur">Enregistrer la configuration</button>
+      <label class="f">Configuration name<input type="text" id="cfgname" maxlength="40" placeholder="e.g. My Saturday rig" style="width:230px"></label>
+      <button class="btn" id="cfgsave" title="Saves in this browser: stages, speakers, filters, delays, aiming, listening spot and equaliser">Save configuration</button>
       <div class="tabs" id="cfglist"></div>
       <span class="note" id="cfgmsg" style="flex:1 1 100%"></span>
     </div>
@@ -182,11 +182,11 @@ button.btn.sm { padding: 3px 9px; }
 
   <div class="panel" id="drvpanel">
     <details>
-      <summary style="cursor:pointer"><h2 style="display:inline">Bibliothèque de haut-parleurs <span class="info" tabindex="0" role="note" aria-label="Informations"><b>i</b><span class="tip">Le pavillon, les chambres et l'évent restent ceux de l'enceinte ; seul le moteur change. Pour garder un bon couplage, la surface Sd du haut-parleur doit rester proche de la gorge du pavillon (ou de sa chambre avant). Les génériques sont des valeurs typiques, pas des mesures.</span></span></h2> <span class="note">&nbsp;choisis un haut-parleur par étage dans sa boîte, ou ajoute le tien à partir de ses paramètres Thiele-Small</span></summary>
+      <summary style="cursor:pointer"><h2 style="display:inline">Speaker driver library <span class="info" tabindex="0" role="note" aria-label="Information"><b>i</b><span class="tip">The horn, chambers and port stay those of the enclosure; only the driver changes. To keep good coupling, the driver's Sd must stay close to the horn throat (or its front chamber). Generics are typical values, not measurements.</span></span></h2> <span class="note">&nbsp;pick a driver per stage in its enclosure, or add your own from its Thiele-Small parameters</span></summary>
 
       <div class="row" style="align-items:flex-end;gap:10px">
-        <label class="f">Partir de<select id="drvfrom"></select></label>
-        <label class="f">Nom<input type="text" id="drvname" style="width:230px" placeholder="ex. Eminence Kappa Pro-15"></label>
+        <label class="f">Start from<select id="drvfrom"></select></label>
+        <label class="f">Name<input type="text" id="drvname" style="width:230px" placeholder="ex. Eminence Kappa Pro-15"></label>
         <label class="f">Fs (Hz)<input type="number" id="dts_Fs" step="0.1" style="width:76px"></label>
         <label class="f">Qes<input type="number" id="dts_Qes" step="0.01" style="width:70px"></label>
         <label class="f">Qms<input type="number" id="dts_Qms" step="0.1" style="width:70px"></label>
@@ -198,39 +198,39 @@ button.btn.sm { padding: 3px 9px; }
         <label class="f">Pmax (W)<input type="number" id="dts_Pmax" step="1" style="width:76px"></label>
       </div>
       <div class="row" style="gap:8px;margin-top:8px;align-items:center">
-        <button class="btn" id="drvadd">Ajouter / mettre à jour</button>
-        <button class="btn" id="drvdel" disabled>Supprimer</button>
+        <button class="btn" id="drvadd">Add / update</button>
+        <button class="btn" id="drvdel" disabled>Delete</button>
         <span class="note" id="drvmsg" style="flex:1 1 300px"></span>
       </div>
       <div class="readout" id="drvinfo" style="margin-top:6px"></div>
-      <details style="margin-top:8px"><summary class="note" style="cursor:pointer">Ou coller un bloc Hornresp (Sd, Bl, Cms, Rms, Mmd, Le, Re, Pmax, Xmax)</summary>
-        <div class="row" style="margin-top:6px;align-items:flex-start"><textarea id="drvhr" rows="5" style="flex:1 1 320px;font-family:var(--mono);font-size:12px" placeholder="Sd = 856.3&#10;Bl = 16.4&#10;Cms = 1.65E-04&#10;..."></textarea><button class="btn" id="drvhrbtn">Lire le bloc</button></div></details>
+      <details style="margin-top:8px"><summary class="note" style="cursor:pointer">Or paste a Hornresp block (Sd, Bl, Cms, Rms, Mmd, Le, Re, Pmax, Xmax)</summary>
+        <div class="row" style="margin-top:6px;align-items:flex-start"><textarea id="drvhr" rows="5" style="flex:1 1 320px;font-family:var(--mono);font-size:12px" placeholder="Sd = 856.3&#10;Bl = 16.4&#10;Cms = 1.65E-04&#10;..."></textarea><button class="btn" id="drvhrbtn">Read block</button></div></details>
     </details>
   </div>
 
   <div class="panel" id="eqpanel">
     <div class="row" style="justify-content:space-between">
-      <h2>Égaliseur (avant les filtres de répartition) <span class="info" tabindex="0" role="note" aria-label="Informations"><b>i</b><span class="tip">L'égaliseur agit sur le signal commun, avant la séparation en trois voies : il modifie donc les trois voies à la fois, puis viennent les filtres de répartition, le gain et le délai de chaque voie. Il compte dans les courbes, la carte et l'écoute simulée. Glisse les points sur la courbe ou règle les bandes dans le tableau. Filtres biquad classiques (formules RBJ) calculés à 48 kHz. L'Auto-EQ mesure la somme du système au point d'écoute (sans l'égaliseur), la lisse au tiers d'octave, puis place jusqu'à 7 cloches pour la rapprocher de la cible sur la plage choisie. Refais-le après avoir déplacé l'écoute ou changé la stack.</span></span></h2>
+      <h2>Equaliser (before the crossover filters) <span class="info" tabindex="0" role="note" aria-label="Information"><b>i</b><span class="tip">The equaliser acts on the common signal, before the split into three ways: it therefore changes all three ways at once, then come the crossover filters, the gain and the delay of each way. It counts in the curves, the map and the simulated listening. Drag the points on the curve or set the bands in the table. Classic biquad filters (RBJ formulas) computed at 48 kHz. Auto-EQ measures the system sum at the listening spot (without the equaliser), smooths it to third-octave, then places up to 7 bells to bring it closer to the target over the chosen range. Redo it after moving the listening spot or changing the stack.</span></span></h2>
       <div class="row" style="gap:10px">
-        <label class="f inline"><input type="checkbox" id="eqon" checked> Actif</label>
-        <button class="btn" id="eqreset">Remettre à plat</button>
+        <label class="f inline"><input type="checkbox" id="eqon" checked> On</label>
+        <button class="btn" id="eqreset">Reset to flat</button>
       </div>
     </div>
     <div class="row" style="align-items:flex-end;gap:12px;margin:2px 0 10px">
-      <label class="f">Cible<select id="aeqt"><option value="flat">Plat</option><option value="tilt">Pente −1,5 dB/oct</option><option value="bass">Graves +4 dB</option></select></label>
-      <label class="f">De (Hz)<input type="number" id="aeqlo" value="40" min="20" max="4000" step="1" style="width:80px"></label>
-      <label class="f">À (Hz)<input type="number" id="aeqhi" value="4000" min="60" max="5000" step="10" style="width:80px"></label>
-      <label class="f">Boost max (dB)<input type="number" id="aeqb" value="6" min="0" max="15" step="0.5" style="width:80px"></label>
-      <label class="f">Coupe max (dB)<input type="number" id="aeqc" value="12" min="0" max="18" step="0.5" style="width:80px"></label>
-      <button class="btn" id="aeq">Auto-EQ au point d'écoute</button>
-      <button class="btn" id="aequndo" disabled>Annuler</button>
+      <label class="f">Target<select id="aeqt"><option value="flat">Flat</option><option value="tilt">Slope −1.5 dB/oct</option><option value="bass">Bass +4 dB</option></select></label>
+      <label class="f">From (Hz)<input type="number" id="aeqlo" value="40" min="20" max="4000" step="1" style="width:80px"></label>
+      <label class="f">To (Hz)<input type="number" id="aeqhi" value="4000" min="60" max="5000" step="10" style="width:80px"></label>
+      <label class="f">Max boost (dB)<input type="number" id="aeqb" value="6" min="0" max="15" step="0.5" style="width:80px"></label>
+      <label class="f">Max cut (dB)<input type="number" id="aeqc" value="12" min="0" max="18" step="0.5" style="width:80px"></label>
+      <button class="btn" id="aeq">Auto-EQ at the listening spot</button>
+      <button class="btn" id="aequndo" disabled>Undo</button>
     </div>
     <p class="note" id="aeqmsg"></p>
     <div class="eqwrap">
       <canvas id="eqcv"></canvas>
       <div style="overflow-x:auto">
         <table class="stk">
-          <thead><tr><th>#</th><th>Type</th><th>Fréq. (Hz)</th><th>Gain (dB)</th><th>Q</th></tr></thead>
+          <thead><tr><th>#</th><th>Type</th><th>Freq. (Hz)</th><th>Gain (dB)</th><th>Q</th></tr></thead>
           <tbody id="eqbody"></tbody>
         </table>
       </div>
@@ -244,86 +244,86 @@ button.btn.sm { padding: 3px 9px; }
     <div class="col">
       <div class="panel">
         <div class="row" style="justify-content:space-between">
-          <h2>Réponse au point d'écoute</h2>
+          <h2>Response at the listening spot</h2>
           <div class="tabs" id="tabs">
             <button class="btn on" data-tab="spl">SPL</button>
             <button class="btn" data-tab="phase">Phase</button>
-            <button class="btn" data-tab="gd" title="Retard de groupe −dφ/dω au point d'écoute, en ms, relatif à l'arrivée directe de la bouche la plus proche. Un pic marque une résonance qui « sonne » après l'attaque ; un retard qui grimpe vers le grave est le retard du pavillon ou du filtre passe-haut.">Retard de groupe</button>
+            <button class="btn" data-tab="gd" title="Group delay −dφ/dω at the listening spot, in ms, relative to the direct arrival of the nearest mouth. A peak marks a resonance that keeps ringing after the attack; a delay rising towards the bass is the horn's or the high-pass filter's delay.">Group delay</button>
             <button class="btn" data-tab="xcur">Excursion</button>
-            <button class="btn" data-tab="imp">Impédance</button>
+            <button class="btn" data-tab="imp">Impedance</button>
           </div>
         </div>
         <canvas id="chart"></canvas>
         <div class="legend" id="legend"></div>
-        <div class="readout" id="readout">Survole la courbe pour lire les valeurs.</div>
+        <div class="readout" id="readout">Hover the curve to read the values.</div>
       </div>
 
       <div class="panel">
         <div class="row" style="justify-content:space-between">
-          <h2>Carte des ondes <span class="info" tabindex="0" role="note" aria-label="Informations"><b>i</b><span class="tip">La carte additionne les bouches comme des pistons dans un baffle (directivité d'un piston de même aire autour de l'axe de chaque caisson, rien vers l'arrière, pas de réflexion au sol). L'azimut, l'inclinaison et le splay font pivoter cet axe. Le calcul des pavillons suit le modèle d'ondes planes de Hornresp. Il ne remplace pas une simulation par éléments de frontière.</span></span></h2>
+          <h2>Wave map <span class="info" tabindex="0" role="note" aria-label="Information"><b>i</b><span class="tip">The map sums the mouths as pistons in a baffle (directivity of a piston of the same area around each cabinet's axis, nothing to the rear, no floor reflection). Azimuth, tilt and splay rotate this axis. The horn calculation follows Hornresp's plane-wave model. It does not replace a boundary-element simulation.</span></span></h2>
           <div class="tabs" id="mapmode">
-            <button class="btn on" data-m="wave">Onde</button>
-            <button class="btn" data-m="spl">Niveau</button>
+            <button class="btn on" data-m="wave">Wave</button>
+            <button class="btn" data-m="spl">Level</button>
             <button class="btn" id="play">Pause</button>
           </div>
         </div>
         <div class="row">
           <div class="tabs" id="mapview">
-            <button class="btn on" data-v="side">Coupe verticale</button>
-            <button class="btn" data-v="top">Vue de dessus</button>
-            <button class="btn" data-v="3d">Vue 3D</button>
+            <button class="btn on" data-v="side">Vertical section</button>
+            <button class="btn" data-v="top">Top view</button>
+            <button class="btn" data-v="3d">3D view</button>
           </div>
           <div class="tabs" id="camviews" hidden>
             <button class="btn sm" data-c="iso">Iso</button>
-            <button class="btn sm" data-c="top">Dessus</button>
-            <button class="btn sm" data-c="side">Côté</button>
-            <button class="btn sm" data-c="front">Face</button>
-            <button class="btn sm" data-c="back">Arrière</button>
-            <button class="btn sm" data-c="under">Dessous</button>
+            <button class="btn sm" data-c="top">Top</button>
+            <button class="btn sm" data-c="side">Side</button>
+            <button class="btn sm" data-c="front">Front</button>
+            <button class="btn sm" data-c="back">Back</button>
+            <button class="btn sm" data-c="under">Bottom</button>
           </div>
-          <label class="f inline" id="multirow" title="Pendant la lecture, la carte additionne 8 bandes de fréquence pondérées par le spectre du signal en cours"><input type="checkbox" id="multifollow"> Suivre la lecture (multi-bandes)</label>
-          <label class="f" style="flex:1 1 260px">Fréquence de la carte : <b id="mapfv" style="color:var(--fg);font-family:var(--mono)">90 Hz</b>
+          <label class="f inline" id="multirow" title="During playback, the 3D map sums 8 frequency bands weighted by the spectrum of the current signal"><input type="checkbox" id="multifollow"> Follow playback (multi-band)</label>
+          <label class="f" style="flex:1 1 260px">Map frequency: <b id="mapfv" style="color:var(--fg);font-family:var(--mono)">90 Hz</b>
             <input type="range" id="mapf" min="0" max="1000" value="253"></label>
-          <label class="f">Largeur affichée
+          <label class="f">Displayed width
             <select id="extent"><option value="8">8 m</option><option value="16">16 m</option><option value="32">32 m</option></select></label>
         </div>
         <canvas id="map"></canvas>
         <div class="readout" id="maplegend"></div>
-        <div class="readout" id="mapcoord">Survole la carte pour lire les coordonnées (x : latéral, y : distance devant la façade, z : hauteur) et le niveau.</div>
+        <div class="readout" id="mapcoord">Hover the map to read the coordinates (x: lateral, y: distance in front of the face, z: height) and the level.</div>
 
       </div>
 
       <div class="panel" id="audio">
         <div class="row" style="justify-content:space-between">
-          <h2>Écoute simulée <span class="info" tabindex="0" role="note" aria-label="Informations"><b>i</b><span class="tip">Le signal est filtré par la réponse complexe (niveau et phase) du système au point d'écoute, avec les filtres, délais et positions réglés ci-dessus. Le niveau est calibré au premier lancement puis conservé : ajouter des subs ou changer un gain s'entend. Un limiteur protège les oreilles. Le spectre est mesuré à la sortie du système simulé, avant le volume et le limiteur (dB relatifs au plein échelle numérique). Pas de salle, de distorsion ni de compression de puissance. Ton casque ou tes haut-parleurs d'ordinateur ne descendent pas dans les graves : ce qui est sous 60 à 80 Hz ne s'entendra pas, même si le calcul est juste.</span></span></h2>
-          <button class="btn" id="aplay">▶ Écouter</button>
+          <h2>Simulated listening <span class="info" tabindex="0" role="note" aria-label="Information"><b>i</b><span class="tip">The signal is filtered by the system's complex response (level and phase) at the listening spot, with the filters, delays and positions set above. The level is calibrated at first start and then kept: adding subs or changing a gain is audible. A limiter protects your ears. The spectrum is measured at the output of the simulated system, before the volume and the limiter (dB relative to digital full scale). No room, no distortion, no power compression. Your headphones or computer speakers do not go down into the bass: what is below 60 to 80 Hz will not be heard, even if the calculation is right.</span></span></h2>
+          <button class="btn" id="aplay">▶ Play</button>
         </div>
         <div class="row">
           <label class="f">Signal
-            <select id="asrc"><option value="pink">Bruit rose</option><option value="kickbass">Kick + basse</option><option value="beat">Boucle de test (kick, basse, caisse claire, charley, accord)</option><option value="sweep">Balayage 20 Hz – 20 kHz</option><option value="tone">Sinus à la fréquence de la carte</option><option value="file">Mon fichier audio…</option></select></label>
+            <select id="asrc"><option value="pink">Pink noise</option><option value="kickbass">Kick + bass</option><option value="beat">Test loop (kick, bass, snare, hi-hat, chord)</option><option value="sweep">Sweep 20 Hz – 20 kHz</option><option value="tone">Sine at the map frequency</option><option value="file">Mon audio file…</option></select></label>
           <label class="f" id="bpmrow" hidden>Tempo (bpm)<input type="number" id="abpm" value="120" min="60" max="200" step="1" style="width:80px"></label>
-          <label class="f inline" id="sweepfollowrow" hidden><input type="checkbox" id="sweepfollow" checked> La carte suit le balayage</label>
-          <label class="f">Écoute de <select id="amode"></select></label>
-          <div class="tabs" id="aab"><button class="btn on" data-ab="sys">Système simulé</button><button class="btn" data-ab="raw">Source brute</button></div>
+          <label class="f inline" id="sweepfollowrow" hidden><input type="checkbox" id="sweepfollow" checked> Map follows the sweep</label>
+          <label class="f">Listen to <select id="amode"></select></label>
+          <div class="tabs" id="aab"><button class="btn on" data-ab="sys">Simulated system</button><button class="btn" data-ab="raw">Raw source</button></div>
         </div>
         <div class="row">
-          <label class="f" style="flex:1 1 220px">Volume : <b id="avolv" style="color:var(--fg);font-family:var(--mono)">-6 dB</b>
+          <label class="f" style="flex:1 1 220px">Volume: <b id="avolv" style="color:var(--fg);font-family:var(--mono)">-6 dB</b>
             <input type="range" id="avol" min="-30" max="12" value="-6"></label>
-          <button class="btn" id="afile">Charger un fichier audio</button>
+          <button class="btn" id="afile">Load an audio file</button>
           <input type="file" accept="audio/*" class="hidden-input" id="afilein" tabindex="-1">
-          <button class="btn" id="acal">Recalibrer le niveau</button>
+          <button class="btn" id="acal">Recalibrate level</button>
         </div>
         <div class="row" id="aseekrow" hidden>
-          <label class="f" style="flex:1 1 260px">Position dans le fichier : <b id="aseekv" style="color:var(--fg);font-family:var(--mono)">0:00 / 0:00</b>
+          <label class="f" style="flex:1 1 260px">Position in file: <b id="aseekv" style="color:var(--fg);font-family:var(--mono)">0:00 / 0:00</b>
             <input type="range" id="aseek" min="0" max="1000" value="0"></label>
         </div>
-        <div class="readout" id="astatus">Appuie sur Écouter. Commence avec un volume bas : les graves peuvent monter vite.</div>
+        <div class="readout" id="astatus">Press Play. Start with a low volume: the bass can climb fast.</div>
         <div class="row" style="justify-content:space-between">
-          <div class="tabs" id="specmode"><button class="btn on" data-sm="fine">FFT fine</button><button class="btn" data-sm="third">Tiers d'octave</button></div>
-          <div class="row" style="gap:10px"><label class="f inline"><input type="checkbox" id="specsrc" checked> Superposer la source</label><button class="btn" id="specreset">Effacer les crêtes</button></div>
+          <div class="tabs" id="specmode"><button class="btn on" data-sm="fine">Fine FFT</button><button class="btn" data-sm="third">Third-octave</button></div>
+          <div class="row" style="gap:10px"><label class="f inline"><input type="checkbox" id="specsrc" checked> Overlay the source</label><button class="btn" id="specreset">Clear peaks</button></div>
         </div>
         <canvas id="speccv"></canvas>
-        <div class="readout" id="specrd">Survole le spectre pour lire la fréquence et le niveau. Trait plein : sortie du système, pointillés : source, trait fin : crêtes.</div>
+        <div class="readout" id="specrd">Hover the spectrum to read the frequency and the level. Solid: system output, dotted: source, thin line: peaks.</div>
 
       </div>
     </div>
@@ -338,7 +338,7 @@ button.btn.sm { padding: 3px 9px; }
 const DATA = /*DATA*/;
 const C_SND = CSND, FMIN = 20, FMAX = 5000, NF = 260;
 const FG = Array.from({ length: NF }, (_, i) => FMIN * Math.pow(FMAX / FMIN, i / (NF - 1)));
-const TYPES = { off: 'Aucun', butter: 'Butterworth', lr: 'Linkwitz-Riley', bessel: 'Bessel' };
+const TYPES = { off: 'None', butter: 'Butterworth', lr: 'Linkwitz-Riley', bessel: 'Bessel' };
 const ORDERS = { butter: [1, 2, 3, 4, 5, 6, 7, 8], lr: [2, 4, 6, 8], bessel: [1, 2, 3, 4], off: [1] };
 
 const ui = { drive: 20, lx: 0, ly: 4, lz: 1.7, stacks: 1, spacing: 1, gap: 0, base: 0, auto: true, view: 'side', tab: 'spl', mapMode: 'wave', mapF: 90, extent: 8, playing: true, hover: -1 };
@@ -350,22 +350,22 @@ const SRC = [
   { id: 'mt130', cssv: '--c3', w: 0.581, d: 0.717, h: 0.683, count: 1, on: true, gain: -5, delay: 0, pol: false, x: 0, y: 0, z: 1.58,
     hp: { type: 'lr', n: 4, f: 300 }, lp: { type: 'off', n: 4, f: 3000 } },
 ];
-// hauteur du centre de chaque étage (un étage sans caisson ne prend pas de place)
+// height of each stage's centre (a stage without cabinets takes no room)
 function stackZ() { let z = ui.base; return SRC.map(s => { const c = z + s.h / 2; if (s.count > 0) z += s.h; return c; }); }
-// toutes les bouches : chaque étage est une rangée de `count` caissons centrée sur x = 0 (pyramide si les rangées diminuent vers le haut),
-// et N groupes identiques côte à côte
+// all the mouths: each stage is a row of `count` cabinets centred on x = 0 (a pyramid if the rows shrink going up),
+// and N identical groups side by side
 function positions() {
   const auto = stackZ(), N = ui.stacks, out = [], D = Math.PI / 180;
   const gw = Math.max(0, ...SRC.map(s => s.count > 0 ? s.count * s.w + (s.count - 1) * ui.gap : 0));
   for (let k = 0; k < N; k++) {
-    const X0 = (k - (N - 1) / 2) * (gw + ui.spacing), kc = -(k - (N - 1) / 2); // + = les groupes convergent vers l'axe central
+    const X0 = (k - (N - 1) / 2) * (gw + ui.spacing), kc = -(k - (N - 1) / 2); // + = the groups converge towards the centre axis
     SRC.forEach((s, i) => {
       const n = s.count; if (!(n > 0)) return;
-      const gAz = kc * ((ui.gsplay || 0) + (s.gconv || 0)), foc = s.focus > 0 ? s.focus : ui.focus, fz = s.fz != null ? s.fz : (ui.fz != null ? ui.fz : null); // réglages de l'étage en plus des réglages globaux
-      // orientation de chaque caisson : azimut de l'étage + éventail (splay) dans la rangée + toe-in du groupe
+      const gAz = kc * ((ui.gsplay || 0) + (s.gconv || 0)), foc = s.focus > 0 ? s.focus : ui.focus, fz = s.fz != null ? s.fz : (ui.fz != null ? ui.fz : null); // the stage's own settings, on top of the global ones
+      // orientation of each cabinet: stage azimuth + fan (splay) within the row + group toe-in
       const az = [], el0 = (s.el || 0) * D;
-      for (let j = 0; j < n; j++) az.push(((s.az || 0) - (j - (n - 1) / 2) * (s.spl || 0) + gAz) * D); // + = les caissons de la rangée convergent
-      // centres des faces avant, chaînés : les caissons se touchent par le coin avant (jeu ui.gap)
+      for (let j = 0; j < n; j++) az.push(((s.az || 0) - (j - (n - 1) / 2) * (s.spl || 0) + gAz) * D); // + = the cabinets of the row converge
+      // centres of the front faces, chained: the cabinets touch at their front corner (gap ui.gap)
       const C = [[0, 0]];
       for (let j = 1; j < n; j++) {
         const ux = Math.cos(az[j - 1]) + Math.cos(az[j]), uy = -Math.sin(az[j - 1]) - Math.sin(az[j]), m = Math.hypot(ux, uy) || 1;
@@ -374,9 +374,9 @@ function positions() {
       const mx = C.reduce((a, c) => a + c[0], 0) / n, my = C.reduce((a, c) => a + c[1], 0) / n;
       for (let j = 0; j < n; j++) {
         const X = X0 + s.x + C[j][0] - mx, Y = s.y + C[j][1] - my, Z = ui.auto ? auto[i] : s.z;
-        // visée convergente : chaque caisson pointe vers le point (0, focus) de l'axe central
+        // converging aim: every cabinet points at the point (0, focus) on the centre axis
         const a = az[j] + (foc > 0 ? Math.atan2(-X, foc - Y) : 0);
-        // et en hauteur : si une hauteur de visée est donnée, le caisson s'incline vers le point (0, focus, z)
+        // and in height: if an aim height is given, the cabinet also tilts towards the point (0, focus, z)
         const el = el0 + (foc > 0 && fz != null ? Math.atan2(fz - Z, Math.hypot(X, foc - Y)) : 0), ce = Math.cos(el), se = Math.sin(el);
         out.push({ i, X, Y, Z, az: a, el, nx: Math.sin(a) * ce, ny: Math.cos(a) * ce, nz: se });
       }
@@ -384,12 +384,12 @@ function positions() {
   }
   return out;
 }
-// distance latérale (hors axe) et avancée sur l'axe du caisson pour un point à (dx, dy, dz) de la bouche
+// lateral distance (off axis) and advance along the cabinet axis for a point at (dx, dy, dz) from the mouth
 function axisDir(q, dx, dy, dz) {
   const dn = dx * q.nx + dy * q.ny + dz * q.nz;
   return [Math.sqrt(Math.max(0, dx * dx + dy * dy + dz * dz - dn * dn)), dn];
 }
-// réponse d'une enceinte : une seule voie, ou grave + pavillon HF (s.hf) réunis par un filtre LR4 interne
+// response of a speaker: a single way, or bass + HF horn (s.hf) joined by an internal LR4 filter
 function srcSim(s, fr) {
   const lf = simulate(s.par, fr); if (!s.hf) return lf;
   const hf = simulate(s.hf.par, fr), g = Math.pow(10, s.hf.gain / 20), tau = (s.hf.tau || 0) / 1000, sg = s.hf.sign || 1;
@@ -403,15 +403,15 @@ function loadPar(s, text) {
   s.sim = simulate(s.par, FG);
   s.a = s.sim.mouthRadius;
 }
-// ---------- bibliothèque de haut-parleurs : génériques, références et haut-parleurs perso ----------
+// ---------- driver library: generics, references and user drivers ----------
 const RHO_A = 1.18, C_AIR = 343;
-// paramètres Thiele-Small -> paramètres Hornresp (Sd cm², Bl T·m, Cms m/N, Rms N·s/m, Mmd g, Le mH, Re Ω)
+// Thiele-Small parameters -> Hornresp parameters (Sd cm², Bl T·m, Cms m/N, Rms N·s/m, Mmd g, Le mH, Re Ω)
 function tsToHr(t) {
   const Sd = t.Sd / 1e4, Cms = t.Vas / 1000 / (RHO_A * C_AIR * C_AIR * Sd * Sd), w = 2 * Math.PI * t.Fs, Mms = 1 / (w * w * Cms);
   const a = Math.sqrt(Sd / Math.PI), Mas = 0.85 * RHO_A * Sd * a, Mmd = Math.max(0.5 * Mms, Mms - 2 * Mas);
   return { Sd: t.Sd, Bl: Math.sqrt(w * Mms * t.Re / t.Qes), Cms, Rms: w * Mms / t.Qms, Mmd: Mmd * 1000, Le: t.Le, Re: t.Re, Pmax: t.Pmax, Xmax: t.Xmax };
 }
-// et l'inverse, pour afficher Fs, Qts, Vas
+// and the reverse, to display Fs, Qts, Vas
 function hrToTs(h) {
   const Sd = h.Sd / 1e4, a = Math.sqrt(Sd / Math.PI), Mas = 0.85 * RHO_A * Sd * a, Mms = h.Mmd / 1000 + 2 * Mas, w = 1 / Math.sqrt(Mms * h.Cms);
   const Qes = w * Mms * h.Re / (h.Bl * h.Bl), Qms = w * Mms / h.Rms;
@@ -419,23 +419,23 @@ function hrToTs(h) {
 }
 const DRV = {};
 const addDrv = (id, name, grp, ts, hr) => { DRV[id] = { id, name, grp, ts: ts || null, hr: hr || tsToHr(ts) }; };
-[['g18', 'Générique 18" grave pro', { Fs: 38, Qes: 0.30, Qms: 6, Vas: 220, Re: 5.0, Sd: 1225, Xmax: 9, Le: 2.3, Pmax: 1000 }],
- ['g15', 'Générique 15" pro', { Fs: 42, Qes: 0.30, Qms: 6, Vas: 150, Re: 5.5, Sd: 850, Xmax: 6, Le: 1.4, Pmax: 600 }],
- ['g12', 'Générique 12" pro', { Fs: 50, Qes: 0.30, Qms: 6, Vas: 90, Re: 5.5, Sd: 530, Xmax: 5, Le: 1.5, Pmax: 400 }],
- ['g10', 'Générique 10"', { Fs: 60, Qes: 0.35, Qms: 6, Vas: 50, Re: 5.5, Sd: 340, Xmax: 4, Le: 1.0, Pmax: 250 }],
- ['g8', 'Générique 8"', { Fs: 70, Qes: 0.40, Qms: 5, Vas: 30, Re: 5.5, Sd: 215, Xmax: 3, Le: 0.6, Pmax: 150 }],
- ['g65', 'Générique 6,5"', { Fs: 80, Qes: 0.40, Qms: 5, Vas: 15, Re: 5.5, Sd: 135, Xmax: 2.5, Le: 0.5, Pmax: 100 }],
- ['g4', 'Générique 4" (caisson de basses)', { Fs: 70, Qes: 0.80, Qms: 4, Vas: 3, Re: 6, Sd: 55, Xmax: 3, Le: 0.3, Pmax: 10 }],
-].forEach(([id, n, ts]) => addDrv(id, n, 'Génériques (estimés)', ts));
-addDrv('gcd1', 'Générique moteur à compression 1"', 'Génériques (estimés)', null, { Sd: 12.5, Bl: 9.0, Cms: 3.0e-5, Rms: 0.9, Mmd: 2.4, Le: 0.05, Re: 5.8, Pmax: 60, Xmax: 0.5 });
-addDrv('h04', 'Altec Lansing VS2721 4" H04-003A (estimé)', 'Génériques (estimés)', null, { Sd: 55, Bl: 5.1, Cms: 7.5e-4, Rms: 1.1, Mmd: 7, Le: 0.3, Re: 8, Pmax: 5, Xmax: 3 });
-addDrv('cuw18', 'Audiophony CUW18-500 (estimé)', 'Génériques (estimés)', { Fs: 35, Qes: 0.35, Qms: 6, Vas: 250, Re: 6.0, Sd: 1210, Xmax: 6, Le: 2.0, Pmax: 500 });
-addDrv('kappa15', 'Eminence Kappa Pro-15 (fiche)', 'Références (fiches constructeur)', { Fs: 47, Qes: 0.40, Qms: 8.01, Vas: 167.7, Re: 5.23, Sd: 856.3, Xmax: 3.2, Le: 1.01, Pmax: 300 });
+[['g18', 'Generic 18" pro bass', { Fs: 38, Qes: 0.30, Qms: 6, Vas: 220, Re: 5.0, Sd: 1225, Xmax: 9, Le: 2.3, Pmax: 1000 }],
+ ['g15', 'Generic 15" pro', { Fs: 42, Qes: 0.30, Qms: 6, Vas: 150, Re: 5.5, Sd: 850, Xmax: 6, Le: 1.4, Pmax: 600 }],
+ ['g12', 'Generic 12" pro', { Fs: 50, Qes: 0.30, Qms: 6, Vas: 90, Re: 5.5, Sd: 530, Xmax: 5, Le: 1.5, Pmax: 400 }],
+ ['g10', 'Generic 10"', { Fs: 60, Qes: 0.35, Qms: 6, Vas: 50, Re: 5.5, Sd: 340, Xmax: 4, Le: 1.0, Pmax: 250 }],
+ ['g8', 'Generic 8"', { Fs: 70, Qes: 0.40, Qms: 5, Vas: 30, Re: 5.5, Sd: 215, Xmax: 3, Le: 0.6, Pmax: 150 }],
+ ['g65', 'Generic 6,5"', { Fs: 80, Qes: 0.40, Qms: 5, Vas: 15, Re: 5.5, Sd: 135, Xmax: 2.5, Le: 0.5, Pmax: 100 }],
+ ['g4', 'Generic 4" (subwoofer)', { Fs: 70, Qes: 0.80, Qms: 4, Vas: 3, Re: 6, Sd: 55, Xmax: 3, Le: 0.3, Pmax: 10 }],
+].forEach(([id, n, ts]) => addDrv(id, n, 'Generics (estimated)', ts));
+addDrv('gcd1', 'Generic 1" compression driver', 'Generics (estimated)', null, { Sd: 12.5, Bl: 9.0, Cms: 3.0e-5, Rms: 0.9, Mmd: 2.4, Le: 0.05, Re: 5.8, Pmax: 60, Xmax: 0.5 });
+addDrv('h04', 'Altec Lansing VS2721 4" H04-003A (estimated)', 'Generics (estimated)', null, { Sd: 55, Bl: 5.1, Cms: 7.5e-4, Rms: 1.1, Mmd: 7, Le: 0.3, Re: 8, Pmax: 5, Xmax: 3 });
+addDrv('cuw18', 'Audiophony CUW18-500 (estimated)', 'Generics (estimated)', { Fs: 35, Qes: 0.35, Qms: 6, Vas: 250, Re: 6.0, Sd: 1210, Xmax: 6, Le: 2.0, Pmax: 500 });
+addDrv('kappa15', 'Eminence Kappa Pro-15 (datasheet)', 'References (manufacturer datasheets)', { Fs: 47, Qes: 0.40, Qms: 8.01, Vas: 167.7, Re: 5.23, Sd: 856.3, Xmax: 3.2, Le: 1.01, Pmax: 300 });
 const drvOf = s => { const o = s.parOrig, N = o.Nd; return { Sd: o.Sd / N, Bl: o.Bl, Cms: o.Cms * N, Rms: o.Rms / N, Mmd: o.Mmd / N, Le: o.Le * N, Re: o.Re * N, Pmax: o.Pmax, Xmax: o.Xmax }; };
 const drvName = s => (s.parOrig.comment.split('/')[1] || '').trim();
-// haut-parleurs réels tirés des scripts Hornresp fournis
-function registerScriptDrivers(list) { list.forEach(s => { const n = drvName(s); if (n && !Object.values(DRV).some(d => d.name === n)) addDrv('s_' + s.id, n, 'Références (scripts Hornresp)', null, drvOf(s)); }); }
-// applique un haut-parleur de la bibliothèque (ou l'origine du script) à un étage ; Nd haut-parleurs en parallèle restent ceux du caisson
+// real drivers taken from the supplied Hornresp scripts
+function registerScriptDrivers(list) { list.forEach(s => { const n = drvName(s); if (n && !Object.values(DRV).some(d => d.name === n)) addDrv('s_' + s.id, n, 'References (Hornresp scripts)', null, drvOf(s)); }); }
+// applies a library driver (or the script's original) to a stage; the Nd drivers in parallel stay those of the cabinet
 function applyDriver(s, id) {
   const o = s.parOrig;
   if (id === 'orig' || !DRV[id]) { s.drv = 'orig'; s.par = o; }
@@ -447,23 +447,23 @@ function applyDriver(s, id) {
 }
 SRC.forEach(s => loadPar(s, DATA[s.id]));
 const shortName = s => s.par.comment.split('/')[0].trim() + (s.suffix || '');
-// numérote les étages d'une même enceinte (Cubo 18 ·1, Cubo 18 ·2)
+// numbers the stages of a same speaker (Cubo 18 ·1, Cubo 18 ·2)
 function relabel() {
   const tot = {}, seen = {};
   SRC.forEach(s => { tot[s.id] = (tot[s.id] || 0) + 1; });
   SRC.forEach(s => { seen[s.id] = (seen[s.id] || 0) + 1; s.suffix = tot[s.id] > 1 ? ` ·${seen[s.id]}` : ''; });
 }
-// catalogue des enceintes disponibles (réglages d'origine)
+// catalogue of the available speakers (original settings)
 const CAT = {};
 SRC.forEach(s => { CAT[s.id] = Object.assign({}, s, { hp: { ...s.hp }, lp: { ...s.lp } }); });
-// MT121 TDA : enceinte médium à pavillon pyramidal (plan MT-121), disponible dans l'éditeur de stack
+// MT121 TDA: mid horn speaker with a pyramidal horn (MT-121 plan), available in the stack editor
 {
   const m = { id: 'mt121', cssv: '--c4', w: 0.567, d: 0.668, h: 0.676, count: 1, on: true, gain: -5, delay: 0, pol: false, x: 0, y: 0, z: 0,
     hp: { type: 'lr', n: 4, f: 300 }, lp: { type: 'off', n: 4, f: 3000 } };
   loadPar(m, DATA.mt121); CAT.mt121 = m;
 }
 
-// Enceintes ajoutées depuis des plans : modèles ESTIMÉS (pavillon équivalent + haut-parleur proxy), voir la note du tableau
+// Speakers added from plans: ESTIMATED models (equivalent horn + proxy driver), see the table note
 const EST = [
   ['mhb46',  '--c5', .60, .96, .75, 0,  ['butter', 35], ['lr', 100]],
   ['mhb30',  '--c8', .60, .85, .54, 0,  ['butter', 39], ['lr', 120]],
@@ -493,18 +493,18 @@ EST.forEach(([id, cssv, w, d, h, gain, hp, lp]) => {
   loadPar(m, DATA[id]); CAT[id] = m;
 });
 registerScriptDrivers(['cubo18', 'kick15', 'mt130', 'kick12', 'x1', 'altec4sub', 'mhb46', 'gkmb112', 'cubosub'].map(id => CAT[id]));
-// Audiophony E15 : une seule enceinte = grave 15" bass-reflex + moteur 1" sur pavillon, raccordés en interne (LR4 à 1,6 kHz, comme sur la fiche)
+// Audiophony E15: a single speaker = 15" bass-reflex bass + 1" horn driver on a horn, joined internally (LR4 at 1.6 kHz, as on the datasheet)
 {
   const e = CAT.e15, hp = parseHornresp(DATA.e15hf);
   e.hf = { par: hp, a: simulate(hp, [1000]).mouthRadius, xo: 1600, gain: -8 };
-  // alignement de phase grave / HF autour du raccordement (une enceinte réelle est conçue pour sommer proprement) : retard et polarité qui maximisent la somme
+  // bass / HF phase alignment around the crossover (a real speaker is designed to sum properly): delay and polarity that maximise the sum
   { const fr = Array.from({ length: 24 }, (_, i) => 1600 * Math.pow(2, (i - 12) / 24)), lf = simulate(e.parOrig, fr), hf2 = simulate(hp, fr); let best = { v: -1, tau: 0, sign: 1 };
     for (const sign of [1, -1]) for (let tau = -1; tau <= 1.0001; tau += 0.02) {
       let v = 0; fr.forEach((f, i) => { const L = filterResponse('lr', 4, 1600, false, f), H = filterResponse('lr', 4, 1600, true, f);
         const s2 = cx.add(cx.mul(lf.out[i].p, L), cx.sc(cx.mul(cx.mul(hf2.out[i].p, H), cx.fromPolar(sign, -2 * Math.PI * f * tau / 1000)), Math.pow(10, e.hf.gain / 20))); v += cx.abs(s2) ** 2; });
       if (v > best.v) best = { v, tau, sign }; }
     e.hf.tau = best.tau; e.hf.sign = best.sign; }
-  e.par = Object.assign({}, e.parOrig, { comment: 'Audiophony E15 (estimé) / 15" bass-reflex + moteur 1" sur pavillon' }); e.parOrig = e.par;
+  e.par = Object.assign({}, e.parOrig, { comment: 'Audiophony E15 (estimated) / 15" bass-reflex + 1" horn driver on horn' }); e.parOrig = e.par;
   e.sim = srcSim(e, FG); e.a = e.sim.mouthRadius;
 }
 const makeSrc = id => { const c = CAT[id]; return Object.assign({}, c, { hp: { ...c.hp }, lp: { ...c.lp }, count: 1, suffix: '' }); };
@@ -518,15 +518,15 @@ const fmtF = f => f >= 1000 ? (f / 1000).toFixed(f >= 10000 ? 0 : 2).replace(/\.
 const sliderToF = (v, lo, hi) => lo * Math.pow(hi / lo, v / 1000);
 const fToSlider = (f, lo, hi) => 1000 * Math.log(f / lo) / Math.log(hi / lo);
 
-// ---------- cartes de réglage ----------
+// ---------- settings cards ----------
 function filtRow(i, kind) {
   const label = kind === 'hp' ? 'HP' : 'BP';
   return `<div class="filt"><span class="tag">${kind === 'hp' ? 'HP' : 'LP'}</span>
     <div class="ctl">
-      <select data-i="${i}" data-k="${kind}" data-p="type" aria-label="Type de filtre ${label} ${i + 1}">${Object.entries(TYPES).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select>
-      <select data-i="${i}" data-k="${kind}" data-p="n" aria-label="Ordre ${label} ${i + 1}"></select>
-      <input type="range" min="0" max="1000" data-i="${i}" data-k="${kind}" data-p="fs" aria-label="Fréquence ${label} ${i + 1}">
-      <input type="number" step="1" min="10" max="20000" data-i="${i}" data-k="${kind}" data-p="f" aria-label="Fréquence ${label} ${i + 1} en Hz">
+      <select data-i="${i}" data-k="${kind}" data-p="type" aria-label="Filter type ${label} ${i + 1}">${Object.entries(TYPES).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select>
+      <select data-i="${i}" data-k="${kind}" data-p="n" aria-label="Order ${label} ${i + 1}"></select>
+      <input type="range" min="0" max="1000" data-i="${i}" data-k="${kind}" data-p="fs" aria-label="Frequency ${label} ${i + 1}">
+      <input type="number" step="1" min="10" max="20000" data-i="${i}" data-k="${kind}" data-p="f" aria-label="Frequency ${label} ${i + 1} in Hz">
     </div></div>`;
 }
 function buildSources() {
@@ -536,39 +536,39 @@ function buildSources() {
     <div class="src-head">
       <div class="src-name" data-name="${i}"></div>
       <div class="row" style="gap:8px">
-        <label class="f inline"><input type="checkbox" data-i="${i}" data-p="on" checked> Actif</label>
-        <button class="btn" data-load="${i}">Charger .txt</button>
+        <label class="f inline"><input type="checkbox" data-i="${i}" data-p="on" checked> On</label>
+        <button class="btn" data-load="${i}">Load .txt</button>
         <input type="file" class="hidden-input" accept=".txt,text/plain" id="file${i}" data-file="${i}" tabindex="-1">
       </div>
     </div>
     <div class="src-spec" data-spec="${i}"></div>
     <div class="row" style="align-items:flex-end">
-      <label class="f">Haut-parleur<select data-i="${i}" data-p="drv" style="min-width:250px" aria-label="Haut-parleur de l'étage ${i + 1}"></select></label>
+      <label class="f">Driver<select data-i="${i}" data-p="drv" style="min-width:250px" aria-label="Driver of stage ${i + 1}"></select></label>
       <span class="note" data-drvinfo="${i}" style="flex:1 1 240px"></span>
     </div>
     <div class="row">
       <label class="f">Gain (dB)<input type="number" step="0.5" data-i="${i}" data-p="gain"></label>
-      <label class="f">Délai (ms)<input type="number" step="0.1" min="0" data-i="${i}" data-p="delay"></label>
-      <label class="f">Décalage x (m)<input type="number" step="0.05" data-i="${i}" data-p="x"></label>
-      <label class="f">Avancée y (m)<input type="number" step="0.05" data-i="${i}" data-p="y"></label>
-      <label class="f">Hauteur z (m)<input type="number" step="0.05" min="0" data-i="${i}" data-p="z"></label>
-      <label class="f">Haut. caisson (m)<input type="number" step="0.01" min="0.1" data-i="${i}" data-p="h"></label>
-      <label class="f inline"><input type="checkbox" data-i="${i}" data-p="pol"> Polarité inversée</label>
+      <label class="f">Delay (ms)<input type="number" step="0.1" min="0" data-i="${i}" data-p="delay"></label>
+      <label class="f">Offset x (m)<input type="number" step="0.05" data-i="${i}" data-p="x"></label>
+      <label class="f">Forward y (m)<input type="number" step="0.05" data-i="${i}" data-p="y"></label>
+      <label class="f">Height z (m)<input type="number" step="0.05" min="0" data-i="${i}" data-p="z"></label>
+      <label class="f">Cabinet height (m)<input type="number" step="0.01" min="0.1" data-i="${i}" data-p="h"></label>
+      <label class="f inline"><input type="checkbox" data-i="${i}" data-p="pol"> Polarity inverted</label>
     </div>
-    <details class="advice aimbox" data-aimbox="${i}"${AIM_OPEN.has(i) ? ' open' : ''}><summary>Orientation et convergence <span class="advcount" data-aimcount="${i}"></span></summary>
+    <details class="advice aimbox" data-aimbox="${i}"${AIM_OPEN.has(i) ? ' open' : ''}><summary>Aiming and convergence <span class="advcount" data-aimcount="${i}"></span></summary>
     <div class="row">
-      <label class="f">Azimut (°, + vers la droite)<input type="number" step="1" min="-90" max="90" data-i="${i}" data-p="az"></label>
-      <label class="f">Inclinaison (°, + vers le haut)<input type="number" step="1" min="-60" max="60" data-i="${i}" data-p="el"></label>
-      <label class="f">Convergence de la rangée (°, + converge)<input type="number" step="1" min="-45" max="45" data-i="${i}" data-p="spl"></label>
-      <label class="f" title="S'ajoute au réglage global ; sans effet avec un seul groupe">Convergence des groupes (°, + converge)<input type="number" step="1" min="-45" max="45" data-i="${i}" data-p="gconv"></label>
-      <label class="f" title="Cet étage vise le point (x = 0, y = distance) de l'axe central ; 0 = suit le réglage global">Converge à y = (m, 0 = non)<input type="number" step="0.5" min="0" max="60" data-i="${i}" data-p="focus"></label>
-      <label class="f" title="Hauteur du point visé : le caisson s'incline aussi vers (0, y, z). Vide = pas de convergence verticale ; sans effet si « Converge à y » est à 0">Converge à z = (m, vide = non)<input type="number" step="0.1" min="0" max="30" data-i="${i}" data-p="fz"></label>
-      <button class="btn sm" data-aimreset="${i}" type="button">Remettre droit</button>
+      <label class="f">Azimuth (°, + to the right)<input type="number" step="1" min="-90" max="90" data-i="${i}" data-p="az"></label>
+      <label class="f">Tilt (°, + upwards)<input type="number" step="1" min="-60" max="60" data-i="${i}" data-p="el"></label>
+      <label class="f">Row convergence (°, + converges)<input type="number" step="1" min="-45" max="45" data-i="${i}" data-p="spl"></label>
+      <label class="f" title="Adds to the global setting; no effect with a single group">Group convergence (°, + converges)<input type="number" step="1" min="-45" max="45" data-i="${i}" data-p="gconv"></label>
+      <label class="f" title="This stage aims at the point (x = 0, y = distance) on the centre axis; 0 = follows the global setting">Converges at y = (m, 0 = off)<input type="number" step="0.5" min="0" max="60" data-i="${i}" data-p="focus"></label>
+      <label class="f" title="Height of the aim point: the cabinet also tilts towards (0, y, z). Empty = no vertical convergence; no effect if &quot;Converges at y&quot; is 0">Converges at z = (m, empty = off)<input type="number" step="0.1" min="0" max="30" data-i="${i}" data-p="fz"></label>
+      <button class="btn sm" data-aimreset="${i}" type="button">Reset aim</button>
     </div>
     </details>
     ${filtRow(i, 'hp')}
     ${filtRow(i, 'lp')}
-    <details class="advice"><summary>Conseils de réglage <span class="advcount" data-advcount="${i}"></span></summary><div class="hints" data-hints="${i}"></div></details>
+    <details class="advice"><summary>Tuning advice <span class="advcount" data-advcount="${i}"></span></summary><div class="hints" data-hints="${i}"></div></details>
   </div>`).join('');
   syncControls();
 }
@@ -585,11 +585,11 @@ function syncControls() {
     const q = sel => document.querySelector(sel);
     q(`[data-name="${i}"]`).textContent = s.par.comment + (s.suffix || '');
     const sm = s.sim.mouthArea * 1e4;
-    q(`[data-spec="${i}"]`).textContent = `Étage ${i + 1} · Sd ${s.par.Sd} cm² · Xmax ${s.par.Xmax} mm · bouche ${Math.round(sm)} cm²${s.hf ? ' · pavillon HF ' + Math.round(s.sim.hfMouthArea * 1e4) + ' cm² (LR4 à ' + s.hf.xo + ' Hz)' : ''} · Re ${s.par.Re} Ω`;
+    q(`[data-spec="${i}"]`).textContent = `Stage ${i + 1} · Sd ${s.par.Sd} cm² · Xmax ${s.par.Xmax} mm · mouth ${Math.round(sm)} cm²${s.hf ? ' · HF horn ' + Math.round(s.sim.hfMouthArea * 1e4) + ' cm² (LR4 at ' + s.hf.xo + ' Hz)' : ''} · Re ${s.par.Re} Ω`;
     { const dsel = q(`[data-i="${i}"][data-p="drv"]`); if (dsel) dsel.value = s.drv || 'orig';
       const hr = s.drv && s.drv !== 'orig' && DRV[s.drv] ? DRV[s.drv].hr : drvOf(s), ts = hrToTs(hr), thr = s.par.segs.length ? s.par.segs[0].S1 : 0, rt = thr ? hr.Sd * s.par.Nd / thr : 0;
       const warn = rt && (!s.par.Atc || !s.par.Vtc) && (rt > 1.6 || rt < 0.6);
-      q(`[data-drvinfo="${i}"]`).innerHTML = `Fs ${ts.Fs.toFixed(0)} Hz · Qes ${ts.Qes.toFixed(2)} · Qms ${ts.Qms.toFixed(1)} · Qts ${ts.Qts.toFixed(2)} · Vas ${ts.Vas.toFixed(0)} L · Bl ${hr.Bl.toFixed(1)} · Xmax ${hr.Xmax} mm · Pmax ${hr.Pmax} W` + (warn ? ` <span class="warn">· Sd/gorge = ${rt.toFixed(2)} : couplage à vérifier</span>` : '');
+      q(`[data-drvinfo="${i}"]`).innerHTML = `Fs ${ts.Fs.toFixed(0)} Hz · Qes ${ts.Qes.toFixed(2)} · Qms ${ts.Qms.toFixed(1)} · Qts ${ts.Qts.toFixed(2)} · Vas ${ts.Vas.toFixed(0)} L · Bl ${hr.Bl.toFixed(1)} · Xmax ${hr.Xmax} mm · Pmax ${hr.Pmax} W` + (warn ? ` <span class="warn">· Sd/gorge = ${rt.toFixed(2)} : check the coupling</span>` : '');
     }
     q(`[data-i="${i}"][data-p="on"]`).checked = s.on;
     q(`[data-i="${i}"][data-p="gain"]`).value = s.gain;
@@ -606,7 +606,7 @@ function syncControls() {
     q(`[data-i="${i}"][data-p="gconv"]`).value = s.gconv || 0;
     q(`[data-i="${i}"][data-p="focus"]`).value = s.focus || 0;
     q(`[data-i="${i}"][data-p="fz"]`).value = s.fz != null ? s.fz : '';
-    { const sp = q(`[data-i="${i}"][data-p="spl"]`); sp.disabled = s.count < 2; sp.title = s.count < 2 ? 'Sans effet avec un seul caisson dans la rangée' : ''; }
+    { const sp = q(`[data-i="${i}"][data-p="spl"]`); sp.disabled = s.count < 2; sp.title = s.count < 2 ? 'No effect with a single cabinet in the row' : ''; }
     for (const k of ['hp', 'lp']) {
       const F = s[k];
       q(`[data-i="${i}"][data-k="${k}"][data-p="type"]`).value = F.type;
@@ -620,22 +620,22 @@ function syncControls() {
 }
 const rowW = s => s.count > 0 ? s.count * s.w + (s.count - 1) * ui.gap : 0;
 const AIM_OPEN = new Set();
-// nombre de réglages d'orientation non nuls, affiché à côté du titre replié
+// number of non-zero aiming settings, shown next to the folded title
 function aimCount() {
-  SRC.forEach((s, i) => { const el = document.querySelector(`[data-aimcount="${i}"]`); if (!el) return; const n = [s.az, s.el, s.spl, s.gconv].filter(v => v).length + (s.focus > 0 ? 1 : 0) + (s.fz != null && s.fz !== '' ? 1 : 0); el.textContent = n ? `${n} actif${n > 1 ? 's' : ''}` : 'tout droit'; el.classList.toggle('on', n > 0); });
+  SRC.forEach((s, i) => { const el = document.querySelector(`[data-aimcount="${i}"]`); if (!el) return; const n = [s.az, s.el, s.spl, s.gconv].filter(v => v).length + (s.focus > 0 ? 1 : 0) + (s.fz != null && s.fz !== '' ? 1 : 0); el.textContent = n ? `${n} actif${n > 1 ? 's' : ''}` : 'straight'; el.classList.toggle('on', n > 0); });
 }
 function buildTable() {
   const zs = ui.auto ? stackZ() : SRC.map(s => s.z);
   $('stkbody').innerHTML = SRC.map((s, i) => i).reverse().map(i => {
     const s = SRC[i], last = i === SRC.length - 1;
     return `<tr style="--sc:var(${s.cssv})">
-      <td class="lvl">Étage ${i + 1}${last ? ' (haut)' : i === 0 ? ' (bas)' : ''}</td>
-      <td><select data-r="${i}" data-f="type" aria-label="Enceinte de l'étage ${i + 1}">${catIds().map(id => `<option value="${id}"${id === s.id ? ' selected' : ''}>${catName(id)}</option>`).join('')}</select></td>
-      <td><input type="number" min="0" max="12" step="1" value="${s.count}" data-r="${i}" data-f="count" aria-label="Nombre de caissons de l'étage ${i + 1}"></td>
+      <td class="lvl">Stage ${i + 1}${last ? ' (top)' : i === 0 ? ' (bottom)' : ''}</td>
+      <td><select data-r="${i}" data-f="type" aria-label="Speaker of stage ${i + 1}">${catIds().map(id => `<option value="${id}"${id === s.id ? ' selected' : ''}>${catName(id)}</option>`).join('')}</select></td>
+      <td><input type="number" min="0" max="12" step="1" value="${s.count}" data-r="${i}" data-f="count" aria-label="Number of cabinets of stage ${i + 1}"></td>
       <td data-blk="${i}"></td><td class="num" data-wid="${i}"></td><td class="num" data-zc="${i}"></td>
-      <td class="act"><button class="btn sm" data-act="up" data-r="${i}" aria-label="Monter l'étage ${i + 1}" ${last ? 'disabled' : ''}>▲</button>
-        <button class="btn sm" data-act="down" data-r="${i}" aria-label="Descendre l'étage ${i + 1}" ${i === 0 ? 'disabled' : ''}>▼</button>
-        <button class="btn sm" data-act="del" data-r="${i}" aria-label="Supprimer l'étage ${i + 1}" ${SRC.length < 2 ? 'disabled' : ''}>✕</button></td>
+      <td class="act"><button class="btn sm" data-act="up" data-r="${i}" aria-label="Move up stage ${i + 1}" ${last ? 'disabled' : ''}>▲</button>
+        <button class="btn sm" data-act="down" data-r="${i}" aria-label="Move down stage ${i + 1}" ${i === 0 ? 'disabled' : ''}>▼</button>
+        <button class="btn sm" data-act="del" data-r="${i}" aria-label="Delete stage ${i + 1}" ${SRC.length < 2 ? 'disabled' : ''}>✕</button></td>
     </tr>`;
   }).join('');
   $('addtype').innerHTML = catIds().map(id => `<option value="${id}">${catName(id)}</option>`).join('');
@@ -647,17 +647,17 @@ function updateTable() {
     const b = q('data-blk', i); if (!b) return;
     b.innerHTML = '<span class="blk"></span>'.repeat(s.count);
     q('data-wid', i).textContent = rowW(s).toFixed(2);
-    const sp = document.querySelector(`[data-i="${i}"][data-p="spl"]`); if (sp) { sp.disabled = s.count < 2; sp.title = s.count < 2 ? 'Sans effet avec un seul caisson dans la rangée' : ''; }
+    const sp = document.querySelector(`[data-i="${i}"][data-p="spl"]`); if (sp) { sp.disabled = s.count < 2; sp.title = s.count < 2 ? 'No effect with a single cabinet in the row' : ''; }
     q('data-zc', i).textContent = zs[i].toFixed(2);
   });
 }
 
-// ---- sélecteurs de haut-parleur et éditeur de la bibliothèque ----
+// ---- driver selectors and library editor ----
 function driverOptionsHtml(s) {
   const grp = {}; Object.values(DRV).forEach(d => { (grp[d.grp] = grp[d.grp] || []).push(d); });
-  const order = ['Références (fiches constructeur)', 'Références (scripts Hornresp)', 'Génériques (estimés)', 'Mes haut-parleurs'];
+  const order = ['References (manufacturer datasheets)', 'References (Hornresp scripts)', 'Generics (estimated)', MY_GRP];
   const name = s.parOrig.comment.split('/')[1];
-  let h = `<option value="orig">Origine du script${name ? ' : ' + name.trim() : ''}</option>`;
+  let h = `<option value="orig">Script source${name ? ': ' + name.trim() : ''}</option>`;
   order.concat(Object.keys(grp).filter(g => !order.includes(g))).forEach(g => {
     if (!grp[g]) return;
     h += `<optgroup label="${g}">` + grp[g].slice().sort((a, b) => a.name.localeCompare(b.name, 'fr', { numeric: true, sensitivity: 'base' })).map(d => `<option value="${d.id}">${d.name}</option>`).join('') + '</optgroup>';
@@ -675,48 +675,50 @@ function fillTsForm(d) {
   DTS_KEYS.forEach(k => { const v = ts[k] !== undefined ? ts[k] : d.hr[k]; $('dts_' + k).value = +(+v).toPrecision(4); });
 }
 function showDrvInfo() {
-  const t = readTsForm(); if (!t) { $('drvinfo').textContent = 'Renseigne tous les champs Thiele-Small pour voir les paramètres Hornresp calculés.'; return; }
+  const t = readTsForm(); if (!t) { $('drvinfo').textContent = 'Fill in all the Thiele-Small fields to see the computed Hornresp parameters.'; return; }
   const h = tsToHr(t), Qts = t.Qes * t.Qms / (t.Qes + t.Qms);
   $('drvinfo').textContent = `Qts ${Qts.toFixed(2)} · Bl ${h.Bl.toFixed(2)} T·m · Mmd ${h.Mmd.toFixed(1)} g · Cms ${h.Cms.toExponential(2)} m/N · Rms ${h.Rms.toFixed(2)} N·s/m`;
 }
-function saveDrivers() { try { localStorage.setItem('hornsim.drivers', JSON.stringify(Object.values(DRV).filter(d => d.grp === 'Mes haut-parleurs'))); } catch (e) {} }
-function loadDrivers() { try { JSON.parse(localStorage.getItem('hornsim.drivers') || '[]').forEach(d => { if (d && d.id && d.hr) DRV[d.id] = d; }); } catch (e) {} }
+const MY_GRP = 'My drivers';
+function saveDrivers() { try { localStorage.setItem('hornsim.drivers', JSON.stringify(Object.values(DRV).filter(d => d.grp === MY_GRP))); } catch (e) {} }
+// d.grp is reassigned so that drivers saved by the French version (group 'Mes haut-parleurs') migrate to MY_GRP
+function loadDrivers() { try { JSON.parse(localStorage.getItem('hornsim.drivers') || '[]').forEach(d => { if (d && d.id && d.hr) { d.grp = MY_GRP; DRV[d.id] = d; } }); } catch (e) {} }
 function wireDrivers() {
   loadDrivers(); fillDriverSelects();
-  $('drvfrom').addEventListener('change', e => { const d = DRV[e.target.value]; if (!d) return; fillTsForm(d); $('drvname').value = d.grp === 'Mes haut-parleurs' ? d.name : d.name + ' (copie)'; $('drvdel').disabled = d.grp !== 'Mes haut-parleurs'; showDrvInfo(); });
+  $('drvfrom').addEventListener('change', e => { const d = DRV[e.target.value]; if (!d) return; fillTsForm(d); $('drvname').value = d.grp === MY_GRP ? d.name : d.name + ' (copy)'; $('drvdel').disabled = d.grp !== MY_GRP; showDrvInfo(); });
   DTS_KEYS.forEach(k => $('dts_' + k).addEventListener('input', showDrvInfo));
   $('drvadd').addEventListener('click', () => {
     const t = readTsForm(), name = $('drvname').value.trim();
-    if (!name) { $('drvmsg').textContent = 'Donne un nom au haut-parleur.'; return; }
-    if (!t) { $('drvmsg').textContent = 'Tous les paramètres doivent être des nombres positifs.'; return; }
+    if (!name) { $('drvmsg').textContent = 'Give the driver a name.'; return; }
+    if (!t) { $('drvmsg').textContent = 'All parameters must be positive numbers.'; return; }
     const id = 'c_' + name.toLowerCase().replace(/[^a-z0-9]+/g, '_');
-    DRV[id] = { id, name, grp: 'Mes haut-parleurs', ts: t, hr: tsToHr(t) };
+    DRV[id] = { id, name, grp: MY_GRP, ts: t, hr: tsToHr(t) };
     SRC.forEach(s => { if (s.drv === id) applyDriver(s, id); });
     saveDrivers(); syncControls(); refresh(); $('drvfrom').value = id; $('drvdel').disabled = false;
-    $('drvmsg').textContent = `« ${name} » est dans la bibliothèque : choisis-le dans la liste « Haut-parleur » d'un étage.`;
+    $('drvmsg').textContent = `"${name}" is in the library: pick it in the "Driver" list of a stage.`;
   });
   $('drvdel').addEventListener('click', () => {
-    const id = $('drvfrom').value; if (!DRV[id] || DRV[id].grp !== 'Mes haut-parleurs') return;
+    const id = $('drvfrom').value; if (!DRV[id] || DRV[id].grp !== MY_GRP) return;
     SRC.forEach(s => { if (s.drv === id) applyDriver(s, 'orig'); });
-    delete DRV[id]; saveDrivers(); syncControls(); refresh(); $('drvdel').disabled = true; $('drvmsg').textContent = 'Haut-parleur supprimé.';
+    delete DRV[id]; saveDrivers(); syncControls(); refresh(); $('drvdel').disabled = true; $('drvmsg').textContent = 'Driver deleted.';
   });
   $('drvhrbtn').addEventListener('click', () => {
     const txt = $('drvhr').value, g = k => { const m = txt.match(new RegExp('^\\s*' + k + '\\s*=\\s*([-0-9.eE+]+)', 'm')); return m ? parseFloat(m[1]) : NaN; };
     const hr = { Sd: g('Sd'), Bl: g('Bl'), Cms: g('Cms'), Rms: g('Rms'), Mmd: g('Mmd'), Le: g('Le'), Re: g('Re'), Pmax: g('Pmax') || 100, Xmax: g('Xmax') || 3 };
-    if (['Sd', 'Bl', 'Cms', 'Rms', 'Mmd', 'Le', 'Re'].some(k => !(hr[k] > 0))) { $('drvmsg').textContent = 'Bloc incomplet : il faut Sd, Bl, Cms, Rms, Mmd, Le et Re.'; return; }
+    if (['Sd', 'Bl', 'Cms', 'Rms', 'Mmd', 'Le', 'Re'].some(k => !(hr[k] > 0))) { $('drvmsg').textContent = 'Incomplete block: Sd, Bl, Cms, Rms, Mmd, Le and Re are required.'; return; }
     const ts = hrToTs(hr); fillTsForm({ ts: { Fs: ts.Fs, Qes: ts.Qes, Qms: ts.Qms, Vas: ts.Vas, Re: hr.Re, Sd: hr.Sd, Xmax: hr.Xmax, Le: hr.Le, Pmax: hr.Pmax }, hr });
     const m = txt.match(/Comment\s*=\s*(.+)/i); if (m && !$('drvname').value) $('drvname').value = m[1].split('/').pop().trim();
-    showDrvInfo(); $('drvmsg').textContent = 'Bloc lu : vérifie le nom puis « Ajouter ».';
+    showDrvInfo(); $('drvmsg').textContent = 'Block read: check the name then "Add".';
   });
 }
 
-// ---------- configurations enregistrées (stockage du navigateur) et configuration par défaut ----------
+// ---------- saved configurations (browser storage) and default configuration ----------
 const CFG = { list: [], def: null };
 const CFG_UI = ['drive', 'stacks', 'spacing', 'gap', 'base', 'auto', 'lx', 'ly', 'lz', 'gsplay', 'focus', 'fz'];
 const CFG_ST = ['id', 'drv', 'count', 'on', 'gain', 'delay', 'pol', 'x', 'y', 'z', 'h', 'az', 'el', 'spl', 'gconv', 'focus', 'fz'];
 function cfgMsg(m) { $('cfgmsg').textContent = m; }
 function cfgStoreRead() { try { const j = JSON.parse(localStorage.getItem('hornstack-cfg') || 'null'); if (j && Array.isArray(j.list)) { CFG.list = j.list.filter(c => c && c.name && c.st && Array.isArray(c.st.stages)); CFG.def = j.def || null; } } catch (e) { } }
-function cfgStoreWrite() { try { localStorage.setItem('hornstack-cfg', JSON.stringify({ list: CFG.list, def: CFG.def })); return true; } catch (e) { cfgMsg('Stockage du navigateur indisponible : la configuration ne sera conservée que jusqu\'à la fermeture de la page.'); return false; } }
+function cfgStoreWrite() { try { localStorage.setItem('hornstack-cfg', JSON.stringify({ list: CFG.list, def: CFG.def })); return true; } catch (e) { cfgMsg('Browser storage unavailable: the configuration will only be kept until the page is closed.'); return false; } }
 function cfgSnapshot() {
   const u = {}; CFG_UI.forEach(k => { if (ui[k] !== undefined) u[k] = ui[k]; });
   return { v: 1, ui: u, stages: SRC.map(s => { const o = {}; CFG_ST.forEach(k => { if (s[k] !== undefined && s[k] !== null) o[k] = s[k]; }); o.hp = { ...s.hp }; o.lp = { ...s.lp }; return o; }), eq: { on: EQ.on, bands: EQ.bands.map(b => ({ ...b })) } };
@@ -738,25 +740,25 @@ function cfgApply(st) {
   rebuildAll(); return true;
 }
 function cfgRender() {
-  $('cfglist').innerHTML = CFG.list.map((c, i) => `<span class="cfgchip"><button class="btn" data-cl="${i}" title="Charger cette configuration">${c.name.replace(/[<>&"]/g, '')}</button><button class="btn sm${CFG.def === c.name ? ' on' : ''}" data-cd="${i}" title="${CFG.def === c.name ? 'Configuration par défaut (clique pour retirer)' : 'Définir comme configuration par défaut'}">${CFG.def === c.name ? '★' : '☆'}</button><button class="btn sm" data-cx="${i}" title="Supprimer la configuration">✕</button></span>`).join('');
+  $('cfglist').innerHTML = CFG.list.map((c, i) => `<span class="cfgchip"><button class="btn" data-cl="${i}" title="Load this configuration">${c.name.replace(/[<>&"]/g, '')}</button><button class="btn sm${CFG.def === c.name ? ' on' : ''}" data-cd="${i}" title="${CFG.def === c.name ? 'Default configuration (click to remove)' : 'Set as default configuration'}">${CFG.def === c.name ? '★' : '☆'}</button><button class="btn sm" data-cx="${i}" title="Delete configuration">✕</button></span>`).join('');
 }
 function cfgInit() {
   cfgStoreRead(); cfgRender();
   const d = CFG.list.find(c => c.name === CFG.def);
-  if (d && cfgApply(d.st)) cfgMsg(`Configuration par défaut « ${d.name} » chargée.`);
+  if (d && cfgApply(d.st)) cfgMsg(`Default configuration "${d.name}" loaded.`);
   $('cfgsave').addEventListener('click', () => {
     const name = ($('cfgname').value.trim() || `Configuration ${CFG.list.length + 1}`).slice(0, 40), st = cfgSnapshot(), k = CFG.list.findIndex(c => c.name === name);
     if (k >= 0) CFG.list[k].st = st; else CFG.list.push({ name, st });
-    cfgStoreWrite(); cfgRender(); $('cfgname').value = ''; cfgMsg(`Configuration « ${name} » ${k >= 0 ? 'mise à jour' : 'enregistrée'}.`);
+    cfgStoreWrite(); cfgRender(); $('cfgname').value = ''; cfgMsg(`Configuration "${name}" ${k >= 0 ? 'updated' : 'saved'}.`);
   });
   $('cfglist').addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
     const i = +(b.dataset.cl ?? b.dataset.cd ?? b.dataset.cx), c = CFG.list[i]; if (!c) return;
-    if (b.dataset.cl !== undefined) { cfgMsg(cfgApply(c.st) ? `Configuration « ${c.name} » chargée.` : 'Configuration illisible.'); }
+    if (b.dataset.cl !== undefined) { cfgMsg(cfgApply(c.st) ? `Configuration "${c.name}" loaded.` : 'Configuration unreadable.'); }
     else if (b.dataset.cd !== undefined) {
       CFG.def = CFG.def === c.name ? null : c.name; cfgStoreWrite(); cfgRender();
-      cfgMsg(CFG.def ? `« ${c.name} » est maintenant la configuration par défaut : elle se charge à chaque ouverture de la page.` : 'Plus de configuration par défaut : la page s\'ouvre avec la configuration d\'origine.');
-    } else { if (CFG.def === c.name) CFG.def = null; CFG.list.splice(i, 1); cfgStoreWrite(); cfgRender(); cfgMsg(`Configuration « ${c.name} » supprimée.`); }
+      cfgMsg(CFG.def ? `"${c.name}" is now the default configuration: it loads every time the page opens.` : 'No default configuration any more: the page opens with the original configuration.');
+    } else { if (CFG.def === c.name) CFG.def = null; CFG.list.splice(i, 1); cfgStoreWrite(); cfgRender(); cfgMsg(`Configuration "${c.name}" deleted.`); }
   });
 }
 function rebuildAll() { buildTable(); buildSources(); buildListenOptions(); refresh(); }
@@ -786,19 +788,19 @@ function onControl(e) {
   refresh();
 }
 
-// ---------- calculs ----------
-// directivité d'un piston : lat = écart latéral (hors axe y), r = distance, dy = avancée devant la bouche
+// ---------- computations ----------
+// piston directivity: lat = lateral offset (off the y axis), r = distance, dy = advance in front of the mouth
 function dirFactor(a, f, lat, r, dy) {
   if (dy <= 0) return 0;
   const z = 2 * Math.PI * f / C_SND * a * lat / r;
   return z < 1e-4 ? 1 : 2 * besselJ1(z) / z;
 }
-// ---------- égaliseur paramétrique (avant les filtres de répartition) ----------
-const EQ_FS = 48000, EQ_TYPES = { off: 'Aucune', peak: 'Cloche', lshelf: 'Plateau grave', hshelf: 'Plateau aigu', hp: 'Passe-haut', lp: 'Passe-bas', notch: 'Réjecteur' };
+// ---------- parametric equaliser (before the crossover filters) ----------
+const EQ_FS = 48000, EQ_TYPES = { off: 'None', peak: 'Bell', lshelf: 'Low shelf', hshelf: 'High shelf', hp: 'High-pass', lp: 'Low-pass', notch: 'Notch' };
 const eqDefaults = () => [
   { type: 'lshelf', f: 60, g: 0, q: 0.71 }, { type: 'peak', f: 150, g: 0, q: 1.0 }, { type: 'peak', f: 400, g: 0, q: 1.0 }, { type: 'peak', f: 1000, g: 0, q: 1.0 },
   { type: 'peak', f: 2500, g: 0, q: 1.0 }, { type: 'peak', f: 6000, g: 0, q: 1.0 }, { type: 'hshelf', f: 10000, g: 0, q: 0.71 }, { type: 'hp', f: 30, g: 0, q: 0.71, off: true }];
-// la 8e bande (passe-haut de protection) est créée désactivée
+// the 8th band (protective high-pass) is created disabled
 const EQ = { on: true, bands: eqDefaults().map(b => (b.off ? { type: 'off', f: b.f, g: 0, q: b.q } : b)), coef: [], sel: -1 };
 function biquadCoef(type, f0, g, q) {
   const w0 = 2 * Math.PI * Math.min(Math.max(f0, 10), EQ_FS / 2 * 0.99) / EQ_FS, cs = Math.cos(w0), al = Math.sin(w0) / (2 * Math.min(Math.max(q, 0.1), 20));
@@ -859,10 +861,10 @@ function drawEq() {
 function buildEqTable() {
   $('eqbody').innerHTML = EQ.bands.map((b, i) => `<tr data-b="${i}">
     <td class="num">${i + 1}</td>
-    <td><select data-b="${i}" data-f="type" aria-label="Type de la bande ${i + 1}">${Object.entries(EQ_TYPES).map(([k, v]) => `<option value="${k}"${k === b.type ? ' selected' : ''}>${v}</option>`).join('')}</select></td>
-    <td><input type="number" min="10" max="22000" step="1" data-b="${i}" data-f="f" aria-label="Fréquence de la bande ${i + 1}"></td>
-    <td><div class="row" style="flex-wrap:nowrap;gap:6px"><input type="range" min="-15" max="15" step="0.5" data-b="${i}" data-f="gs" aria-label="Gain de la bande ${i + 1}" style="min-width:70px"><input type="number" min="-15" max="15" step="0.5" data-b="${i}" data-f="g" aria-label="Gain en dB de la bande ${i + 1}" style="width:62px"></div></td>
-    <td><input type="number" min="0.1" max="20" step="0.05" data-b="${i}" data-f="q" aria-label="Q de la bande ${i + 1}" style="width:62px"></td></tr>`).join('');
+    <td><select data-b="${i}" data-f="type" aria-label="Type of band ${i + 1}">${Object.entries(EQ_TYPES).map(([k, v]) => `<option value="${k}"${k === b.type ? ' selected' : ''}>${v}</option>`).join('')}</select></td>
+    <td><input type="number" min="10" max="22000" step="1" data-b="${i}" data-f="f" aria-label="Frequency of band ${i + 1}"></td>
+    <td><div class="row" style="flex-wrap:nowrap;gap:6px"><input type="range" min="-15" max="15" step="0.5" data-b="${i}" data-f="gs" aria-label="Gain of band ${i + 1}" style="min-width:70px"><input type="number" min="-15" max="15" step="0.5" data-b="${i}" data-f="g" aria-label="Gain in dB of band ${i + 1}" style="width:62px"></div></td>
+    <td><input type="number" min="0.1" max="20" step="0.05" data-b="${i}" data-f="q" aria-label="Q of band ${i + 1}" style="width:62px"></td></tr>`).join('');
   EQ.bands.forEach((b, i) => syncEqRow(i));
 }
 function syncEqRow(i) {
@@ -872,17 +874,17 @@ function syncEqRow(i) {
   q('f').disabled = off; q('q').disabled = off || b.type === 'hp' && false; q('g').disabled = ng; q('gs').disabled = ng;
 }
 
-// ---------- auto-EQ : correction de la somme mesurée au point d'écoute ----------
+// ---------- auto-EQ: correction of the sum measured at the listening spot ----------
 const AEQ = { undo: null };
 function biquadDb(b, f) { const c = biquadCoef(b.type, b.f, b.g, b.q); return 20 * Math.log10(Math.max(cx.abs(biquadH(c, 2 * Math.PI * f / EQ_FS)), 1e-9)); }
 function autoEq() {
   computeCurves();
   const lo = +$('aeqlo').value || 40, hi = Math.min(FMAX, +$('aeqhi').value || 4000), bmax = +$('aeqb').value, cmax = +$('aeqc').value, shape = $('aeqt').value;
-  // mesure sans égaliseur
+  // measurement without the equaliser
   const M = FG.map((f, j) => CURVES.sSpl[j] - (EQ.on ? 20 * Math.log10(Math.max(cx.abs(eqResponse(f)), 1e-9)) : 0));
   const H = 5, S = M.map((_, j) => { let a = 0, n = 0; for (let k = Math.max(0, j - H); k <= Math.min(FG.length - 1, j + H); k++) { a += M[k]; n++; } return a / n; });
   const idx = FG.map((f, j) => (f >= lo && f <= hi) ? j : -1).filter(j => j >= 0);
-  if (idx.length < 10) { $('aeqmsg').textContent = 'Plage trop étroite.'; return; }
+  if (idx.length < 10) { $('aeqmsg').textContent = 'Range too narrow.'; return; }
   const shp = f => shape === 'tilt' ? -1.5 * Math.log2(f / 1000) : shape === 'bass' ? 4 / (1 + Math.pow(f / 100, 4)) : 0;
   const base = idx.map(j => S[j] - shp(FG[j])).sort((a, b) => a - b), ref = base[Math.floor(base.length / 2)];
   const err = FG.map((f, j) => ref + shp(f) - S[j]);
@@ -895,13 +897,13 @@ function autoEq() {
     let jm = -1, em = 0;
     for (const j of idx) if (Math.abs(e[j]) > Math.abs(em)) { em = e[j]; jm = j; }
     if (jm < 0 || Math.abs(em) < 1) break;
-    // largeur : étendue où l'erreur garde le signe et dépasse la moitié du pic
+    // width: extent over which the error keeps its sign and exceeds half the peak
     let a = jm, z = jm;
     while (a > 0 && e[a - 1] * em > 0 && Math.abs(e[a - 1]) > Math.abs(em) / 2) a--;
     while (z < FG.length - 1 && e[z + 1] * em > 0 && Math.abs(e[z + 1]) > Math.abs(em) / 2) z++;
     const bw = Math.max(0.5, Math.log2(FG[z] / FG[a]) + 0.2);
     const q = Math.max(0.6, Math.min(8, 1 / (2 * Math.sinh(Math.LN2 / 2 * bw))));
-    // plafond cumulé : jamais plus de +boost / −coupe au total à cette fréquence
+    // cumulative ceiling: never more than +boost / −cut in total at this frequency
     const cum = bands.reduce((s, bb) => s + biquadDb(bb, FG[jm]), 0);
     const g = Math.max(-cmax - cum, Math.min(bmax - cum, em * 0.9));
     if (Math.abs(g) < 0.5) { for (let k = a; k <= z; k++) e[k] = 0; n--; if (++skips > 40) break; continue; }
@@ -909,7 +911,7 @@ function autoEq() {
     bands.push(b); const r = resp(b); for (let j = 0; j < FG.length; j++) e[j] -= r[j];
     if (Math.abs(b.g) < 0.5) { bands.pop(); break; }
   }
-  // affinage : ajustement de chaque gain pour réduire l'erreur quadratique
+  // refinement: adjust each gain to reduce the squared error
   for (let pass = 0; pass < 3; pass++) for (const b of bands) {
     for (const d of [1, -1, 0.5, -0.5]) {
       const nb = { ...b, g: b.g + d }; if (Math.abs(nb.g) > 15 || FG.some(f => { const c = bands.reduce((s, bb) => s + biquadDb(bb === b ? nb : bb, f), 0); return c > bmax + 0.01 || c < -cmax - 0.01; })) continue;
@@ -923,12 +925,12 @@ function autoEq() {
   EQ.on = true; $('eqon').checked = true; EQ.sel = -1;
   buildEqTable(); eqUpdate(); drawEq(); eqRefresh();
   $('aequndo').disabled = false;
-  $('aeqmsg').textContent = `Écart RMS au lissage ${before.toFixed(1)} dB → ${rms(e).toFixed(1)} dB sur ${fmtF(lo)} – ${fmtF(hi)} (cible ${$('aeqt').selectedOptions[0].textContent.toLowerCase()}, ${out.length} cloche${out.length > 1 ? 's' : ''}). Le niveau global baisse si la correction est surtout en coupe.`;
+  $('aeqmsg').textContent = `RMS deviation from the smoothing ${before.toFixed(1)} dB → ${rms(e).toFixed(1)} dB over ${fmtF(lo)} – ${fmtF(hi)} (target ${$('aeqt').selectedOptions[0].textContent.toLowerCase()}, ${out.length} cloche${out.length > 1 ? 's' : ''}). The overall level drops if the correction is mostly cuts.`;
 }
 function aeqUndo() {
   if (!AEQ.undo) return;
   EQ.bands = AEQ.undo; EQ.on = AEQ.undoOn; $('eqon').checked = EQ.on; AEQ.undo = null; $('aequndo').disabled = true;
-  buildEqTable(); eqUpdate(); drawEq(); eqRefresh(); $('aeqmsg').textContent = 'Réglages précédents rétablis.';
+  buildEqTable(); eqUpdate(); drawEq(); eqRefresh(); $('aeqmsg').textContent = 'Previous settings restored.';
 }
 function wireEq() {
   $('aeq').addEventListener('click', autoEq); $('aequndo').addEventListener('click', aeqUndo);
@@ -943,7 +945,7 @@ function wireEq() {
     EQ.sel = i; eqUpdate(); drawEq(); eqRefresh();
   };
   $('eqbody').addEventListener('input', onRow); $('eqbody').addEventListener('change', onRow);
-  // points déplaçables sur la courbe
+  // draggable points on the curve
   const cv = $('eqcv'); let drag = -1;
   const pick = e => {
     const g = cv._g; if (!g) return -1; const r = cv.getBoundingClientRect(), px = (e.clientX - r.left) * g.dpr, py = (e.clientY - r.top) * g.dpr; let best = -1, bd = (16 * g.dpr) ** 2;
@@ -962,7 +964,7 @@ function wireEq() {
   cv.addEventListener('pointercancel', () => { drag = -1; });
 }
 
-// facteur complexe de la voie (égaliseur commun, filtres, gain, polarité, délai), hors propagation
+// complex factor of the way (common equaliser, filters, gain, polarity, delay), excluding propagation
 function wayFactor(s, f) {
   let F = cx.mul(filterResponse(s.hp.type, s.hp.n, s.hp.f, true, f), filterResponse(s.lp.type, s.lp.n, s.lp.f, false, f));
   const g = Math.pow(10, s.gain / 20) * (s.pol ? -1 : 1);
@@ -998,10 +1000,10 @@ function computeCurves() {
     sSpl.push(20 * Math.log10(Math.max(cx.abs(sum), 1e-9) / 2e-5));
     sPh.push(cx.arg(sum) * 180 / Math.PI); csum.push(sum);
   });
-  // retard de groupe : −Δφ/Δω entre voisins (sans déroulement de phase), moins le temps de vol direct de la bouche la plus proche
+  // group delay: −Δφ/Δω between neighbours (no phase unwrapping), minus the direct flight time of the nearest mouth
   const gdOf = c => FG.map((f, j) => {
     const a = Math.max(0, j - 1), b = Math.min(NF - 1, j + 1);
-    const dF = FG[b] - FG[a], rot = 2 * Math.PI * dF * rmin / C_SND; // on retire la propagation directe avant de différencier (évite le repliement)
+    const dF = FG[b] - FG[a], rot = 2 * Math.PI * dF * rmin / C_SND; // remove the direct propagation before differencing (avoids aliasing)
     const q = cx.mul(cx.mul(c[b], [c[a][0], -c[a][1]]), [Math.cos(rot), Math.sin(rot)]), dph = Math.atan2(q[1], q[0]);
     const v = -dph / (2 * Math.PI * dF) * 1000;
     return Math.max(-20, Math.min(120, v));
@@ -1010,7 +1012,7 @@ function computeCurves() {
   CURVES = { spl, ph, xc, zi, sSpl, sPh, gd, sGd };
 }
 
-// ---------- tracé des courbes ----------
+// ---------- curve drawing ----------
 function sizeCanvas(cv) {
   const dpr = Math.min(2, window.devicePixelRatio || 1), r = cv.getBoundingClientRect();
   const w = Math.max(10, Math.round(r.width * dpr)), h = Math.max(10, Math.round(r.height * dpr));
@@ -1064,7 +1066,7 @@ function drawChart() {
   }
   for (const e of extra) { ctx.strokeStyle = e.c; ctx.setLineDash([6 * dpr, 4 * dpr]); ctx.lineWidth = 1.5 * dpr; const y = Y(e.hy); ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(W - pad.r, y); ctx.stroke(); ctx.setLineDash([]); }
   ctx.save(); ctx.beginPath(); ctx.rect(pad.l, pad.t, pw, ph); ctx.clip();
-  // marqueur de la fréquence de la carte
+  // map frequency marker
   ctx.strokeStyle = css('--accent'); ctx.setLineDash([3 * dpr, 3 * dpr]); ctx.lineWidth = 1.5 * dpr;
   ctx.beginPath(); ctx.moveTo(X(ui.mapF), pad.t); ctx.lineTo(X(ui.mapF), H - pad.b); ctx.stroke(); ctx.setLineDash([]);
   for (const q of series) {
@@ -1081,26 +1083,26 @@ function drawChart() {
   if (ui.hover >= 0) { ctx.strokeStyle = fg; ctx.lineWidth = 1 * dpr; ctx.beginPath(); ctx.moveTo(X(FG[ui.hover]), pad.t); ctx.lineTo(X(FG[ui.hover]), H - pad.b); ctx.stroke(); }
   ctx.restore();
   ctx.fillStyle = muted; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
-  ctx.fillText(T({ spl: 'dB SPL', phase: 'degrés', gd: 'ms', xcur: '% de Xmax', imp: 'Ω' }[tab]), 4 * dpr, 0);
+  ctx.fillText(T({ spl: 'dB SPL', phase: 'degrees', gd: 'ms', xcur: '% of Xmax', imp: 'Ω' }[tab]), 4 * dpr, 0);
   cv._geom = { pad, pw, dpr };
-  // légende
+  // legend
   $('legend').innerHTML = SRC.map((s, i) => `<span><i style="background:var(${s.cssv});opacity:${s.on ? 1 : 0.3}"></i>${shortName(s)}</span>`).join('') +
-    (tab === 'spl' || tab === 'phase' || tab === 'gd' ? `<span><i style="background:var(--fg);height:4px"></i>Somme</span>` : '') +
-    `<span><i style="background:var(--accent);height:2px"></i>Fréquence de la carte</span>` + (tab === 'xcur' ? `<span class="warn"><i style="background:var(--warn);height:2px"></i>Xmax</span>` : '');
+    (tab === 'spl' || tab === 'phase' || tab === 'gd' ? `<span><i style="background:var(--fg);height:4px"></i>Sum</span>` : '') +
+    `<span><i style="background:var(--accent);height:2px"></i>Map frequency</span>` + (tab === 'xcur' ? `<span class="warn"><i style="background:var(--warn);height:2px"></i>Xmax</span>` : '');
 }
 function readout(j) {
   const f = FG[j], C = CURVES, tab = ui.tab;
   const names = SRC.map(s => shortName(s));
   let t = `${fmtF(f)}`;
-  if (tab === 'spl') { t += '  somme ' + C.sSpl[j].toFixed(1) + ' dB' + SRC.map((s, i) => `  ${names[i]} ${C.spl[i][j].toFixed(1)}`).join(''); }
-  else if (tab === 'phase') { t += '  somme ' + C.sPh[j].toFixed(0) + '°' + SRC.map((s, i) => `  ${names[i]} ${C.ph[i][j].toFixed(0)}°`).join(''); }
-  else if (tab === 'gd') { t += '  somme ' + C.sGd[j].toFixed(1) + ' ms' + SRC.map((s, i) => `  ${names[i]} ${C.gd[i][j].toFixed(1)} ms`).join(''); }
+  if (tab === 'spl') { t += '  sum ' + C.sSpl[j].toFixed(1) + ' dB' + SRC.map((s, i) => `  ${names[i]} ${C.spl[i][j].toFixed(1)}`).join(''); }
+  else if (tab === 'phase') { t += '  sum ' + C.sPh[j].toFixed(0) + '°' + SRC.map((s, i) => `  ${names[i]} ${C.ph[i][j].toFixed(0)}°`).join(''); }
+  else if (tab === 'gd') { t += '  sum ' + C.sGd[j].toFixed(1) + ' ms' + SRC.map((s, i) => `  ${names[i]} ${C.gd[i][j].toFixed(1)} ms`).join(''); }
   else if (tab === 'xcur') t += SRC.map((s, i) => `  ${names[i]} ${C.xc[i][j].toFixed(0)} %`).join('');
   else t += SRC.map((s, i) => `  ${names[i]} ${C.zi[i][j].toFixed(1)} Ω`).join('');
   $('readout').textContent = t;
 }
 
-// ---------- carte ----------
+// ---------- map ----------
 const MW = 240, MH = 180;
 const mapBuf = document.createElement('canvas'); mapBuf.width = MW; mapBuf.height = MH;
 const mapCtx = mapBuf.getContext('2d'), mapImg = mapCtx.createImageData(MW, MH);
@@ -1108,7 +1110,7 @@ const mReF = new Float32Array(MW * MH), mImF = new Float32Array(MW * MH);
 let mapGeom = { u0: -4, v0: -0.6, w: 8, h: 6 }, mapRef = 1, mapTopDb = 100;
 let mapP = [], mapA = [], mapK = 0, CAM3 = null;
 const CUR = { on: false, x: 0, y: 0, z: 0, db: 0 };
-// pression complexe en un point : somme de toutes les bouches (A[i] = amplitude complexe de la voie i)
+// complex pressure at a point: sum of all the mouths (A[i] = complex amplitude of way i)
 function fieldAt(P, A, x, y, z, k) {
   let re = 0, im = 0;
   for (const p of P) {
@@ -1143,12 +1145,12 @@ function computeMap() {
   mapRef = la > 1e-6 ? la : 1;
   mapTopDb = Math.ceil((20 * Math.log10(mapRef / 2e-5) + 6) / 3) * 3;
   const warnPx = 343.4 / f < 6 * pu;
-  $('maplegend').innerHTML = (top ? `Coupe horizontale à ${ui.lz} m de hauteur. ` : `Coupe verticale à x = ${ui.lx} m (les stacks plus éloignés sont estompés). `) +
+  $('maplegend').innerHTML = (top ? `Horizontal section at ${ui.lz} m height. ` : `Vertical section at x = ${ui.lx} m (farther stacks are faded). `) +
     (ui.mapMode === 'wave'
-    ? `Rouge : surpression, bleu : dépression. Échelle compressée autour du niveau au point d'écoute (${(20 * Math.log10(mapRef / 2e-5)).toFixed(1)} dB SPL à ${fmtF(f)}).`
-    : `Niveau de ${mapTopDb - 36} à ${mapTopDb} dB SPL, du sombre au clair.`) +
-    (warnPx ? ' <span class="warn">Pixels trop larges pour cette fréquence : réduis la largeur affichée.</span>' : '') +
-    ` Longueur d'onde : ${(343.4 / f).toFixed(2)} m.`;
+    ? `Red: overpressure, blue: underpressure. Scale compressed around the level at the listening spot (${(20 * Math.log10(mapRef / 2e-5)).toFixed(1)} dB SPL at ${fmtF(f)}).`
+    : `Level from ${mapTopDb - 36} to ${mapTopDb} dB SPL, dark to bright.`) +
+    (warnPx ? ' <span class="warn">Pixels too wide for this frequency: reduce the displayed width.</span>' : '') +
+    ` Wavelength: ${(343.4 / f).toFixed(2)} m.`;
 }
 const lerp = (a, b, t) => a + (b - a) * t;
 function paintMap(t) {
@@ -1181,11 +1183,11 @@ function paintMap(t) {
   const X = u => (u - u0) * sx, Y = v => cv.height - (v - v0) * sy;
   const light = ui.mapMode === 'wave';
   const ink = light ? css('--fg') : '#ffffff';
-  if (!top) { // sol
+  if (!top) { // floor
     ctx.fillStyle = css('--surface2'); ctx.fillRect(0, Y(0), cv.width, cv.height - Y(0));
     ctx.strokeStyle = ink; ctx.globalAlpha = 0.5; ctx.lineWidth = 2 * dpr; ctx.beginPath(); ctx.moveTo(0, Y(0)); ctx.lineTo(cv.width, Y(0)); ctx.stroke(); ctx.globalAlpha = 1;
   }
-  // quadrillage
+  // grid
   const step = w <= 8 ? 1 : w <= 16 ? 2 : 5;
   ctx.font = `${11 * dpr}px 'IBM Plex Mono', monospace`; ctx.lineWidth = 1 * dpr;
   ctx.strokeStyle = ink; ctx.globalAlpha = 0.14; ctx.fillStyle = ink;
@@ -1196,17 +1198,17 @@ function paintMap(t) {
   ctx.textBaseline = 'top';
   for (let y = Math.ceil(v0 / step) * step; y < v0 + h; y += step) if (y > 0) ctx.fillText(y + ' m', 3 * dpr, Y(y) + 2 * dpr);
   ctx.globalAlpha = 1;
-  // caissons
+  // cabinets
   const last = SRC.length - 1;
   positions().forEach(p => {
     const s = SRC[p.i];
     let faint = false, pts;
     if (top) {
-      // rectangle tourné de l'azimut autour du centre de la bouche
+      // rectangle rotated by the azimuth around the mouth centre
       const ux = Math.cos(p.az), uy = -Math.sin(p.az), nx = Math.sin(p.az), ny = Math.cos(p.az);
       pts = [[-1, 0], [1, 0], [1, -1], [-1, -1]].map(([a, b]) => [X(p.X + a * s.w / 2 * ux + b * s.d * nx), Y(p.Y + a * s.w / 2 * uy + b * s.d * ny)]);
     } else {
-      // coupe latérale : l'inclinaison fait pivoter le caisson autour du centre de la bouche
+      // side section: the tilt rotates the cabinet around the mouth centre
       const c = Math.cos(p.el), sn = Math.sin(p.el), cz = Math.cos(p.az);
       pts = [[0, 1], [0, -1], [-1, -1], [-1, 1]].map(([b, a]) => [X(p.Y + b * s.d * c * cz - a * s.h / 2 * sn), Y(p.Z + b * s.d * sn + a * s.h / 2 * c)]);
       faint = Math.abs(p.X - ui.lx) > s.w / 2 + 1e-6;
@@ -1216,7 +1218,7 @@ function paintMap(t) {
     ctx.globalAlpha = (s.on ? 0.92 : 0.35) * (faint ? 0.3 : 1); ctx.fillStyle = css(s.cssv); poly(); ctx.fill();
     ctx.globalAlpha = faint ? 0.35 : 1; ctx.strokeStyle = css('--fg'); ctx.lineWidth = 1.5 * dpr; poly(); ctx.stroke();
     if (top && s.on && s.count > 0 && Math.abs(p.az) > 0.01) {
-      // axe de visée, pour lire l'orientation
+      // aim axis, to read the orientation
       ctx.globalAlpha = 0.55; ctx.setLineDash([4 * dpr, 4 * dpr]); ctx.strokeStyle = css(s.cssv); ctx.lineWidth = 1.2 * dpr;
       ctx.beginPath(); ctx.moveTo(X(p.X), Y(p.Y)); ctx.lineTo(X(p.X + Math.sin(p.az) * 3), Y(p.Y + Math.cos(p.az) * 3)); ctx.stroke(); ctx.setLineDash([]);
     }
@@ -1226,14 +1228,14 @@ function paintMap(t) {
       ctx.fillText(shortName(s).replace('Cubo Kick 15"', 'Kick 15').replace('Cubo ', '').replace(' Horn', ''), (xa + xb) / 2, (ya + yb) / 2);
     }
   });
-  // point d'écoute
+  // listening spot
   const lx = top ? X(ui.lx) : X(ui.ly), ly = top ? Y(ui.ly) : Y(ui.lz);
   ctx.strokeStyle = ink; ctx.lineWidth = 2 * dpr; ctx.beginPath(); ctx.arc(lx, ly, 7 * dpr, 0, 6.2832); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(lx - 11 * dpr, ly); ctx.lineTo(lx + 11 * dpr, ly); ctx.moveTo(lx, ly - 11 * dpr); ctx.lineTo(lx, ly + 11 * dpr); ctx.stroke();
   if (CUR.on) drawCursor(ctx, dpr, top ? X(CUR.x) : X(CUR.y), top ? Y(CUR.y) : Y(CUR.z));
 }
 
-// ---------- vue 3D : plan horizontal (hauteur d'écoute) et plan vertical (x d'écoute) dans la scène ----------
+// ---------- 3D view: horizontal plane (listening height) and vertical plane (listening x) in the scene ----------
 const N3 = { nx: 64, ny: 64, nz: 32 };
 const h3r = new Float32Array(N3.nx * N3.ny), h3i = new Float32Array(N3.nx * N3.ny), v3r = new Float32Array(N3.ny * N3.nz), v3i = new Float32Array(N3.ny * N3.nz);
 const CAM = { yaw: -0.65, pitch: 0.5, zoom: 1 };
@@ -1242,7 +1244,7 @@ const NB = MB.F.length, NH = N3.nx * N3.ny, NV = N3.ny * N3.nz;
 const bhr = new Float32Array(NB * NH), bhi = new Float32Array(NB * NH), bvr = new Float32Array(NB * NV), bvi = new Float32Array(NB * NV);
 const chr = new Float32Array(NH), chi = new Float32Array(NH), cvr = new Float32Array(NV), cvi = new Float32Array(NV);
 const mbLive = () => MB.on && MB.ready && AUD.playing && AUD.anSrc;
-// vues 2D : champ de chaque bande sur la grille de la carte (calculé une fois, pondéré à chaque image)
+// 2D views: field of each band on the map grid (computed once, weighted at every frame)
 const bmr = new Float32Array(NB * MW * MH), bmi = new Float32Array(NB * MW * MH), cmr = new Float32Array(MW * MH), cmi = new Float32Array(MW * MH);
 function computeBands2D(P, top, drive) {
   const { u0, v0, w, h } = mapGeom, pu = w / MW, pv = h / MH, NM = MW * MH;
@@ -1328,9 +1330,9 @@ function compute3D() {
   mapRef = la > 1e-6 ? la : 1; mapTopDb = Math.ceil((20 * Math.log10(mapRef / 2e-5) + 6) / 3) * 3;
   if (MB.on) computeBands3D(); else MB.ready = false;
   const warnPx = 343.4 / f < 6 * g.d;
-  $('maplegend').innerHTML = `Vue 3D : plan horizontal à ${ui.lz} m de hauteur et plan vertical à x = ${ui.lx} m. Glisse pour tourner (tous les angles, y compris par en dessous), molette pour zoomer, double-clic ou boutons de vue pour recentrer. ` +
-    (ui.mapMode === 'wave' ? `Rouge : surpression, bleu : dépression (${(20 * Math.log10(mapRef / 2e-5)).toFixed(1)} dB SPL au point d'écoute à ${fmtF(f)}).` : `Niveau de ${mapTopDb - 36} à ${mapTopDb} dB SPL, du sombre au clair.`) +
-    (warnPx ? ' <span class="warn">Cellules trop larges pour cette fréquence : réduis la largeur affichée.</span>' : '') + ` Longueur d'onde : ${(343.4 / f).toFixed(2)} m.`;
+  $('maplegend').innerHTML = `3D view: horizontal plane at ${ui.lz} m height and vertical plane at x = ${ui.lx} m. Drag to rotate (all angles, including from below), wheel to zoom, double-click or view buttons to recentre. ` +
+    (ui.mapMode === 'wave' ? `Red: overpressure, blue: underpressure (${(20 * Math.log10(mapRef / 2e-5)).toFixed(1)} dB SPL at the listening spot at ${fmtF(f)}).` : `Level from ${mapTopDb - 36} to ${mapTopDb} dB SPL, dark to bright.`) +
+    (warnPx ? ' <span class="warn">Cells too wide for this frequency: reduce the displayed width.</span>' : '') + ` Wavelength: ${(343.4 / f).toFixed(2)} m.`;
 }
 function paint3D(t) {
   const cv = $('map'), dpr = sizeCanvas(cv), ctx = cv.getContext('2d'), W = cv.width, H = cv.height, g = geom3();
@@ -1349,7 +1351,7 @@ function paint3D(t) {
   CAM3 = { T, cyw, syw, cp, sp, dist, fl, cX, cY, dpr, proj };
   const polys = [];
   const push = (pts, fill, stroke, a) => { let d = 0; for (const p of pts) d += p[2]; polys.push({ pts, d: d / pts.length, fill, stroke, a }); };
-  // sol : quadrillage (dessiné avant la scène vu d'en haut, après et translucide vu d'en dessous)
+  // floor: grid (drawn before the scene seen from above, after and translucent seen from below)
   const gx0 = g.x0, gx1 = g.x0 + g.E, gy0 = g.y0, gy1 = g.y0 + g.E, step = g.E <= 8 ? 1 : g.E <= 16 ? 2 : 5;
   const drawGround = () => {
     ctx.fillStyle = css('--surface2'); ctx.beginPath();
@@ -1362,7 +1364,7 @@ function paint3D(t) {
   };
   const below = CAM.pitch < 0;
   if (!below) drawGround();
-  // couleur d'une cellule
+  // colour of a cell
   const live = mbLive(); let ref = mapRef, top = mapTopDb;
   if (live) { mbWeights(); ref = mbCombine(); top = Math.ceil((20 * Math.log10(ref / 2e-5) + 6) / 3) * 3; }
   const HR = live ? chr : h3r, HI = live ? chi : h3i, VR = live ? cvr : v3r, VI = live ? cvi : v3i;
@@ -1375,21 +1377,21 @@ function paint3D(t) {
     return `rgb(${r | 0},${gg | 0},${b | 0})`;
   };
   const d = g.d;
-  // plan horizontal
+  // horizontal plane
   for (let j = 0; j < N3.ny; j++) for (let i = 0; i < N3.nx; i++) {
     const x = g.x0 + i * d, y = g.y0 + j * d, n = j * N3.nx + i;
     push([proj(x, y, ui.lz), proj(x + d, y, ui.lz), proj(x + d, y + d, ui.lz), proj(x, y + d, ui.lz)], col(HR[n], HI[n]), 1, 0.82);
   }
-  // plan vertical
+  // vertical plane
   for (let j = 0; j < N3.ny; j++) for (let m = 0; m < N3.nz; m++) {
     const y = g.y0 + j * d, z = m * d, n = j * N3.nz + m;
     push([proj(ui.lx, y, z), proj(ui.lx, y + d, z), proj(ui.lx, y + d, z + d), proj(ui.lx, y, z + d)], col(VR[n], VI[n]), 1, 0.82);
   }
-  // caissons : 6 faces
-  const shade = [0.55, 0.62, 0.78, 0.78, 1.0, 0.92]; // arrière, bas, côtés, haut, face avant
+  // cabinets: 6 faces
+  const shade = [0.55, 0.62, 0.78, 0.78, 1.0, 0.92]; // back, bottom, sides, top, front
   positions().forEach(p => {
     const s = SRC[p.i], c = hex2rgb(css(s.cssv));
-    // repère du caisson : u latéral, n axe de visée (sort par la bouche), v haut = u × n ; l, b, a = position latérale, profondeur (≤ 0), hauteur
+    // cabinet frame: u lateral, n aim axis (out of the mouth), v up = u × n; l, b, a = lateral position, depth (≤ 0), height
     const ux = Math.cos(p.az), uy = -Math.sin(p.az), uz = 0, vx = uy * p.nz - uz * p.ny, vy = uz * p.nx - ux * p.nz, vz = ux * p.ny - uy * p.nx;
     const V = (l, b, a) => proj(p.X + l * ux + b * p.nx + a * vx, p.Y + l * uy + b * p.ny + a * vy, p.Z + l * uz + b * p.nz + a * vz);
     const xa = -s.w / 2, xb = s.w / 2, ya = -s.d, yb = 0, za = -s.h / 2, zb = s.h / 2;
@@ -1412,20 +1414,20 @@ function paint3D(t) {
   }
   ctx.globalAlpha = 1;
   if (below) { ctx.globalAlpha = 0.35; drawGround(); ctx.globalAlpha = 1; }
-  // point d'écoute : mât et repère
+  // listening spot: pole and marker
   const a = proj(ui.lx, ui.ly, 0), b = proj(ui.lx, ui.ly, ui.lz);
   ctx.strokeStyle = fg; ctx.lineWidth = 2 * dpr; ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
   ctx.fillStyle = bgc; ctx.beginPath(); ctx.arc(b[0], b[1], 6 * dpr, 0, 6.2832); ctx.fill(); ctx.stroke();
   ctx.font = `${11 * dpr}px 'IBM Plex Mono', monospace`; ctx.fillStyle = fg; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-  ctx.fillText(T('écoute'), b[0] + 10 * dpr, b[1] - 8 * dpr);
-  // repère d'axes
+  ctx.fillText(T('listening'), b[0] + 10 * dpr, b[1] - 8 * dpr);
+  // axes marker
   ctx.globalAlpha = 0.75; ctx.textAlign = 'center';
   for (let y = Math.ceil(gy0 / step) * step; y <= gy1; y += step) if (y > 0) { const p = proj(gx1, y, 0); ctx.fillText(y + ' m', p[0] + 14 * dpr, p[1]); }
   ctx.globalAlpha = 1;
   if (live) {
     const bw = 22 * dpr, gp = 4 * dpr, x0 = 14 * dpr, y0 = 44 * dpr, bh = 38 * dpr;
     ctx.font = `${9 * dpr}px 'IBM Plex Mono', monospace`; ctx.textBaseline = 'top'; ctx.fillStyle = fg;
-    ctx.globalAlpha = 0.8; ctx.textAlign = 'left'; ctx.fillText(T('LECTURE · BANDES'), x0, y0 - 16 * dpr); ctx.textAlign = 'center';
+    ctx.globalAlpha = 0.8; ctx.textAlign = 'left'; ctx.fillText(T('PLAYBACK · BANDS'), x0, y0 - 16 * dpr); ctx.textAlign = 'center';
     MB.F.forEach((f, b) => {
       const x = x0 + b * (bw + gp), h = Math.min(1, MB.w[b]) * bh;
       ctx.globalAlpha = 0.18; ctx.fillRect(x, y0, bw, bh); ctx.globalAlpha = 0.9; ctx.fillStyle = css('--accent'); ctx.fillRect(x, y0 + bh - h, bw, h); ctx.fillStyle = fg;
@@ -1436,7 +1438,7 @@ function paint3D(t) {
   if (CUR.on) { const q = proj(CUR.x, CUR.y, CUR.z); drawCursor(ctx, dpr, q[0], q[1]); }
 }
 
-// curseur de la carte : repère + coordonnées et niveau au point survolé
+// map cursor: marker + coordinates and level at the hovered point
 function drawCursor(ctx, dpr, px, py) {
   if (!CUR.on || px == null) return;
   const ink = ui.view === '3d' || ui.mapMode === 'wave' ? css('--fg') : '#ffffff';
@@ -1451,7 +1453,7 @@ function drawCursor(ctx, dpr, px, py) {
   ctx.fillStyle = css('--fg'); ctx.textAlign = 'left'; ctx.fillText(txt, bx + 6 * dpr, by + h / 2);
   ctx.restore();
 }
-// pixel (client) -> coordonnées du monde ; null si hors carte
+// pixel (client) -> world coordinates; null if off the map
 function mapPick(e) {
   const cv = $('map'), r = cv.getBoundingClientRect(), sx = (e.clientX - r.left) / r.width, sy = (e.clientY - r.top) / r.height;
   if (ui.view !== '3d') {
@@ -1479,15 +1481,15 @@ function mapHover(e) {
   const p = mapPick(e);
   if (!p || !mapA.length) { mapLeave(); return; }
   const F = fieldAt(mapP, mapA, p.x, p.y, p.z, mapK); let a = Math.hypot(F[0], F[1]), fl = fmtF(ui.mapF);
-  if (mbLive()) { let s = 0; for (let b = 0; b < NB; b++) { const Fb = fieldAt(mapP, MB.A[b], p.x, p.y, p.z, MB.K[b]); s += MB.w[b] ** 2 * (Fb[0] ** 2 + Fb[1] ** 2); } a = Math.sqrt(s); fl = 'multi-bandes (lecture)'; }
+  if (mbLive()) { let s = 0; for (let b = 0; b < NB; b++) { const Fb = fieldAt(mapP, MB.A[b], p.x, p.y, p.z, MB.K[b]); s += MB.w[b] ** 2 * (Fb[0] ** 2 + Fb[1] ** 2); } a = Math.sqrt(s); fl = 'multi-band (playback)'; }
   CUR.on = true; CUR.x = p.x; CUR.y = p.y; CUR.z = p.z; CUR.db = a > 0 ? 20 * Math.log10(a / 2e-5) : 0;
   const d = Math.hypot(p.x - ui.lx, p.y - ui.ly, p.z - ui.lz);
-  $('mapcoord').textContent = `x = ${p.x.toFixed(2)} m · y = ${p.y.toFixed(2)} m · z = ${p.z.toFixed(2)} m · ${a > 0 ? CUR.db.toFixed(1) + ' dB SPL' : 'hors rayonnement (derrière les bouches)'} à ${fl} · à ${d.toFixed(2)} m du point d'écoute (${(d / C_SND * 1000).toFixed(1)} ms)`;
+  $('mapcoord').textContent = `x = ${p.x.toFixed(2)} m · y = ${p.y.toFixed(2)} m · z = ${p.z.toFixed(2)} m · ${a > 0 ? CUR.db.toFixed(1) + ' dB SPL' : 'outside radiation (behind the mouths)'} at ${fl} · ${d.toFixed(2)} m from the listening spot (${(d / C_SND * 1000).toFixed(1)} ms)`;
   mapDirty = true;
 }
-function mapLeave() { if (!CUR.on) return; CUR.on = false; $('mapcoord').textContent = 'Survole la carte pour lire les coordonnées (x : latéral, y : distance devant la façade, z : hauteur) et le niveau.'; mapDirty = true; }
+function mapLeave() { if (!CUR.on) return; CUR.on = false; $('mapcoord').textContent = 'Hover the map to read the coordinates (x: lateral, y: distance in front of the face, z: height) and the level.'; mapDirty = true; }
 let t0 = performance.now(), tPause = 0, raf = 0;
-// fréquence instantanée du balayage en cours de lecture (balayage logarithmique de 12 s, bouclé)
+// instantaneous frequency of the sweep being played (12 s logarithmic sweep, looped)
 let sweepLast = 0, sweepCost = 0;
 function sweepFollow(now) {
   if (!AUD.playing || AUD.srcType !== 'sweep' || !AUD.ctx || !$('sweepfollow').checked || mbLive()) return;
@@ -1501,7 +1503,7 @@ function sweepFollow(now) {
     ui.mapF = fr; $('mapfv').textContent = fr + ' Hz';
     const c0 = performance.now(); computeMap(); drawChart(); mapDirty = true; sweepCost = performance.now() - c0;
   }
-  $('astatus').textContent = 'En lecture : ' + srcLabel() + ' · ' + modeLabel() + ' · ' + (f >= 1000 ? (f / 1000).toFixed(2) + ' kHz (hors de la carte, 1 kHz maximum)' : Math.round(f) + ' Hz');
+  $('astatus').textContent = 'Playing: ' + srcLabel() + ' · ' + modeLabel() + ' · ' + (f >= 1000 ? (f / 1000).toFixed(2) + ' kHz (outside the map, 1 kHz maximum)' : Math.round(f) + ' Hz');
 }
 function loop(now) {
   raf = requestAnimationFrame(loop);
@@ -1520,11 +1522,11 @@ function refresh(opts = {}) {
   scheduleIR(); scheduleAdvice();
 }
 
-// ---------- conseils de réglage : calculés d'après la configuration, le point d'écoute et les courbes ----------
+// ---------- tuning advice: computed from the configuration, the listening spot and the curves ----------
 let advTimer = 0; const ADV = { out: [], G: [], M: null, undo: null, stack: [] };
 function pushUndo() { ADV.stack.push(snapAdv()); if (ADV.stack.length > 60) ADV.stack.shift(); $('advundo').disabled = false; }
 function scheduleAdvice() { clearTimeout(advTimer); advTimer = setTimeout(updateAdvice, 250); }
-const fr = (x, d = 1) => (+x).toFixed(d).replace('.', ',');
+const fmtNum = (x, d = 1) => (+x).toFixed(d);
 const niceF = f => f < 100 ? Math.round(f / 5) * 5 : f < 1000 ? Math.round(f / 10) * 10 : Math.round(f / 100) * 100;
 const smooth = (a, H = 5) => a.map((_, j) => { let s = 0, n = 0; for (let k = Math.max(0, j - H); k <= Math.min(a.length - 1, j + H); k++) { s += a[k]; n++; } return s / n; });
 function adviceModel() {
@@ -1539,7 +1541,7 @@ function adviceModel() {
     return cx.sc(q, drive);
   }));
   const pi = SRC.map((s, i) => FG.map((f, j) => cx.mul(Q[i][j], wayFactor(s, f))));
-  // bande utile brute de chaque voie (−6 dB autour du maximum, lissé au tiers d'octave)
+  // raw useful band of each way (−6 dB around the maximum, smoothed to third-octave)
   const band = {};
   act.forEach(i => {
     const R = smooth(FG.map((_, j) => 20 * Math.log10(Math.max(cx.abs(Q[i][j]), 1e-12) / 2e-5))), pk = Math.max(...R);
@@ -1547,7 +1549,7 @@ function adviceModel() {
     band[i] = { R, fL: FG[Math.max(0, a)], fH: FG[Math.max(0, z)], fc: Math.sqrt(FG[Math.max(0, a)] * FG[Math.max(0, z)]) };
   });
   const order = act.slice().sort((a, b) => band[a].fc - band[b].fc);
-  // fréquences de raccordement entre voies voisines (en fréquence)
+  // crossover frequencies between neighbouring ways (in frequency)
   const xo = [];
   for (let n = 0; n + 1 < order.length; n++) {
     const a = order[n], b = order[n + 1], lo = band[b].fL, hi = band[a].fH; let f = Math.sqrt(lo * hi);
@@ -1569,7 +1571,7 @@ function adviceModel() {
   const tof = {}; act.forEach(i => { const p = P.find(q => q.i === i); tof[i] = Math.sqrt((ui.lx - p.X) ** 2 + (ui.ly - p.Y) ** 2 + (ui.lz - p.Z) ** 2) / C_SND * 1000; });
   return { drive, P, act, Q, pi, band, order, xo, L, mean, xc, tof };
 }
-// meilleur délai (0 à 20 ms) pour la somme de la voie i avec les autres dans leur zone de recouvrement
+// best delay (0 to 20 ms) for the sum of way i with the others in their overlap zone
 function delayModel(M, i) {
   const others = M.act.filter(k => k !== i); if (!others.length) return null;
   const O = FG.map((_, j) => others.reduce((s, k) => cx.add(s, M.pi[k][j]), [0, 0]));
@@ -1581,8 +1583,8 @@ function delayModel(M, i) {
   for (let tau = 0; tau <= 20; tau += 0.1) { const v = score(tau, 1); if (v > best.v) best = { t: tau, v }; }
   return { none: false, best: Math.round(best.t * 10) / 10, gainDb: 10 * Math.log10(best.v / cur), flipDb: 10 * Math.log10(score(t0, -1) / cur), f0: FG[ov[0]], f1: FG[ov[ov.length - 1]] };
 }
-// pastille du résumé : nombre de paramètres que les conseils proposent de modifier
-function setAdvCount(el, n) { if (!el) return; el.textContent = n ? `${n} paramètre${n > 1 ? 's' : ''} à ajuster` : 'tout est réglé'; el.classList.toggle('on', n > 0); }
+// summary badge: number of parameters the advice proposes to change
+function setAdvCount(el, n) { if (!el) return; el.textContent = n ? `${n} parameter${n > 1 ? 's' : ''} to adjust` : 'all set'; el.classList.toggle('on', n > 0); }
 function updateAdvice() {
   if (!CURVES || !SRC.length) return;
   let M; try { M = adviceModel(); } catch (e) { return; }
@@ -1591,85 +1593,85 @@ function updateAdvice() {
   const nm = i => (SRC[i].par.comment || '').split('/')[0].trim();
   SRC.forEach((s, i) => {
     const h = out[i];
-    if (!M.act.includes(i)) { h.push(H('tip', 'État', 'Étage inactif ou sans caisson : aucun conseil. Active-le et mets au moins 1 caisson.')); return; }
+    if (!M.act.includes(i)) { h.push(H('tip', 'Status', 'Inactive stage or stage without cabinet: no advice. Enable it and set at least 1 cabinet.')); return; }
     const bd = M.band[i], multi = M.act.length > 1, ord = M.order.indexOf(i), tx = M.xc[i];
     // gain
     { let adv = s.gain, why = '';
-      if (multi) { const tgt = M.act.reduce((a, k) => a + M.mean[k], 0) / M.act.length; adv = s.gain + (tgt - M.mean[i]); why = `niveau moyen sur sa bande ${fr(M.mean[i])} dB SPL, moyenne des voies ${fr(tgt)} dB`; }
-      const head = tx.m > 0 ? 20 * Math.log10(100 / tx.m) : 99; if (adv - s.gain > head - 0.5) { adv = s.gain + head - 0.5; why += (why ? ' · ' : '') + 'limité par l\'excursion'; }
+      if (multi) { const tgt = M.act.reduce((a, k) => a + M.mean[k], 0) / M.act.length; adv = s.gain + (tgt - M.mean[i]); why = `mean level over its band ${fmtNum(M.mean[i])} dB SPL, mean of the ways ${fmtNum(tgt)} dB`; }
+      const head = tx.m > 0 ? 20 * Math.log10(100 / tx.m) : 99; if (adv - s.gain > head - 0.5) { adv = s.gain + head - 0.5; why += (why ? ' · ' : '') + 'limited by excursion'; }
       adv = Math.max(-20, Math.min(12, Math.round(adv * 2) / 2));
-      if (tx.m > 100) { adv = Math.min(adv, Math.round((s.gain - 20 * Math.log10(tx.m / 100) - 0.5) * 2) / 2); h.push(H('warn', 'Gain', `Excursion ${Math.round(tx.m)} % de Xmax vers ${fmtF(tx.f)} : baisse à ${fr(adv)} dB ou monte le passe-haut au-dessus de ${fmtF(tx.f)}.`, { k: 'gain', v: adv, l: fr(adv) + ' dB' })); }
-      else if (!multi) h.push(H('ok', 'Gain', `Seule voie active : le gain règle juste le niveau. Marge d'excursion avant Xmax : +${fr(Math.min(40, head))} dB.`));
-      else if (Math.abs(adv - s.gain) < 0.75) h.push(H('ok', 'Gain', `Bien réglé (${why}).`));
-      else h.push(H('tip', 'Gain', `Conseillé ${fr(adv)} dB (${why}). Excursion actuelle ${Math.round(tx.m)} % de Xmax.`, { k: 'gain', v: adv, l: fr(adv) + ' dB' }));
+      if (tx.m > 100) { adv = Math.min(adv, Math.round((s.gain - 20 * Math.log10(tx.m / 100) - 0.5) * 2) / 2); h.push(H('warn', 'Gain', `Excursion ${Math.round(tx.m)} % of Xmax around ${fmtF(tx.f)}: lower to ${fmtNum(adv)} dB or raise the high-pass above ${fmtF(tx.f)}.`, { k: 'gain', v: adv, l: fmtNum(adv) + ' dB' })); }
+      else if (!multi) h.push(H('ok', 'Gain', `Only active way: the gain only sets the level. Excursion margin before Xmax: +${fmtNum(Math.min(40, head))} dB.`));
+      else if (Math.abs(adv - s.gain) < 0.75) h.push(H('ok', 'Gain', `Well set (${why}).`));
+      else h.push(H('tip', 'Gain', `Advised ${fmtNum(adv)} dB (${why}). Current excursion ${Math.round(tx.m)} % of Xmax.`, { k: 'gain', v: adv, l: fmtNum(adv) + ' dB' }));
     }
-    // délai et polarité
+    // delay and polarity
     const dm = delayModel(M, i);
     const tmax = Math.max(...M.act.map(k => M.tof[k])), geo = Math.round((tmax - M.tof[i]) * 10) / 10;
-    if (!dm) h.push(H('ok', 'Délai', 'Voie seule : aucun délai à régler.'));
-    else if (dm.none) h.push(H('tip', 'Délai', `Pas de recouvrement avec les autres voies : le délai ne change pas la somme. Pour aligner les arrivées au point d'écoute, retarde les voies les plus proches (ici ${fr(geo)} ms ≈ ${Math.round(geo * 34.3)} cm).`, geo !== s.delay ? { k: 'delay', v: geo, l: fr(geo) + ' ms', w: 0.01 } : null));
-    else if (Math.abs(dm.best - s.delay) < 0.15) h.push(H('ok', 'Délai', `Déjà optimal pour la somme avec les autres voies (${fmtF(dm.f0)} à ${fmtF(dm.f1)}).`));
-    else if (dm.flipDb > 1 && dm.flipDb >= dm.gainDb) h.push(H('tip', 'Délai', 'Corrige d\'abord la polarité (voir plus bas), puis ce conseil sera recalculé.'));
-    else h.push(H('tip', 'Délai', `${fr(dm.best)} ms donne +${fr(dm.gainDb)} dB dans la zone de recouvrement (${fmtF(dm.f0)} à ${fmtF(dm.f1)}) ; équivaut à ${Math.round(dm.best * 34.3)} cm de profondeur.`, { k: 'delay', v: dm.best, l: fr(dm.best) + ' ms', w: dm.gainDb }));
-    if (dm && !dm.none) { if (dm.flipDb > 1 && dm.flipDb >= dm.gainDb) h.push(H('warn', 'Polarité', `Inverser la polarité donne +${fr(dm.flipDb)} dB dans la zone de recouvrement : les voies s'annulent en partie.`, { k: 'pol', v: !s.pol, l: 'Inverser', w: dm.flipDb })); else h.push(H('ok', 'Polarité', dm.flipDb > 1 ? 'Inverser aiderait un peu, mais le réglage du délai ci-dessus est plus efficace.' : 'Bonne (inverser dégraderait la somme).')); }
-    else h.push(H('ok', 'Polarité', 'Normale, sans recouvrement à vérifier. Ne l\'inverse que si une voie voisine s\'annule au raccordement.'));
+    if (!dm) h.push(H('ok', 'Delay', 'Single way: no delay to set.'));
+    else if (dm.none) h.push(H('tip', 'Delay', `No overlap with the other ways: the delay does not change the sum. To align the arrivals at the listening spot, delay the closest ways (here ${fmtNum(geo)} ms ≈ ${Math.round(geo * 34.3)} cm).`, geo !== s.delay ? { k: 'delay', v: geo, l: fmtNum(geo) + ' ms', w: 0.01 } : null));
+    else if (Math.abs(dm.best - s.delay) < 0.15) h.push(H('ok', 'Delay', `Already optimal for the sum with the other ways (${fmtF(dm.f0)} to ${fmtF(dm.f1)}).`));
+    else if (dm.flipDb > 1 && dm.flipDb >= dm.gainDb) h.push(H('tip', 'Delay', 'Fix the polarity first (see below), then this advice will be recomputed.'));
+    else h.push(H('tip', 'Delay', `${fmtNum(dm.best)} ms gives +${fmtNum(dm.gainDb)} dB in the overlap zone (${fmtF(dm.f0)} to ${fmtF(dm.f1)}) ; equivalent to ${Math.round(dm.best * 34.3)} cm of depth.`, { k: 'delay', v: dm.best, l: fmtNum(dm.best) + ' ms', w: dm.gainDb }));
+    if (dm && !dm.none) { if (dm.flipDb > 1 && dm.flipDb >= dm.gainDb) h.push(H('warn', 'Polarity', `Inverting the polarity gives +${fmtNum(dm.flipDb)} dB in the overlap zone: the ways partly cancel.`, { k: 'pol', v: !s.pol, l: 'Invert', w: dm.flipDb })); else h.push(H('ok', 'Polarity', dm.flipDb > 1 ? 'Inverting would help a little, but the delay setting above is more effective.' : 'Good (inverting would degrade the sum).')); }
+    else h.push(H('ok', 'Polarity', 'Normal, no overlap to check. Invert it only if a neighbouring way cancels at the crossover.'));
     // position
     const dl = Math.round(dm && !dm.none ? dm.best : geo);
-    h.push(H('tip', 'Avancée y', `0 conseillé : l'alignement temporel se règle mieux avec le délai. Équivalent d'avancée : ${Math.round(((dm && !dm.none ? dm.best : geo) - 0) * 34.3)} cm.`));
-    h.push(H(Math.abs(s.x) < 0.01 ? 'ok' : 'tip', 'Décalage x', Math.abs(s.x) < 0.01 ? 'Centré : somme symétrique.' : 'Décalé : garde 0 sauf pour reproduire un montage réel, sinon la somme perd sa symétrie autour de l\'axe.', Math.abs(s.x) < 0.01 ? null : { k: 'x', v: 0, l: '0' }));
+    h.push(H('tip', 'Forward y', `0 advised: time alignment is better set with the delay. Equivalent forward offset: ${Math.round(((dm && !dm.none ? dm.best : geo) - 0) * 34.3)} cm.`));
+    h.push(H(Math.abs(s.x) < 0.01 ? 'ok' : 'tip', 'Offset x', Math.abs(s.x) < 0.01 ? 'Centred: symmetric sum.' : 'Offset: keep 0 unless reproducing a real set-up, otherwise the sum loses its symmetry about the axis.', Math.abs(s.x) < 0.01 ? null : { k: 'x', v: 0, l: '0' }));
     const low = bd.fH < 300;
-    if (ui.auto) h.push(H('ok', 'Hauteur z', `Empilement automatique : z = ${fr(stackZ()[i], 2)} m (centre du caisson). ${low ? 'Reste au sol pour un grave (couplage au sol).' : 'Plus la source est proche de ' + fr(ui.lz, 1) + ' m, moins il y a d\'écart de trajet vers l\'oreille.'}`));
-    else h.push(H('tip', 'Hauteur z', low ? `Grave : pose-le au sol, z = ${fr(ui.base + s.h / 2, 2)} m (couplage au sol, +3 à +6 dB).` : `Plus près de ${fr(ui.lz, 1)} m (hauteur d'écoute) pour limiter l'écart de trajet.`));
-    h.push(H('ok', 'Haut. caisson', `Dimension réelle du caisson (${fr(s.h * 100, 0)} cm) : sert au dessin et à l'empilement, pas au son.`));
-    // filtres
+    if (ui.auto) h.push(H('ok', 'Height z', `Automatic stacking: z = ${fmtNum(stackZ()[i], 2)} m (cabinet centre). ${low ? 'Stay on the floor for a bass cabinet (floor coupling).' : 'The closer the source is to ' + fmtNum(ui.lz, 1) + ' m, the smaller the path difference to the ear.'}`));
+    else h.push(H('tip', 'Height z', low ? `Bass: put it on the floor, z = ${fmtNum(ui.base + s.h / 2, 2)} m (floor coupling, +3 to +6 dB).` : `Closer to ${fmtNum(ui.lz, 1)} m (listening height) to limit the path difference.`));
+    h.push(H('ok', 'Cabinet height', `Real cabinet size (${fmtNum(s.h * 100, 0)} cm): used for the drawing and the stacking, not for the sound.`));
+    // filters
     const lowN = ord > 0 ? M.xo[ord - 1] : null, upN = ord < M.order.length - 1 ? M.xo[ord] : null;
     const fHP = lowN ? lowN.f : niceF(bd.fL), fLP = upN ? upN.f : null;
     const near = (a, b) => Math.abs(Math.log2(a / b)) < 0.25;
     const hpOn = s.hp.type !== 'off', lpOn = s.lp.type !== 'off';
-    // garde-fous : jamais de passe-haut au-dessus du passe-bas (voie muette)
+    // guard rails: never a high-pass above the low-pass (silent way)
     const brokenNow = hpOn && lpOn && s.hp.f >= s.lp.f / 1.4, degenerate = fLP && fLP < fHP * 1.4;
-    if (brokenNow) h.push(H('warn', 'Filtres', `Passe-haut (${Math.round(s.hp.f)} Hz) et passe-bas (${Math.round(s.lp.f)} Hz) se chevauchent : cette voie est quasi muette. Remets les filtres d'origine de l'enceinte.`, { k: 'filtreset', v: 1, l: 'filtres d\'origine' }));
-    if (degenerate) { h.push(H('warn', 'Passe-haut / bas', `Les conseils donneraient ${fmtF(fHP)} puis ${fmtF(fLP)} : trop proches pour une bande utile. Cette voie recouvre presque la même bande qu'une voisine (même enceinte en double ?). Aucun filtre n'est proposé : sépare nettement leurs bandes ou fusionne-les.`)); return; }
-    const hpTxt = lowN ? `Raccordement avec ${nm(lowN.a)} vers ${fmtF(fHP)}${lowN.overlap ? '' : ' (pas de recouvrement naturel : les bandes laissent un trou)'}` : `Protection : coupe en dessous de la bande utile, vers ${fmtF(fHP)} (limite à −6 dB de la voie)`;
-    if (hpOn && near(s.hp.f, fHP)) h.push(H('ok', 'Passe-haut', `${Math.round(s.hp.f)} Hz proche du conseil (${fmtF(fHP)}). ${hpTxt}.`)); else h.push(H('tip', 'Passe-haut', hpTxt + '. Type conseillé : Linkwitz-Riley 4e ordre (somme plate, pas de bosse).', { k: 'hp', v: fHP, l: fmtF(fHP) }));
-    if (fLP) { const txt = `Raccordement avec ${nm(upN.b)} vers ${fmtF(fLP)}${upN.overlap ? '' : ' (pas de recouvrement naturel)'}`; if (lpOn && near(s.lp.f, fLP)) h.push(H('ok', 'Passe-bas', `${Math.round(s.lp.f)} Hz proche du conseil (${fmtF(fLP)}). ${txt}.`)); else h.push(H('tip', 'Passe-bas', txt + '. Utilise la même fréquence et le même type que le passe-haut de la voie du dessus.', { k: 'lp', v: fLP, l: fmtF(fLP) })); }
-    else h.push(H('ok', 'Passe-bas', lpOn ? `Voie la plus aiguë : un passe-bas à ${Math.round(s.lp.f)} Hz ne sert qu'à protéger (bande utile jusqu'à ≈ ${fmtF(niceF(bd.fH))}).` : `Voie la plus aiguë : aucun passe-bas nécessaire (bande utile jusqu'à ≈ ${fmtF(niceF(bd.fH))}).`));
+    if (brokenNow) h.push(H('warn', 'Filters', `High-pass (${Math.round(s.hp.f)} Hz) and low-pass (${Math.round(s.lp.f)} Hz) overlap: this way is almost silent. Put the speaker's original filters back.`, { k: 'filtreset', v: 1, l: 'original filters' }));
+    if (degenerate) { h.push(H('warn', 'High / low-pass', `The advice would give ${fmtF(fHP)} then ${fmtF(fLP)}: too close for a useful band. This way covers almost the same band as a neighbour (same speaker twice?). No filter is proposed: clearly separate their bands or merge them.`)); return; }
+    const hpTxt = lowN ? `Crossover with ${nm(lowN.a)} around ${fmtF(fHP)}${lowN.overlap ? '' : ' (no natural overlap: the bands leave a gap)'}` : `Protection: cut below the useful band, around ${fmtF(fHP)} (way's −6 dB limit)`;
+    if (hpOn && near(s.hp.f, fHP)) h.push(H('ok', 'High-pass', `${Math.round(s.hp.f)} Hz close to the advice (${fmtF(fHP)}). ${hpTxt}.`)); else h.push(H('tip', 'High-pass', hpTxt + '. Advised type: 4th-order Linkwitz-Riley (flat sum, no bump).', { k: 'hp', v: fHP, l: fmtF(fHP) }));
+    if (fLP) { const txt = `Crossover with ${nm(upN.b)} around ${fmtF(fLP)}${upN.overlap ? '' : ' (no natural overlap)'}`; if (lpOn && near(s.lp.f, fLP)) h.push(H('ok', 'Low-pass', `${Math.round(s.lp.f)} Hz close to the advice (${fmtF(fLP)}). ${txt}.`)); else h.push(H('tip', 'Low-pass', txt + '. Use the same frequency and type as the high-pass of the way above.', { k: 'lp', v: fLP, l: fmtF(fLP) })); }
+    else h.push(H('ok', 'Low-pass', lpOn ? `Highest way: a low-pass at ${Math.round(s.lp.f)} Hz only serves as protection (useful band up to ≈ ${fmtF(niceF(bd.fH))}).` : `Highest way: no low-pass needed (useful band up to ≈ ${fmtF(niceF(bd.fH))}).`));
   });
-  // affichage des conseils par étage + info-bulles
+  // display of the advice per stage + info bubbles
   SRC.forEach((s, i) => {
     const el = document.querySelector(`[data-hints="${i}"]`); if (!el) return;
     const nAp = out[i].filter(x => x.ap).length, ce = document.querySelector(`[data-advcount="${i}"]`); if (ce) setAdvCount(ce, nAp);
-    el.innerHTML = out[i].map(x => `<div class="hint ${x.cls}"><b>${x.k}</b><span class="tx">${x.tx}</span>${x.ap ? `<button class="btn sm" data-adv="${x.ap.k}" data-i="${i}" data-v="${x.ap.v}">Appliquer ${x.ap.l}</button>` : ''}</div>`).join('');
-    const map = { Gain: 'gain', 'Délai': 'delay', 'Avancée y': 'y', 'Décalage x': 'x', 'Hauteur z': 'z', 'Haut. caisson': 'h', 'Polarité': 'pol' };
+    el.innerHTML = out[i].map(x => `<div class="hint ${x.cls}"><b>${x.k}</b><span class="tx">${x.tx}</span>${x.ap ? `<button class="btn sm" data-adv="${x.ap.k}" data-i="${i}" data-v="${x.ap.v}">Apply ${x.ap.l}</button>` : ''}</div>`).join('');
+    const map = { Gain: 'gain', 'Delay': 'delay', 'Forward y': 'y', 'Offset x': 'x', 'Height z': 'z', 'Cabinet height': 'h', 'Polarity': 'pol' };
     out[i].forEach(x => { const p = map[x.k]; if (!p) return; const inp = document.querySelector(`[data-i="${i}"][data-p="${p}"]`); const lab = inp && (inp.closest('label') || inp); if (lab) lab.title = x.tx; });
   });
-  // conseils globaux
+  // global advice
   const G = [], ac = M.act;
   if (ac.length) {
     let wi = ac[0]; ac.forEach(k => { if (M.xc[k].m > M.xc[wi].m) wi = k; });
     const mx = M.xc[wi].m, headroom = mx > 0 ? 20 * Math.log10(100 / mx) : 99, nd = Math.round((ui.drive + headroom - 1) * 2) / 2;
-    if (mx <= 0) G.push(H('ok', 'Niveau d\'attaque', 'Aucune excursion calculée.'));
-    else if (mx > 100) G.push(H('warn', 'Niveau d\'attaque', `${nm(wi)} dépasse Xmax (${Math.round(mx)} % vers ${fmtF(M.xc[wi].f)}). Plafond conseillé ≈ ${fr(nd)} dB, ou monte son passe-haut.`, { k: 'drive', v: nd, l: fr(nd) + ' dB' }));
-    else G.push(H('tip', 'Niveau d\'attaque', `Voie la plus chargée : ${nm(wi)} (${Math.round(mx)} % de Xmax vers ${fmtF(M.xc[wi].f)}). Tu peux monter jusqu'à ≈ ${fr(nd)} dB (marge 1 dB) avant d'atteindre Xmax.`, Math.abs(nd - ui.drive) > 0.5 ? { k: 'drive', v: nd, l: fr(nd) + ' dB' } : null));
+    if (mx <= 0) G.push(H('ok', 'Drive level', 'No excursion computed.'));
+    else if (mx > 100) G.push(H('warn', 'Drive level', `${nm(wi)} exceeds Xmax (${Math.round(mx)} % around ${fmtF(M.xc[wi].f)}). Advised ceiling ≈ ${fmtNum(nd)} dB, or raise its high-pass.`, { k: 'drive', v: nd, l: fmtNum(nd) + ' dB' }));
+    else G.push(H('tip', 'Drive level', `Most loaded way: ${nm(wi)} (${Math.round(mx)} % of Xmax around ${fmtF(M.xc[wi].f)}). You can go up to ≈ ${fmtNum(nd)} dB (1 dB margin) before reaching Xmax.`, Math.abs(nd - ui.drive) > 0.5 ? { k: 'drive', v: nd, l: fmtNum(nd) + ' dB' } : null));
     const top = Math.max(...M.P.map(p => p.Z + SRC[p.i].h / 2)), bot = Math.min(...M.P.map(p => p.Z - SRC[p.i].h / 2)), Hs = top - bot, fx = M.xo.length ? M.xo[Math.floor(M.xo.length / 2)].f : 150;
     const dfar = Math.max(2, Hs * Hs * fx / (2 * C_SND));
-    G.push(H('ok', 'Écoute x', Math.abs(ui.lx) < 0.01 ? 'Dans l\'axe : la somme est symétrique et plus facile à lire.' : 'Hors axe : la somme change avec la directivité des pavillons ; 0 pour régler, décale ensuite pour vérifier la couverture.'));
-    G.push(H(ui.ly >= dfar ? 'ok' : 'tip', 'Écoute y', `Au moins ≈ ${fr(dfar, 1)} m pour être en champ lointain du stack (hauteur ${fr(Hs, 1)} m, raccordement vers ${fmtF(fx)}). Le bouton « Trouver le meilleur point d'écoute » affine.`));
-    G.push(H('ok', 'Écoute z', '1,7 m = oreilles d\'une personne debout, 1,2 m assis. Règle selon le public.'));
+    G.push(H('ok', 'Listening x', Math.abs(ui.lx) < 0.01 ? 'On axis: the sum is symmetric and easier to read.' : 'Off axis: the sum changes with the horns\' directivity; use 0 to tune, then shift to check coverage.'));
+    G.push(H(ui.ly >= dfar ? 'ok' : 'tip', 'Listening y', `At least ≈ ${fmtNum(dfar, 1)} m to be in the stack's far field (height ${fmtNum(Hs, 1)} m, crossover around ${fmtF(fx)}). The "Find the best listening spot" button refines it.`));
+    G.push(H('ok', 'Listening z', '1.7 m = ears of a standing person, 1.2 m seated. Set according to the audience.'));
     const mg = ac.filter(k => SRC[k].count > 1).map(k => C_SND / (4 * M.band[k].fH));
-    G.push(H(mg.length && ui.gap > Math.min(...mg) ? 'warn' : 'ok', 'Jeu entre caissons', mg.length ? `0 de préférence ; reste sous ${fr(Math.min(...mg) * 100, 0)} cm (λ/4 à la fréquence haute de la rangée) pour garder le couplage.` : '0 de préférence (couplage maximal).'));
+    G.push(H(mg.length && ui.gap > Math.min(...mg) ? 'warn' : 'ok', 'Gap between cabinets', mg.length ? `0 preferably; stay under ${fmtNum(Math.min(...mg) * 100, 0)} cm (λ/4 at the row's top frequency) to keep the coupling.` : '0 preferably (maximum coupling).'));
     const lowest = M.order[0], lf = lowest !== undefined ? M.band[lowest].fL : 100;
-    G.push(H(lf < 120 && ui.base > 0.05 ? 'tip' : 'ok', 'Hauteur du sol', lf < 120 ? '0 : un grave posé au sol profite du couplage au sol (+3 à +6 dB).' : 'Sans grave dans le stack, ajuste librement pour viser la hauteur d\'écoute.', lf < 120 && ui.base > 0.05 ? { k: 'base', v: 0, l: '0' } : null));
+    G.push(H(lf < 120 && ui.base > 0.05 ? 'tip' : 'ok', 'Floor height', lf < 120 ? '0: a bass cabinet on the floor benefits from floor coupling (+3 to +6 dB).' : 'With no bass in the stack, adjust freely to aim at the listening height.', lf < 120 && ui.base > 0.05 ? { k: 'base', v: 0, l: '0' } : null));
     const hi = lowest !== undefined ? M.band[lowest].fH : 100;
-    G.push(H('tip', 'Groupes / espacement', ui.stacks > 1 ? `Dans le grave, garde l'espacement sous ${fr(C_SND / (2 * hi), 1)} m (λ/2 à ${fmtF(niceF(hi))}) pour que les groupes se couplent ; au-delà ils interfèrent et creusent des trous.` : '1 groupe suffit pour une source centrale ; ajoute des groupes pour la couverture ou +6 dB par doublement dans le grave.'));
-  } else G.push(H('tip', 'Conseils', 'Active au moins un étage pour obtenir des conseils.'));
+    G.push(H('tip', 'Groups / spacing', ui.stacks > 1 ? `In the bass, keep the spacing under ${fmtNum(C_SND / (2 * hi), 1)} m (λ/2 at ${fmtF(niceF(hi))}) so the groups couple; beyond that they interfere and dig holes.` : '1 group is enough for a central source; add groups for coverage or +6 dB per doubling in the bass.'));
+  } else G.push(H('tip', 'Conseils', 'Enable at least one stage to get advice.'));
   ADV.out = out; ADV.G = G; ADV.M = M;
   setAdvCount($('advcountg'), G.filter(x => x.ap).length);
-  $('ghints').innerHTML = G.map(x => `<div class="hint ${x.cls}"><b>${x.k}</b><span class="tx">${x.tx}</span>${x.ap ? `<button class="btn sm" data-adv="${x.ap.k}" data-v="${x.ap.v}">Appliquer ${x.ap.l}</button>` : ''}</div>`).join('');
+  $('ghints').innerHTML = G.map(x => `<div class="hint ${x.cls}"><b>${x.k}</b><span class="tx">${x.tx}</span>${x.ap ? `<button class="btn sm" data-adv="${x.ap.k}" data-v="${x.ap.v}">Apply ${x.ap.l}</button>` : ''}</div>`).join('');
 }
 
-// applique un conseil (ou l'état d'un conseil) sans rafraîchir
-// un passe-haut doit rester nettement sous le passe-bas de la même voie (et inversement)
+// applies a piece of advice (or the state of a piece of advice) without refreshing
+// a high-pass must stay clearly below the low-pass of the same way (and vice versa)
 function filtersOk(s, k, f) { const o = k === 'hp' ? s.lp : s.hp; if (!o || o.type === 'off') return true; return k === 'hp' ? f < o.f / 1.4 : f > o.f * 1.4; }
 function setAdv(k, v, i) {
   if (i === undefined) { if (k === 'drive') ui.drive = +v; else if (k === 'base') { ui.base = +v; } return; }
@@ -1680,7 +1682,7 @@ function setAdv(k, v, i) {
   else if (k === 'hp' || k === 'lp') { const F = s[k]; F.f = +v; if (F.type === 'off') { F.type = 'lr'; F.n = 4; } }
 }
 const snapAdv = () => ({ src: SRC.map(s => ({ gain: s.gain, delay: s.delay, x: s.x, pol: s.pol, hp: { ...s.hp }, lp: { ...s.lp } })), drive: ui.drive, base: ui.base });
-// écart-type (dB) de la somme au point d'écoute entre 60 Hz et la limite haute de la voie la plus aiguë (≤ 1,5 kHz) : sert à refuser un réglage qui dégrade la somme
+// standard deviation (dB) of the sum at the listening spot between 60 Hz and the upper limit of the highest way (≤ 1.5 kHz): used to refuse a setting that degrades the sum
 function sumRms() {
   computeCurves(); const act = SRC.map((s, i) => i).filter(i => SRC[i].on && SRC[i].count > 0); if (!act.length) return 0;
   const hi = Math.min(1500, Math.max(...act.map(i => SRC[i].lp.type === 'off' ? 1500 : SRC[i].lp.f)));
@@ -1691,9 +1693,9 @@ function sumRms() {
 function applyAllAdvice() {
   const before = snapAdv(); let changes = 0, skipped = 0, passes = 0, cycle = false, capped = false;
   const sig = () => JSON.stringify(snapAdv(), (k, v) => typeof v === 'number' ? Math.round(v * 20) / 20 : v), seen = new Set();
-  // ordre : les filtres changent les zones de recouvrement, puis polarité, délais, enfin les gains ; le niveau d'attaque seulement s'il dépasse Xmax
+  // order: filters change the overlap zones, then polarity, delays, finally gains; the drive level only if it exceeds Xmax
   const steps = [['hp', 'lp'], ['pol'], ['delay'], ['gain', 'x'], ['drive', 'base']];
-  // récursion : on repasse sur tous les conseils jusqu'à ce qu'aucun ne propose de changement (point fixe), en s'arrêtant sur un cycle ou après 12 passes
+  // recursion: go over all the advice again until none proposes a change (fixed point), stopping on a cycle or after 12 passes
   for (let pass = 0; pass < 12; pass++) {
     const sg = sig(); if (seen.has(sg)) { cycle = true; break; } seen.add(sg);
     let changed = false;
@@ -1719,7 +1721,7 @@ function applyAllAdvice() {
   computeCurves(); syncControls(); refresh(); updateAdvice();
   ADV.stack.push(before); $('advundo').disabled = false;
   const left = ADV.out.reduce((n, h) => n + h.filter(x => x.ap).length, 0) + ADV.G.filter(x => x.ap && x.cls === 'warn').length;
-  $('advmsg').textContent = changes ? `${changes} réglage${changes > 1 ? 's' : ''} appliqué${changes > 1 ? 's' : ''} dans l'ordre filtres → polarité → délais → gains${passes > 1 ? ', en ' + passes + ' passes (les réglages se sont recalculés après chaque passe)' : ''}. ${cycle ? 'Arrêt : les conseils se répondaient en boucle, la dernière combinaison est conservée. ' : ''}${capped ? 'Arrêt à 12 passes. ' : ''}${skipped ? skipped + ' étape(s) ignorée(s) car elles dégradaient la somme au point d\'écoute. ' : ''}${left ? left + ' conseil(s) restent proposés.' : 'Tous les conseils sont satisfaits.'}` : 'Rien à appliquer : la configuration suit déjà les conseils.';
+  $('advmsg').textContent = changes ? `${changes} setting${changes > 1 ? 's' : ''} applied in the order filters → polarity → delays → gains${passes > 1 ? ', in ' + passes + ' passes (the settings were recomputed after each pass)' : ''}. ${cycle ? 'Stopped: the pieces of advice kept answering each other, the last combination is kept. ' : ''}${capped ? 'Stopped at 12 passes. ' : ''}${skipped ? skipped + ' step(s) skipped because they degraded the sum at the listening spot. ' : ''}${left ? left + ' piece(s) of advice remain.' : 'All the advice is satisfied.'}` : 'Nothing to apply: the configuration already follows the advice.';
 }
 function restoreSnap(u) {
   u.src.forEach((p, i) => { const s = SRC[i]; Object.assign(s, { gain: p.gain, delay: p.delay, x: p.x, pol: p.pol }); s.hp = { ...p.hp }; s.lp = { ...p.lp }; });
@@ -1728,11 +1730,11 @@ function restoreSnap(u) {
 function resetAdvice() {
   pushUndo();
   SRC.forEach(s => { const c = CAT[s.id]; if (!c) return; Object.assign(s, { gain: c.gain, delay: c.delay, x: c.x, pol: c.pol }); s.hp = { ...c.hp }; s.lp = { ...c.lp }; });
-  syncControls(); refresh(); $('advmsg').textContent = 'Réglages d\'origine restaurés (annulable).';
+  syncControls(); refresh(); $('advmsg').textContent = 'Original settings restored (can be undone).';
 }
 function undoAdvice() {
   const u = ADV.stack.pop(); if (!u) return; restoreSnap(u);
-  $('advundo').disabled = !ADV.stack.length; $('advmsg').textContent = 'Réglages précédents restaurés' + (ADV.stack.length ? ` (encore ${ADV.stack.length} annulation${ADV.stack.length > 1 ? 's' : ''} possible${ADV.stack.length > 1 ? 's' : ''})` : '') + '.';
+  $('advundo').disabled = !ADV.stack.length; $('advmsg').textContent = 'Previous settings restored' + (ADV.stack.length ? ` (encore ${ADV.stack.length} annulation${ADV.stack.length > 1 ? 's' : ''} possible${ADV.stack.length > 1 ? 's' : ''})` : '') + '.';
   syncControls(); refresh();
 }
 
@@ -1743,7 +1745,7 @@ function applyAdvice(e) {
     pushUndo(); const id = { drive: 'drive', base: 'base' }[k]; const el = $(id); el.value = v; el.dispatchEvent(new Event('input', { bubbles: true })); return;
   }
   const s = SRC[+i];
-  if ((k === 'hp' || k === 'lp') && !filtersOk(s, k, +v)) { $('advmsg').textContent = `Refusé : ${k === 'hp' ? 'ce passe-haut' : 'ce passe-bas'} chevaucherait ${k === 'hp' ? 'le passe-bas' : 'le passe-haut'} de la même voie (${Math.round((k === 'hp' ? s.lp : s.hp).f)} Hz) et la rendrait quasi muette.`; return; }
+  if ((k === 'hp' || k === 'lp') && !filtersOk(s, k, +v)) { $('advmsg').textContent = `Refused: ${k === 'hp' ? 'this high-pass' : 'this low-pass'} would overlap ${k === 'hp' ? 'the low-pass' : 'the high-pass'} of the same way (${Math.round((k === 'hp' ? s.lp : s.hp).f)} Hz) and make it almost silent.`; return; }
   pushUndo();
   if (k === 'filtreset') { const c = CAT[s.id]; if (c) { s.hp = { ...c.hp }; s.lp = { ...c.lp }; } }
   else if (k === 'gain' || k === 'delay' || k === 'x') s[k] = +v;
@@ -1752,7 +1754,7 @@ function applyAdvice(e) {
   syncControls(); refresh();
 }
 
-// ---------- analyseur de spectre (FFT) sur le son écouté ----------
+// ---------- spectrum analyser (FFT) on the sound being listened to ----------
 const SPEC = { mode: 'fine', overlay: true, peak: null, bufO: null, bufS: null, sr: 48000, has: false, raf: 0, cols: null, bands: null };
 const SP_F0 = 20, SP_F1 = 20000, SP_DB0 = -100, SP_DB1 = -10;
 const THIRDS = [20, 25, 31.5, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 5000, 6300, 8000, 10000, 12500, 16000, 20000];
@@ -1764,7 +1766,7 @@ function specGrab() {
   SPEC.sr = AUD.ctx.sampleRate; SPEC.has = true;
 }
 function specLoop() { if (!AUD.playing) { SPEC.raf = 0; return; } specGrab(); drawSpec(); SPEC.raf = requestAnimationFrame(specLoop); }
-// une valeur (dB) par colonne de pixels : maximum des bins couverts, interpolation quand un bin couvre plusieurs pixels
+// one value (dB) per pixel column: maximum of the covered bins, interpolation when a bin covers several pixels
 function specCols(buf, pw, g) {
   const n = buf.length, binHz = SPEC.sr / 2 / n, out = new Float32Array(pw), r = Math.log(SP_F1 / SP_F0);
   for (let px = 0; px < pw; px++) {
@@ -1795,7 +1797,7 @@ function drawSpec() {
   ctx.textAlign = 'center'; ctx.textBaseline = 'top';
   for (const f of [20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000]) { ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(X(f), pad.t); ctx.lineTo(X(f), H - pad.b); ctx.stroke(); ctx.fillStyle = muted; ctx.fillText(f >= 1000 ? f / 1000 + 'k' : '' + f, X(f), H - pad.b + 5 * dpr); }
   cv._g = { pad, pw, ph, dpr, X, Y };
-  if (!SPEC.has) { ctx.fillStyle = muted; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(T('Lance l\'écoute pour voir le spectre.'), pad.l + pw / 2, pad.t + ph / 2); return; }
+  if (!SPEC.has) { ctx.fillStyle = muted; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(T('Start the listening to see the spectrum.'), pad.l + pw / 2, pad.t + ph / 2); return; }
   ctx.save(); ctx.beginPath(); ctx.rect(pad.l, pad.t, pw, ph); ctx.clip();
   if (SPEC.mode === 'fine') {
     const n = Math.floor(pw), out = specCols(SPEC.bufO, n), src = SPEC.overlay ? specCols(SPEC.bufS, n) : null;
@@ -1841,12 +1843,12 @@ function wireSpec() {
   });
 }
 
-// ---------- écoute simulée ----------
-// Le signal traverse un filtre (ConvolverNode) dont la réponse impulsionnelle vient de la réponse complexe du système au point d'écoute.
+// ---------- simulated listening ----------
+// The signal goes through a filter (ConvolverNode) whose impulse response comes from the system's complex response at the listening spot.
 const AUD = { ctx: null, N: 16384, K: null, playing: false, mode: -1, srcType: 'pink', bpm: 120, ab: 'sys', vol: -6, fileBuf: null, fileGain: 1, fileOff: 0, fileT0: 0, seeking: false,
   srcNode: null, osc: null, srcGain: null, sysGain: null, rawGain: null, mix: null, master: null, curConv: null, curGain: null, timer: 0, bufCache: {} };
 
-function fft(re, im) { // FFT complexe radix-2 sur place (e^{-j})
+function fft(re, im) { // in-place radix-2 complex FFT (e^{-j})
   const n = re.length;
   for (let i = 1, j = 0; i < n; i++) {
     let bit = n >> 1; for (; j & bit; bit >>= 1) j ^= bit; j ^= bit;
@@ -1864,7 +1866,7 @@ function fft(re, im) { // FFT complexe radix-2 sur place (e^{-j})
     }
   }
 }
-// réponse horn de chaque enceinte sur la grille linéaire du FFT (mise en cache tant que le script Hornresp ne change pas)
+// horn response of each speaker on the FFT's linear grid (cached as long as the Hornresp script does not change)
 function hornBins(s, sr) {
   const N = AUD.N, K = N / 2;
   if (!s._ac || s._ac.par !== s.par || s._ac.sr !== sr) {
@@ -1873,7 +1875,7 @@ function hornBins(s, sr) {
   }
   return s._ac.p;
 }
-// spectre complexe du système au point d'écoute ; mode -1 = somme des voies actives, i >= 0 = voie i seule
+// complex spectrum of the system at the listening spot; mode -1 = sum of the active ways, i >= 0 = way i alone
 function systemSpectrum(sr, mode) {
   const N = AUD.N, K = N / 2, P = positions(), drive = Math.pow(10, ui.drive / 20);
   const inc = SRC.map((s, i) => mode < 0 ? s.on : i === mode);
@@ -1897,7 +1899,7 @@ function systemSpectrum(sr, mode) {
         sum = cx.add(sum, cx.mul(W, prop));
       }
     });
-    // protections : coupure infra (15 Hz) et aigus au-delà de 19 kHz, décalage t0 pour garder la réponse causale
+    // protections: infrasonic cut (15 Hz) and highs above 19 kHz, t0 shift to keep the response causal
     sum = cx.mul(sum, cx.mul(filterResponse('butter', 2, 15, true, f), filterResponse('butter', 4, 19000, false, f)));
     sum = cx.mul(sum, cx.fromPolar(1, -2 * Math.PI * f * t0));
     re[k] = sum[0]; im[k] = sum[1];
@@ -1907,7 +1909,7 @@ function systemSpectrum(sr, mode) {
 }
 function spectrumToIR(sp, gain) {
   const N = AUD.N, K = N / 2, xr = new Float64Array(N), xi = new Float64Array(N);
-  for (let k = 1; k < K; k++) { xr[k] = sp.re[k]; xi[k] = -sp.im[k]; xr[N - k] = sp.re[k]; xi[N - k] = sp.im[k]; } // conj(X) pour réutiliser la FFT directe
+  for (let k = 1; k < K; k++) { xr[k] = sp.re[k]; xi[k] = -sp.im[k]; xr[N - k] = sp.re[k]; xi[N - k] = sp.im[k]; } // conj(X) to reuse the direct FFT
   xr[K] = sp.re[K];
   fft(xr, xi);
   const out = new Float32Array(N), tail = Math.floor(N * 0.2);
@@ -1919,7 +1921,7 @@ function spectrumToIR(sp, gain) {
 }
 function calibrate() {
   const sp = systemSpectrum(AUD.ctx.sampleRate, -1);
-  AUD.K = sp.rms > 0 ? 0.5 / sp.rms : 1;  // pink à -20 dBFS -> -26 dBFS rms en sortie avec la configuration courante
+  AUD.K = sp.rms > 0 ? 0.5 / sp.rms : 1;  // pink at -20 dBFS -> -26 dBFS rms at the output with the current configuration
 }
 function buildIR() {
   if (!AUD.ctx) return;
@@ -1940,13 +1942,13 @@ function buildIR() {
 }
 function scheduleIR() {
   if (!AUD.playing) return;
-  clearTimeout(AUD.timer); $('astatus').textContent = 'Recalcul du filtre…';
-  AUD.timer = setTimeout(() => { buildIR(); $('astatus').textContent = 'En lecture : ' + srcLabel() + ' · ' + modeLabel(); }, 160);
+  clearTimeout(AUD.timer); $('astatus').textContent = 'Recomputing the filter…';
+  AUD.timer = setTimeout(() => { buildIR(); $('astatus').textContent = 'Playing: ' + srcLabel() + ' · ' + modeLabel(); }, 160);
 }
-const srcLabel = () => ({ pink: 'bruit rose', beat: 'boucle de test', kickbass: 'kick + basse', sweep: 'balayage 20 Hz – 20 kHz', tone: 'sinus ' + ui.mapF + ' Hz', file: 'fichier audio' }[AUD.srcType]);
-const modeLabel = () => AUD.mode < 0 ? 'somme du système' : 'voie ' + shortName(SRC[AUD.mode]) + ' seule';
+const srcLabel = () => ({ pink: 'pink noise', beat: 'test loop', kickbass: 'kick + bass', sweep: 'sweep 20 Hz – 20 kHz', tone: 'sinus ' + ui.mapF + ' Hz', file: 'audio file' }[AUD.srcType]);
+const modeLabel = () => AUD.mode < 0 ? 'system sum' : shortName(SRC[AUD.mode]) + ' alone';
 
-// signaux de test, tous normalisés à 0,1 rms (-20 dBFS)
+// test signals, all normalised to 0.1 rms (-20 dBFS)
 function normRms(a, target = 0.1) { let s = 0; for (let i = 0; i < a.length; i++) s += a[i] * a[i]; const g = target / Math.sqrt(s / a.length || 1); for (let i = 0; i < a.length; i++) a[i] *= g; return a; }
 function genSignal(type, sr) {
   const key = type + sr + (type === 'kickbass' ? '@' + AUD.bpm : ''); if (AUD.bufCache[key]) return AUD.bufCache[key];
@@ -1966,9 +1968,9 @@ function genSignal(type, sr) {
       a[i] = Math.sin(2 * Math.PI * f0 * T / L * (Math.exp(t / T * L) - 1)) * fade;
     }
     normRms(a);
-  } else if (type === 'kickbass') { // kick et basse seuls : 120 bpm, kick à chaque temps, note de basse sur chaque contretemps, 4 mesures
+  } else if (type === 'kickbass') { // kick and bass only: 120 bpm, kick on every beat, bass note on every off-beat, 4 bars
     const beat = 60 / AUD.bpm, bars = 4; a = new Float32Array(Math.round(4 * beat * sr) * bars); const notes = [41.2, 41.2, 49, 55];
-    const add = (start, len, fn) => { const s0 = Math.floor(start * sr), n = Math.floor(len * sr), fi = 0.002 * sr, fo = 0.012 * sr; for (let i = 0; i < n && s0 + i < a.length; i++) { const w = Math.min(1, i / fi, (n - i) / fo); a[s0 + i] += fn(i / sr) * w * w * (3 - 2 * w); } }; // fondu d'entrée 2 ms et de sortie 12 ms : pas de coupure franche (clic)
+    const add = (start, len, fn) => { const s0 = Math.floor(start * sr), n = Math.floor(len * sr), fi = 0.002 * sr, fo = 0.012 * sr; for (let i = 0; i < n && s0 + i < a.length; i++) { const w = Math.min(1, i / fi, (n - i) / fo); a[s0 + i] += fn(i / sr) * w * w * (3 - 2 * w); } }; // 2 ms fade-in and 12 ms fade-out: no hard cut (click)
     for (let m = 0; m < bars; m++) {
       const t0 = m * 4 * beat, nf = notes[m % 4];
       for (let b = 0; b < 4; b++) {
@@ -1977,19 +1979,19 @@ function genSignal(type, sr) {
       }
     }
     normRms(a);
-  } else { // boucle : kick, ligne de basse, caisse claire, charleston, accord médium ; 120 bpm, 2 mesures
+  } else { // loop: kick, bass line, snare, hi-hat, mid chord; 120 bpm, 2 bars
     const bar = 2 * sr, bars = 2; a = new Float32Array(bar * bars); const notes = [41.2, 41.2, 49, 55];
     let seed = 7; const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 1073741823.5 - 1; };
-    const add = (start, len, fn) => { const s0 = Math.floor(start * sr), n = Math.floor(len * sr), fi = 0.002 * sr, fo = 0.012 * sr; for (let i = 0; i < n && s0 + i < a.length; i++) { const w = Math.min(1, i / fi, (n - i) / fo); a[s0 + i] += fn(i / sr) * w * w * (3 - 2 * w); } }; // fondu d'entrée 2 ms et de sortie 12 ms : pas de coupure franche (clic)
+    const add = (start, len, fn) => { const s0 = Math.floor(start * sr), n = Math.floor(len * sr), fi = 0.002 * sr, fo = 0.012 * sr; for (let i = 0; i < n && s0 + i < a.length; i++) { const w = Math.min(1, i / fi, (n - i) / fo); a[s0 + i] += fn(i / sr) * w * w * (3 - 2 * w); } }; // 2 ms fade-in and 12 ms fade-out: no hard cut (click)
     for (let m = 0; m < bars; m++) {
       const t0 = m * 2;
-      for (let b = 0; b < 4; b++) { // kick à chaque temps
+      for (let b = 0; b < 4; b++) { // kick on every beat
         let ph = 0; add(t0 + b * 0.5, 0.4, t => { ph += 2 * Math.PI * (45 + 90 * Math.exp(-t * 35)) / sr; return 0.9 * Math.sin(ph) * Math.exp(-t * 7); });
       }
-      for (const b of [1, 3]) { // caisse claire
+      for (const b of [1, 3]) { // snare
         add(t0 + b * 0.5, 0.25, t => 0.35 * rnd() * Math.exp(-t * 18) + 0.3 * Math.sin(2 * Math.PI * 190 * t) * Math.exp(-t * 25));
       }
-      for (let e = 0; e < 8; e++) { // charleston + basse sur les contretemps
+      for (let e = 0; e < 8; e++) { // hi-hat + bass on the off-beats
         if (e % 2 === 1) {
           let prev = 0; add(t0 + e * 0.25, 0.08, t => { const n = rnd(), v = n - prev; prev = n; return 0.18 * v * Math.exp(-t * 70); });
           const nf = notes[(m * 2 + (e >> 2)) % 4];
@@ -2023,7 +2025,7 @@ function makeSource() {
 function applyAB() {
   if (!AUD.ctx) return; const t = AUD.ctx.currentTime;
   AUD.sysGain.gain.setTargetAtTime(AUD.ab === 'sys' ? 1 : 0, t, 0.03);
-  AUD.rawGain.gain.setTargetAtTime(AUD.ab === 'raw' ? 0.5 : 0, t, 0.03); // source brute à -26 dBFS, comme le système calibré
+  AUD.rawGain.gain.setTargetAtTime(AUD.ab === 'raw' ? 0.5 : 0, t, 0.03); // raw source at -26 dBFS, like the calibrated system
 }
 function applyVol() { if (AUD.master) AUD.master.gain.setTargetAtTime(Math.pow(10, AUD.vol / 20), AUD.ctx.currentTime, 0.03); }
 function ensureAudio() {
@@ -2038,7 +2040,7 @@ function ensureAudio() {
   AUD.mix.connect(AUD.anOut); AUD.srcGain.connect(AUD.anSrc);
   AUD.master.gain.value = 0; applyAB(); return true;
 }
-// position de lecture dans le fichier importé (s)
+// playback position in the imported file (s)
 function filePos() {
   if (!AUD.fileBuf) return 0; const d = AUD.fileBuf.duration;
   return AUD.playing && AUD.ctx ? (AUD.fileOff + AUD.ctx.currentTime - AUD.fileT0) % d : AUD.fileOff % d;
@@ -2052,24 +2054,24 @@ function updateSeek() {
 }
 setInterval(updateSeek, 250);
 async function startAudio() {
-  if (!ensureAudio()) { $('astatus').textContent = 'Audio non disponible dans ce navigateur.'; return; }
+  if (!ensureAudio()) { $('astatus').textContent = 'Audio not available in this browser.'; return; }
   await AUD.ctx.resume();
-  $('astatus').textContent = 'Calcul du filtre…';
+  $('astatus').textContent = 'Computing the filter…';
   await new Promise(r => setTimeout(r, 30));
   AUD.playing = true; makeSource(); buildIR(); applyAB(); applyVol(); if (!SPEC.raf) SPEC.raf = requestAnimationFrame(specLoop);
-  $('aplay').textContent = '■ Arrêter'; $('aplay').classList.add('on');
-  $('astatus').textContent = 'En lecture : ' + srcLabel() + ' · ' + modeLabel();
+  $('aplay').textContent = '■ Stop'; $('aplay').classList.add('on');
+  $('astatus').textContent = 'Playing: ' + srcLabel() + ' · ' + modeLabel();
 }
 function stopAudio() {
   if (AUD.srcType === 'file') AUD.fileOff = filePos();
   AUD.playing = false; clearTimeout(AUD.timer);
   if (AUD.master) AUD.master.gain.setTargetAtTime(0, AUD.ctx.currentTime, 0.03);
   setTimeout(() => { if (!AUD.playing && AUD.ctx) { try { AUD.srcNode && AUD.srcNode.stop && AUD.srcNode.stop(); AUD.osc && AUD.osc.stop(); } catch (e) { } AUD.srcNode = null; AUD.osc = null; } }, 150);
-  $('aplay').textContent = '▶ Écouter'; $('aplay').classList.remove('on'); $('astatus').textContent = 'Arrêté.';
+  $('aplay').textContent = '▶ Play'; $('aplay').classList.remove('on'); $('astatus').textContent = 'Stopped.';
 }
 function buildListenOptions() {
   const sel = $('amode'), cur = AUD.mode;
-  sel.innerHTML = '<option value="-1">Somme du système</option>' + SRC.map((s, i) => `<option value="${i}">Seulement : ${shortName(s)}</option>`).join('');
+  sel.innerHTML = '<option value="-1">System sum</option>' + SRC.map((s, i) => `<option value="${i}">Only: ${shortName(s)}</option>`).join('');
   if (cur >= SRC.length) AUD.mode = -1;
   sel.value = AUD.mode;
 }
@@ -2079,7 +2081,7 @@ function wireAudio() {
     if (AUD.srcType === 'file') AUD.fileOff = filePos();
     AUD.srcType = e.target.value; $('sweepfollowrow').hidden = AUD.srcType !== 'sweep'; $('bpmrow').hidden = AUD.srcType !== 'kickbass';
     if (AUD.srcType === 'file' && !AUD.fileBuf) { $('afilein').click(); AUD.srcType = 'pink'; e.target.value = 'pink'; return; }
-    if (AUD.playing) { makeSource(); $('astatus').textContent = 'En lecture : ' + srcLabel() + ' · ' + modeLabel(); }
+    if (AUD.playing) { makeSource(); $('astatus').textContent = 'Playing: ' + srcLabel() + ' · ' + modeLabel(); }
     updateSeek();
   });
   $('amode').addEventListener('change', e => { AUD.mode = +e.target.value; scheduleIR(); });
@@ -2088,7 +2090,7 @@ function wireAudio() {
     AUD.ab = b.dataset.ab; [...$('aab').children].forEach(c => c.classList.toggle('on', c === b)); applyAB();
   });
   $('avol').addEventListener('input', e => { AUD.vol = +e.target.value; $('avolv').textContent = (AUD.vol > 0 ? '+' : '') + AUD.vol + ' dB'; applyVol(); });
-  $('acal').addEventListener('click', () => { if (!AUD.ctx) { $('astatus').textContent = 'Le niveau est calibré au premier lancement.'; return; } calibrate(); scheduleIR(); });
+  $('acal').addEventListener('click', () => { if (!AUD.ctx) { $('astatus').textContent = 'The level is calibrated at first start.'; return; } calibrate(); scheduleIR(); });
   const sk = $('aseek');
   sk.addEventListener('pointerdown', () => { AUD.seeking = true; });
   sk.addEventListener('input', () => { AUD.seeking = true; if (AUD.fileBuf) $('aseekv').textContent = fmtT(sk.value / 1000 * AUD.fileBuf.duration) + ' / ' + fmtT(AUD.fileBuf.duration); });
@@ -2108,13 +2110,13 @@ function wireAudio() {
       const ch = b.getChannelData(0); let s = 0; for (let i = 0; i < ch.length; i++) s += ch[i] * ch[i];
       AUD.fileGain = Math.min(8, 0.1 / Math.sqrt(s / ch.length || 1)); AUD.fileBuf = b; AUD.srcType = 'file'; AUD.fileOff = 0;
       const sel = $('asrc'); if (![...sel.options].some(o => o.value === 'file')) sel.insertAdjacentHTML('beforeend', '<option value="file">Fichier : ' + f.name.replace(/[<>&"]/g, '') + '</option>');
-      sel.value = 'file'; if (AUD.playing) makeSource(); updateSeek(); $('astatus').textContent = 'Fichier chargé. ' + (AUD.playing ? 'En lecture.' : 'Appuie sur Écouter.');
-    } catch (er) { $('astatus').textContent = 'Fichier audio non lisible.'; }
+      sel.value = 'file'; if (AUD.playing) makeSource(); updateSeek(); $('astatus').textContent = 'File loaded. ' + (AUD.playing ? 'Playing.' : 'Press Play.');
+    } catch (er) { $('astatus').textContent = 'Audio file unreadable.'; }
   });
 }
 
 
-// ---------- recherche du meilleur point d'écoute ----------
+// ---------- search for the best listening spot ----------
 const SPOT = { undo: null };
 function findSpot() {
   const drive = Math.pow(10, ui.drive / 20), P = positions();
@@ -2138,7 +2140,7 @@ function findSpot() {
     const S = L.map((_, n) => { let a = 0, c = 0; for (let m = Math.max(0, n - 6); m <= Math.min(L.length - 1, n + 6); m++) { a += L[m]; c++; } return a / c; });
     const mean = L.reduce((a, b) => a + b, 0) / L.length;
     const dev = Math.sqrt(S.reduce((a, v) => a + (v - mean) ** 2, 0) / S.length);
-    const rip = Math.sqrt(L.reduce((a, v, n) => a + (v - S[n]) ** 2, 0) / L.length); // creux d'interférence
+    const rip = Math.sqrt(L.reduce((a, v, n) => a + (v - S[n]) ** 2, 0) / L.length); // interference dip
     return { dev, rip, mean };
   };
   const y0 = Math.max(0.3, +$('spy0').value || 3), y1 = Math.max(y0, +$('spy1').value || 12), xr = Math.max(0, +$('spx').value || 0), crit = $('spcrit').value;
@@ -2148,7 +2150,7 @@ function findSpot() {
   const flat = r => Math.hypot(r.dev, 2 * r.rip);
   const score = r => crit === 'flat' ? flat(r) : crit === 'level' ? mMax - r.mean : flat(r) + 0.1 * (mMax - r.mean);
   let best = cand.reduce((a, b) => score(b[2]) < score(a[2]) ? b : a);
-  // affinage local au pas de 0,1 m
+  // local refinement in 0.1 m steps
   for (let pass = 0; pass < 2; pass++) {
     const [bx, by] = best; const st = pass ? 0.05 : 0.1;
     for (let dx = -5; dx <= 5; dx++) for (let dy = -5; dy <= 5; dy++) {
@@ -2161,12 +2163,12 @@ function findSpot() {
   ui.lx = Math.round(best[0] * 100) / 100; ui.ly = Math.round(best[1] * 100) / 100;
   $('lx').value = ui.lx; $('ly').value = ui.ly; $('spundo').disabled = false;
   refresh();
-  $('spmsg').textContent = `Meilleur point : x = ${ui.lx} m, y = ${ui.ly} m (z = ${ui.lz} m). Écart à la moyenne ${best[2].dev.toFixed(1)} dB, creux d'interférence ${best[2].rip.toFixed(1)} dB, niveau moyen ${best[2].mean.toFixed(1)} dB (avant : ${cur.dev.toFixed(1)} dB, ${cur.rip.toFixed(1)} dB, ${cur.mean.toFixed(1)} dB).`;
+  $('spmsg').textContent = `Best spot: x = ${ui.lx} m, y = ${ui.ly} m (z = ${ui.lz} m). Deviation from the mean ${best[2].dev.toFixed(1)} dB, interference dip ${best[2].rip.toFixed(1)} dB, mean level ${best[2].mean.toFixed(1)} dB (before: ${cur.dev.toFixed(1)} dB, ${cur.rip.toFixed(1)} dB, ${cur.mean.toFixed(1)} dB).`;
 }
 function spotUndo() {
   if (!SPOT.undo) return;
   [ui.lx, ui.ly] = SPOT.undo; $('lx').value = ui.lx; $('ly').value = ui.ly; SPOT.undo = null; $('spundo').disabled = true; refresh();
-  $('spmsg').textContent = 'Point d\'écoute précédent rétabli.';
+  $('spmsg').textContent = 'Previous listening spot restored.';
 }
 function wire() {
   $('spfind').addEventListener('click', findSpot); $('spundo').addEventListener('click', spotUndo);
@@ -2183,7 +2185,7 @@ function wire() {
     const rd = new FileReader();
     rd.onload = () => {
       try { loadPar(s, rd.result); if (!s.sim.mouthArea) throw 0; syncControls(); refresh(); }
-      catch (er) { $('readout').textContent = 'Fichier non reconnu : il faut un script Hornresp (.txt).'; }
+      catch (er) { $('readout').textContent = 'File not recognised: a Hornresp script (.txt) is required.'; }
     };
     rd.readAsText(fl);
   });
@@ -2245,7 +2247,7 @@ function wire() {
   });
   $('mapmode').addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
-    if (b.id === 'play') { ui.playing = !ui.playing; b.textContent = ui.playing ? 'Pause' : 'Lecture'; return; }
+    if (b.id === 'play') { ui.playing = !ui.playing; b.textContent = ui.playing ? 'Pause' : 'Play'; return; }
     ui.mapMode = b.dataset.m; [...$('mapmode').querySelectorAll('[data-m]')].forEach(c => c.classList.toggle('on', c === b)); computeMap(); mapDirty = true;
   });
   $('mapf').addEventListener('input', e => {
@@ -2259,7 +2261,7 @@ function wire() {
     const u = (px - g.pad.l) / g.pw; if (u < 0 || u > 1) return;
     ui.hover = Math.round(u * (NF - 1)); drawChart(); readout(ui.hover);
   });
-  ch.addEventListener('pointerleave', () => { ui.hover = -1; drawChart(); $('readout').textContent = 'Survole la courbe pour lire les valeurs.'; });
+  ch.addEventListener('pointerleave', () => { ui.hover = -1; drawChart(); $('readout').textContent = 'Hover the curve to read the values.'; });
   const mp = $('map'); let drag = false;
   const place = e => {
     if (ui.view === '3d') return;
@@ -2279,7 +2281,7 @@ function wire() {
   });
   mp.addEventListener('wheel', e => { if (ui.view !== '3d') return; e.preventDefault(); CAM.zoom = Math.max(0.4, Math.min(4, CAM.zoom * Math.exp(-e.deltaY * 0.001))); mapDirty = true; }, { passive: false });
   document.addEventListener('click', applyAdvice); $('advall').addEventListener('click', applyAllAdvice); $('advreset').addEventListener('click', resetAdvice); $('advundo').addEventListener('click', undoAdvice);
-  $('abpm').addEventListener('change', e => { const v = Math.min(200, Math.max(60, Math.round(+e.target.value) || 120)); e.target.value = v; AUD.bpm = v; if (AUD.playing && AUD.srcType === 'kickbass') { makeSource(); $('astatus').textContent = 'En lecture : ' + srcLabel() + ' · ' + modeLabel(); } });
+  $('abpm').addEventListener('change', e => { const v = Math.min(200, Math.max(60, Math.round(+e.target.value) || 120)); e.target.value = v; AUD.bpm = v; if (AUD.playing && AUD.srcType === 'kickbass') { makeSource(); $('astatus').textContent = 'Playing: ' + srcLabel() + ' · ' + modeLabel(); } });
   $('multifollow').addEventListener('change', e => { MB.on = e.target.checked; MB.ready = false; MB.w.fill(0); MB.pk = -30; computeMap(); mapDirty = true; });
   $('camviews').addEventListener('click', e => {
     const b = e.target.closest('[data-c]'); if (!b) return;
@@ -2292,7 +2294,7 @@ function wire() {
   new ResizeObserver(() => { drawChart(); drawEq(); drawSpec(); mapDirty = true; }).observe(document.body);
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { drawChart(); drawEq(); drawSpec(); mapDirty = true; });
   new MutationObserver(() => { drawChart(); drawEq(); drawSpec(); mapDirty = true; }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { ui.playing = false; $('play').textContent = 'Lecture'; }
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { ui.playing = false; $('play').textContent = 'Play'; }
 }
 buildTable(); buildSources(); buildEqTable(); eqUpdate(); wire(); wireDrivers(); buildListenOptions(); drawEq(); drawSpec(); refresh();
 cfgInit();

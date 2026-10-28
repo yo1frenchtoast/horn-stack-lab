@@ -29,4 +29,4 @@ Vtc=3000
 Atc=600
 Pmax=800
 Xmax=4.8
-Comment=HD15 Horn (estimé) / 15"
+Comment=HD15 Horn (estimated) / 15"

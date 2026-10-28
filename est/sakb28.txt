@@ -29,4 +29,4 @@ Vtc=400
 Atc=110
 Pmax=150
 Xmax=1.5
-Comment=SAKB28 (estimé) / 2x SM-108
+Comment=SAKB28 (estimated) / 2x SM-108

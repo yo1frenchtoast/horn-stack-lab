@@ -33,4 +33,4 @@ Vtc=952
 Atc=727
 Pmax=800
 Xmax=6
-Comment=Cubo 12 (estimé) / 12" bass
+Comment=Cubo 12 (estimated) / 12" bass

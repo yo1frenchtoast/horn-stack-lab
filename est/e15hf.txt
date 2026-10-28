@@ -25,4 +25,4 @@ Vtc=3
 Atc=5.1
 Pmax=60
 Xmax=0.5
-Comment=Audiophony E15 HF (estimé) / EDR100 1" + pavillon
+Comment=Audiophony E15 HF (estimated) / EDR100 1" + pavillon

@@ -17,4 +17,4 @@ Vtc=0
 Atc=0
 Pmax=500
 Xmax=6
-Comment=Audiophony CB118 (estimé) / Audiophony CUW18-500 (estimé)
+Comment=Audiophony CB118 (estimated) / Audiophony CUW18-500 (estimated)

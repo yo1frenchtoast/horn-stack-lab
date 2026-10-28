@@ -8,11 +8,11 @@ for(const f of fs.readdirSync('est'))data[f.replace('.txt','')]=fs.readFileSync(
 let t=fs.readFileSync('template.html','utf8');
 t=t.replace('/*I18N*/',()=>fs.readFileSync('i18n.js','utf8')).replace('/*ENGINE*/',()=>eng).replace('/*DATA*/',()=>JSON.stringify(data).replace(/</g,'\\u003c'));
 fs.writeFileSync('page.html',t);
-// index.html : page autonome pour GitHub Pages (l'artefact reçoit ce squelette à la publication)
+// index.html: standalone page for GitHub Pages (the artifact receives this skeleton at publication time)
 const skel = '<!doctype html>\n<html lang="fr">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n<style>:root{color-scheme:light}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>\n';
 const m = t.match(/<title>[\s\S]*?<\/title>/);
 fs.writeFileSync('index.html', skel + t + '\n</body>\n</html>\n');
-// syntax check of inline scripts + headless run
+// syntax check of the inline scripts
 const scripts=[...t.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m=>m[1]);
 new Function(scripts.join('\n'));
 console.log('ok',t.length);

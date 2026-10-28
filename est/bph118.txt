@@ -25,4 +25,4 @@ Vtc=22000
 Atc=400
 Pmax=800
 Xmax=4.8
-Comment=BPH118 (estimé) / 15"
+Comment=BPH118 (estimated) / 15"

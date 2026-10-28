@@ -17,4 +17,4 @@ Vtc=0
 Atc=0
 Pmax=150
 Xmax=5
-Comment=GK MB112 bass-reflex 37 L / GK 12" néodyme 51953-34 (mesuré ; Le et Xmax estimés)
+Comment=GK MB112 bass-reflex 37 L / GK 12" neodymium 51953-34 (measured; Le and Xmax estimated)
