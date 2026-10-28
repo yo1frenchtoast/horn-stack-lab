@@ -11,7 +11,7 @@ console.log('IR ear lag (R vs L; + = right ear earlier, i.e. closer to the stack
 // 2) real output is 2 channels with the checkbox on
 await p.selectOption('#asrc','pink');await p.click('#aplay');await p.waitForTimeout(500);
 await p.check('#astereo');await p.waitForTimeout(800);
-console.log('convolver channels',await p.evaluate(()=>AUD.curConv.buffer.numberOfChannels),'earrow visible',await p.evaluate(()=>!document.getElementById('earrow').hidden));
+console.log('convolver channels',await p.evaluate(()=>AUD.curConv[0].buffer.numberOfChannels),'earrow visible',await p.evaluate(()=>!document.getElementById('earrow').hidden));
 const dif=await p.evaluate(async()=>{const c=AUD.ctx,sp=c.createChannelSplitter(2),aL=c.createAnalyser(),aR=c.createAnalyser();AUD.sysGain.connect(sp);sp.connect(aL,0);sp.connect(aR,1);ui.lx=2;buildIR();await new Promise(r=>setTimeout(r,800));
  const L=new Float32Array(aL.fftSize),R=new Float32Array(aR.fftSize);aL.getFloatTimeDomainData(L);aR.getFloatTimeDomainData(R);let best=0,bl=0;for(let d=-40;d<=40;d++){let s=0;for(let n=100;n<2000;n++)s+=L[n]*R[n-d];if(s>best){best=s;bl=d}}
  let eL=0,eR=0;for(let n=0;n<L.length;n++){eL+=L[n]*L[n];eR+=R[n]*R[n]}return {lag:bl,eLdB:+(10*Math.log10(eL)).toFixed(1),eRdB:+(10*Math.log10(eR)).toFixed(1),identical:L.every((v,i)=>v===R[i])}});
