@@ -121,6 +121,7 @@ button.btn.sm { padding: 3px 9px; }
 #eqcv { aspect-ratio: 16 / 8; background: var(--surface); touch-action: none; }
 .eqwrap { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; align-items: start; }
 @media (min-width: 1020px) { .eqwrap { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); } }
+.f.off { opacity: 0.45; }
 .mixer { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 6px 20px; padding: 8px 0; }
 .mixch { display: grid; grid-template-columns: 60px minmax(0, 1fr) 48px auto auto; gap: 8px; align-items: center; }
 .mixch .mname { font-size: 12px; color: var(--muted); }
@@ -339,10 +340,10 @@ button.btn.sm { padding: 3px 9px; }
         <div class="row">
           <label class="f">Signal
             <select id="asrc"><option value="pink">Pink noise</option><option value="mixer">Instrument mixer (kick, bass, snare, hi-hat, chord)</option><option value="sweep">Sweep 20 Hz – 20 kHz</option><option value="tone">Sine at the map frequency</option><option value="file">Mon audio file…</option></select></label>
-          <label class="f" id="bpmrow" hidden>Tempo (bpm)<input type="number" id="abpm" value="120" min="60" max="200" step="1" style="width:80px"></label>
-          <label class="f" id="routerow" hidden title="Mono: the same signal on every group. Stereo: the left channel plays on the groups on the audience's left, the right channel on the groups on the right; with an odd number of groups the middle one plays both channels (-3 dB each). Needs a stereo file and at least 2 groups to be audible as stereo.">File channels <select id="arouting"><option value="mono">Mono (same on all groups)</option><option value="stereo">Stereo (left / right groups)</option></select></label>
+          <label class="f off" id="bpmrow">Tempo (bpm)<input type="number" id="abpm" disabled value="120" min="60" max="200" step="1" style="width:80px"></label>
+          <label class="f" id="routerow" title="Mono: the same signal on every group. Stereo: the left channel plays on the groups on the audience's left, the right channel on the groups on the right; with an odd number of groups the middle one plays both channels (-3 dB each). Needs a stereo file and at least 2 groups to be audible as stereo.">File channels <select id="arouting"><option value="mono">Mono (same on all groups)</option><option value="stereo">Stereo (left / right groups)</option></select></label>
           <label class="f inline" title="Two ears: the system response is computed at two points on either side of the listening spot, so moving along x shifts the image (time and level differences between the ears). No head model."><input type="checkbox" id="astereo"> Stereo (two ears)</label>
-          <label class="f" id="earrow" hidden>Ear spacing (cm)<input type="number" id="aear" value="17" min="5" max="40" step="1" style="width:70px"></label>
+          <label class="f" id="earrow">Ear spacing (cm)<input type="number" id="aear" disabled value="17" min="5" max="40" step="1" style="width:70px"></label>
           <label class="f">Listen to <select id="amode"></select></label>
           <div class="tabs" id="aab"><button class="btn on" data-ab="sys">Simulated system</button><button class="btn" data-ab="raw">Raw source</button></div>
         </div>
@@ -2167,7 +2168,7 @@ function filePos() {
 }
 const fmtT = s => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
 function updateSeek() {
-  const rr = $('routerow'); if (rr) { rr.hidden = AUD.srcType !== 'file' || !AUD.fileBuf; const st = AUD.fileBuf && AUD.fileBuf.numberOfChannels >= 2; $('arouting').querySelector('[value=stereo]').disabled = !st; if (!st && AUD.routing === 'stereo') { AUD.routing = 'mono'; $('arouting').value = 'mono'; } }
+  const rr = $('routerow'); if (rr) { const on = AUD.srcType === 'file' && !!AUD.fileBuf; $('arouting').disabled = !on; rr.classList.toggle('off', !on); const st = AUD.fileBuf && AUD.fileBuf.numberOfChannels >= 2; $('arouting').querySelector('[value=stereo]').disabled = !st; if (!st && AUD.routing === 'stereo') { AUD.routing = 'mono'; $('arouting').value = 'mono'; } }
   const row = $('aseekrow'); row.hidden = AUD.srcType !== 'file' || !AUD.fileBuf;
   if (row.hidden || AUD.seeking) return;
   const d = AUD.fileBuf.duration, pos = filePos();
@@ -2214,13 +2215,13 @@ function wireAudio() {
   $('aplay').addEventListener('click', () => AUD.playing ? stopAudio() : startAudio());
   $('asrc').addEventListener('change', e => {
     if (AUD.srcType === 'file') AUD.fileOff = filePos();
-    AUD.srcType = e.target.value; $('bpmrow').hidden = AUD.srcType !== 'mixer'; $('mixer').hidden = AUD.srcType !== 'mixer';
+    AUD.srcType = e.target.value; $('abpm').disabled = AUD.srcType !== 'mixer'; $('bpmrow').classList.toggle('off', AUD.srcType !== 'mixer'); $('mixer').hidden = AUD.srcType !== 'mixer';
     if (AUD.srcType === 'file' && !AUD.fileBuf) { $('afilein').click(); AUD.srcType = 'pink'; e.target.value = 'pink'; return; }
     if (AUD.playing) { makeSource(); $('astatus').textContent = 'Playing: ' + srcLabel() + ' · ' + modeLabel(); }
     updateSeek(); scheduleIR();
   });
   $('arouting').addEventListener('change', e => { AUD.routing = e.target.value; scheduleIR(); });
-  $('astereo').addEventListener('change', e => { AUD.stereo = e.target.checked; $('earrow').hidden = !AUD.stereo; scheduleIR(); });
+  $('astereo').addEventListener('change', e => { AUD.stereo = e.target.checked; $('aear').disabled = !AUD.stereo; $('earrow').classList.toggle('off', !AUD.stereo); scheduleIR(); });
   $('aear').addEventListener('change', e => { const v = Math.min(40, Math.max(5, +e.target.value || 17)); e.target.value = v; AUD.ear = v; if (AUD.stereo) scheduleIR(); });
   $('amode').addEventListener('change', e => { AUD.mode = +e.target.value; scheduleIR(); });
   $('aab').addEventListener('click', e => {

@@ -15,7 +15,7 @@ await p.evaluate(()=>{});await p.fill('input[data-p="count"]','1').catch(()=>{})
 await p.evaluate(()=>{const s=document.getElementById('stacks');if(s){s.value=2;s.dispatchEvent(new Event('change'));s.dispatchEvent(new Event('input'))}});
 console.log('groups',await p.evaluate(()=>ui.stacks));
 await p.setInputFiles('#afilein',{name:'st.wav',mimeType:'audio/wav',buffer:wav(2)});await p.waitForTimeout(800);
-console.log('routing row visible',await p.evaluate(()=>!document.getElementById('routerow').hidden),'stereo enabled',await p.evaluate(()=>!document.querySelector('#arouting [value=stereo]').disabled));
+console.log('routing select enabled',await p.evaluate(()=>!document.getElementById('arouting').disabled),'stereo enabled',await p.evaluate(()=>!document.querySelector('#arouting [value=stereo]').disabled));
 await p.click('#aplay');await p.waitForTimeout(600);
 console.log('mono routing convolvers',await p.evaluate(()=>AUD.curConv.length));
 await p.selectOption('#arouting','stereo');await p.waitForTimeout(900);console.log('stereo routing convolvers',await p.evaluate(()=>AUD.curConv.length),'stereoRouting()',await p.evaluate(()=>stereoRouting()));
