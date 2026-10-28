@@ -1,0 +1,13 @@
+const {chromium}=require('playwright');const fs=require('fs');
+(async()=>{const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
+const pg=await b.newPage({viewport:{width:1280,height:1000}});const errs=[];pg.on('pageerror',e=>errs.push(e.message));
+await pg.setContent('<!doctype html><html><head><style>[hidden]{display:none!important}</style></head><body>'+fs.readFileSync('page.html','utf8')+'</body></html>');await pg.waitForTimeout(900);
+const dump=()=>pg.evaluate(()=>[0,1,2].map(i=>{const p=positions().filter(p=>p.i===i);return 'Z'+p[0].Z.toFixed(2)+' el '+p.map(q=>(q.el*180/Math.PI).toFixed(1)).join(',')}).join(' | '));
+console.log('base',await dump());
+await pg.fill('#focus','8');await pg.waitForTimeout(200);console.log('focus8 sans z',await dump());
+await pg.fill('#fz','1.7');await pg.waitForTimeout(300);console.log('global z 1.7',await dump());
+await pg.fill('[data-i="0"][data-p="fz"]','0.5');await pg.waitForTimeout(300);console.log('étage 0 z 0.5',await dump());
+await pg.fill('#focus','0');await pg.waitForTimeout(200);console.log('focus 0',await dump());
+await pg.click('[data-aimreset="0"]');await pg.fill('#fz','');await pg.fill('#focus','8');await pg.waitForTimeout(300);console.log('reset',await dump());
+await pg.evaluate(()=>{SRC[2].focus=8;SRC[2].fz=3.2;SRC[2].el=0});await pg.evaluate(()=>{ui.view='side';refresh&&refresh()});await pg.waitForTimeout(300);
+console.log(errs);await b.close()})();

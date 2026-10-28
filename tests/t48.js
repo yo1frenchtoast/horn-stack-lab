@@ -1,0 +1,11 @@
+const {chromium}=require('playwright');const fs=require('fs');
+(async()=>{const b=await chromium.launch();const p=await b.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.setContent(fs.readFileSync('page.html','utf8'));await p.waitForTimeout(700);
+const st=()=>p.evaluate(()=>[...document.querySelectorAll('[data-aimbox]')].map(d=>d.open+':'+d.querySelector('[data-aimcount]').textContent));
+console.log(await st());
+await p.evaluate(()=>{document.querySelector('[data-aimbox="1"] summary').click()});await p.waitForTimeout(100);
+await p.fill('[data-i="1"][data-p="az"]','7');await p.waitForTimeout(300);
+console.log(await st());
+await p.evaluate(()=>{document.getElementById('addrow').click()});await p.waitForTimeout(300);
+console.log(await st(),errs);
+await b.close()})();

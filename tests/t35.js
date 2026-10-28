@@ -1,0 +1,12 @@
+const {chromium}=require('playwright');const fs=require('fs');
+(async()=>{const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
+const pg=await b.newPage({viewport:{width:1280,height:1000}});const errs=[];pg.on('pageerror',e=>errs.push(e.message));
+await pg.setContent('<!doctype html><html><head><style>[hidden]{display:none!important}</style></head><body>'+fs.readFileSync('page.html','utf8')+'</body></html>');await pg.waitForTimeout(900);
+await pg.fill('#stacks','2');await pg.fill('#spacing','3');
+const dump=()=>pg.evaluate(()=>[0,1,2].map(i=>positions().filter(p=>p.i===i).map(p=>(p.az*180/Math.PI).toFixed(1)).join(',')).join(' | '));
+console.log('base',await dump());
+await pg.fill('[data-i="2"][data-p="focus"]','8');await pg.waitForTimeout(300);console.log('mt130 focus 8',await dump());
+await pg.fill('[data-i="2"][data-p="focus"]','0');await pg.fill('[data-i="1"][data-p="gconv"]','10');await pg.waitForTimeout(300);console.log('kick gconv 10',await dump());
+await pg.click('[data-aimreset="1"]');await pg.waitForTimeout(300);console.log('reset',await dump());
+await pg.fill('[data-i="2"][data-p="focus"]','8');await pg.click('#mapview [data-v="top"]');await pg.waitForTimeout(600);await pg.locator('#map').screenshot({path:'conv2.png'});
+console.log(errs);await b.close()})();
