@@ -138,7 +138,6 @@ const I18N = (() => {
     "Pink noise": "Bruit rose",
     "Sweep 20 Hz – 20 kHz": "Balayage 20 Hz – 20 kHz",
     "Sine at the map frequency": "Sinus à la fréquence de la carte",
-    "My audio file…": "Mon fichier audio…",
     "Map follows the sweep": "La carte suit le balayage",
     "Listen to": "Écoute de",
     "System sum": "Somme du système",
@@ -170,6 +169,7 @@ const I18N = (() => {
     "Collapse the advice panel": "Replier le panneau de conseils",
     "Show the tuning advice": "Afficher les conseils de réglage",
     "Group": "Groupe",
+    "e.g. Eminence Kappa Pro-15": "ex. Eminence Kappa Pro-15",
     "Clear isolator": "Effacer l'isolateur",
     "Isolator cleared.": "Isolateur effacé.",
     "Overlay the source": "Superposer la source",
@@ -429,7 +429,7 @@ const I18N = (() => {
     ["Stage ", "Étage "],
     ["stage ", "étage "],
   ];
-  FR.push(["show the tuning advice", "afficher les conseils de réglage"], ["All set: ", "Tout est réglé : "], ["(third-octave)", "(tiers d'octave)"], ["Isolator: ", "Isolateur : "], ["simulated system only, steep band-pass 48 dB/oct", "système simulé uniquement, passe-bande raide 48 dB/oct"]);
+  FR.push(["File: ", "Fichier : "], ["show the tuning advice", "afficher les conseils de réglage"], ["All set: ", "Tout est réglé : "], ["(third-octave)", "(tiers d'octave)"], ["Isolator: ", "Isolateur : "], ["simulated system only, steep band-pass 48 dB/oct", "système simulé uniquement, passe-bande raide 48 dB/oct"]);
   const FRAGS = FR.slice().sort((a, b) => b[0].length - a[0].length);
   // patterns with agreement (plurals) and numbers
   const RX = [

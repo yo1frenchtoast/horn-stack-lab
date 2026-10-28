@@ -226,7 +226,7 @@ button.btn.sm { padding: 3px 9px; }
 
       <div class="row" style="align-items:flex-end;gap:10px">
         <label class="f">Start from<select id="drvfrom"></select></label>
-        <label class="f">Name<input type="text" id="drvname" style="width:230px" placeholder="ex. Eminence Kappa Pro-15"></label>
+        <label class="f">Name<input type="text" id="drvname" style="width:230px" placeholder="e.g. Eminence Kappa Pro-15"></label>
         <label class="f">Fs (Hz)<input type="number" id="dts_Fs" step="0.1" style="width:76px"></label>
         <label class="f">Qes<input type="number" id="dts_Qes" step="0.01" style="width:70px"></label>
         <label class="f">Qms<input type="number" id="dts_Qms" step="0.1" style="width:70px"></label>
@@ -756,7 +756,6 @@ const I18N = (() => {
     "Pink noise": "Bruit rose",
     "Sweep 20 Hz – 20 kHz": "Balayage 20 Hz – 20 kHz",
     "Sine at the map frequency": "Sinus à la fréquence de la carte",
-    "My audio file…": "Mon fichier audio…",
     "Map follows the sweep": "La carte suit le balayage",
     "Listen to": "Écoute de",
     "System sum": "Somme du système",
@@ -788,6 +787,7 @@ const I18N = (() => {
     "Collapse the advice panel": "Replier le panneau de conseils",
     "Show the tuning advice": "Afficher les conseils de réglage",
     "Group": "Groupe",
+    "e.g. Eminence Kappa Pro-15": "ex. Eminence Kappa Pro-15",
     "Clear isolator": "Effacer l'isolateur",
     "Isolator cleared.": "Isolateur effacé.",
     "Overlay the source": "Superposer la source",
@@ -1047,7 +1047,7 @@ const I18N = (() => {
     ["Stage ", "Étage "],
     ["stage ", "étage "],
   ];
-  FR.push(["show the tuning advice", "afficher les conseils de réglage"], ["All set: ", "Tout est réglé : "], ["(third-octave)", "(tiers d'octave)"], ["Isolator: ", "Isolateur : "], ["simulated system only, steep band-pass 48 dB/oct", "système simulé uniquement, passe-bande raide 48 dB/oct"]);
+  FR.push(["File: ", "Fichier : "], ["show the tuning advice", "afficher les conseils de réglage"], ["All set: ", "Tout est réglé : "], ["(third-octave)", "(tiers d'octave)"], ["Isolator: ", "Isolateur : "], ["simulated system only, steep band-pass 48 dB/oct", "système simulé uniquement, passe-bande raide 48 dB/oct"]);
   const FRAGS = FR.slice().sort((a, b) => b[0].length - a[0].length);
   // patterns with agreement (plurals) and numbers
   const RX = [
@@ -2994,7 +2994,7 @@ function wireAudio() {
       const b = await AUD.ctx.decodeAudioData(await f.arrayBuffer());
       const ch = b.getChannelData(0); let s = 0; for (let i = 0; i < ch.length; i++) s += ch[i] * ch[i];
       AUD.fileGain = Math.min(8, 0.1 / Math.sqrt(s / ch.length || 1)); AUD.fileBuf = b; AUD.srcType = 'file'; AUD.fileOff = 0;
-      const sel = $('asrc'); if (![...sel.options].some(o => o.value === 'file')) sel.insertAdjacentHTML('beforeend', '<option value="file">Fichier : ' + f.name.replace(/[<>&"]/g, '') + '</option>');
+      const sel = $('asrc'); if (![...sel.options].some(o => o.value === 'file')) sel.insertAdjacentHTML('beforeend', '<option value="file">File: ' + f.name.replace(/[<>&"]/g, '') + '</option>');
       sel.value = 'file'; if (AUD.playing) makeSource(); updateSeek(); $('astatus').textContent = 'File loaded. ' + (AUD.playing ? 'Playing.' : 'Press Play.');
     } catch (er) { $('astatus').textContent = 'Audio file unreadable.'; }
   });

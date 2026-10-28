@@ -220,7 +220,7 @@ button.btn.sm { padding: 3px 9px; }
 
       <div class="row" style="align-items:flex-end;gap:10px">
         <label class="f">Start from<select id="drvfrom"></select></label>
-        <label class="f">Name<input type="text" id="drvname" style="width:230px" placeholder="ex. Eminence Kappa Pro-15"></label>
+        <label class="f">Name<input type="text" id="drvname" style="width:230px" placeholder="e.g. Eminence Kappa Pro-15"></label>
         <label class="f">Fs (Hz)<input type="number" id="dts_Fs" step="0.1" style="width:76px"></label>
         <label class="f">Qes<input type="number" id="dts_Qes" step="0.01" style="width:70px"></label>
         <label class="f">Qms<input type="number" id="dts_Qms" step="0.1" style="width:70px"></label>
@@ -2230,7 +2230,7 @@ function wireAudio() {
       const b = await AUD.ctx.decodeAudioData(await f.arrayBuffer());
       const ch = b.getChannelData(0); let s = 0; for (let i = 0; i < ch.length; i++) s += ch[i] * ch[i];
       AUD.fileGain = Math.min(8, 0.1 / Math.sqrt(s / ch.length || 1)); AUD.fileBuf = b; AUD.srcType = 'file'; AUD.fileOff = 0;
-      const sel = $('asrc'); if (![...sel.options].some(o => o.value === 'file')) sel.insertAdjacentHTML('beforeend', '<option value="file">Fichier : ' + f.name.replace(/[<>&"]/g, '') + '</option>');
+      const sel = $('asrc'); if (![...sel.options].some(o => o.value === 'file')) sel.insertAdjacentHTML('beforeend', '<option value="file">File: ' + f.name.replace(/[<>&"]/g, '') + '</option>');
       sel.value = 'file'; if (AUD.playing) makeSource(); updateSeek(); $('astatus').textContent = 'File loaded. ' + (AUD.playing ? 'Playing.' : 'Press Play.');
     } catch (er) { $('astatus').textContent = 'Audio file unreadable.'; }
   });
