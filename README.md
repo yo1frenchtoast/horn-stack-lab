@@ -1,6 +1,6 @@
 # Horn Stack Lab
 
-Simulator for horn and bass-reflex PA stacks, computed from Hornresp scripts (plane-wave model). The UI is available in English and French (selector in the page; defaults to the browser language).
+Simulator for horn and bass-reflex PA stacks, computed from Hornresp scripts (plane-wave model); see [docs/METHODOLOGY.md](docs/METHODOLOGY.md) for the methodology and its limits. The UI is available in English and French (selector in the page; defaults to the browser language).
 
 **Features**: column or pyramid stacking, per-stage aiming and convergence, crossover filters, delays, gains, polarity, SPL / phase / group delay / excursion / impedance curves, 2D/3D pressure maps, multi-band listening-spot following, automatic advice engine with undo, simulated listening (kick, tempo), saved stack configurations, light/dark theme.
 
@@ -13,6 +13,7 @@ Simulator for horn and bass-reflex PA stacks, computed from Hornresp scripts (pl
 | `params.js`, `gen.js` | Estimated or measured cabinets: drivers `D` and `mk` helper; `node gen.js` writes `est/*.txt` |
 | `build.js` | Assembles `index.html` (and `page.html`, the Claude artifact fragment) and checks syntax |
 | `tests/` | Headless Playwright tests (run from the repository root, e.g. `node tests/t43.js`) |
+| `docs/METHODOLOGY.md` | How the simulation works: cabinet model, stack summation, maps, listening, advice, assumptions and limits |
 | `index.html` | Generated standalone page, committed and served by GitHub Pages |
 
 ```
