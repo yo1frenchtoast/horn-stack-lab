@@ -257,6 +257,10 @@ button.btn.sm { padding: 3px 9px; }
             <button class="btn" data-tab="xcur">Excursion</button>
             <button class="btn" data-tab="imp">Impedance</button>
           </div>
+          <div class="row" style="gap:10px">
+            <label class="f inline" title="Vertical range of the SPL curves (Auto fits the deepest value in the displayed frequencies)">SPL range <select id="dbrange"><option value="0">Auto</option><option value="40">40 dB</option><option value="60">60 dB</option><option value="80">80 dB</option><option value="100">100 dB</option></select></label>
+            <label class="f inline" title="Frequency window of the response graph (the curves are always computed from 10 Hz to 20 kHz)">Frequencies <select id="frange"><option value="10-20000">10 Hz – 20 kHz</option><option value="20-5000">20 Hz – 5 kHz</option><option value="20-1000">20 Hz – 1 kHz</option><option value="20-300">20 Hz – 300 Hz</option></select></label>
+          </div>
         </div>
         <canvas id="chart"></canvas>
         <div class="legend" id="legend"></div>
@@ -341,12 +345,14 @@ button.btn.sm { padding: 3px 9px; }
 <script>
 /*I18N*/
 const DATA = /*DATA*/;
-const C_SND = CSND, FMIN = 20, FMAX = 5000, NF = 260;
+const C_SND = CSND, FMIN = 10, FMAX = 20000, NF = 380;
 const FG = Array.from({ length: NF }, (_, i) => FMIN * Math.pow(FMAX / FMIN, i / (NF - 1)));
 const TYPES = { off: 'None', butter: 'Butterworth', lr: 'Linkwitz-Riley', bessel: 'Bessel' };
 const ORDERS = { butter: [1, 2, 3, 4, 5, 6, 7, 8], lr: [2, 4, 6, 8], bessel: [1, 2, 3, 4], off: [1] };
 
-const ui = { drive: 20, lx: 0, ly: 4, lz: 1.7, stacks: 1, spacing: 1, gap: 0, base: 0, auto: true, view: 'side', tab: 'spl', mapMode: 'wave', mapF: 90, extent: 8, playing: true, hover: -1 };
+const ui = { drive: 20, lx: 0, ly: 4, lz: 1.7, stacks: 1, spacing: 1, gap: 0, base: 0, auto: true, view: 'side', tab: 'spl', mapMode: 'wave', mapF: 90, extent: 8, playing: true, hover: -1, dbr: 60, f0: 20, f1: 5000 };
+// chart view window (display only: the curves are always computed on the whole FMIN..FMAX grid); remembered per viewer
+try { const v = JSON.parse(localStorage.getItem('hornstack-view') || 'null'); if (v) { if ([0, 40, 60, 80, 100].includes(v.dbr)) ui.dbr = v.dbr; if (v.f1 > v.f0 && v.f0 >= FMIN && v.f1 <= FMAX) { ui.f0 = v.f0; ui.f1 = v.f1; } } } catch (e) { }
 const SRC = [
   { id: 'cubo18', cssv: '--c1', w: 0.62, d: 0.668, h: 0.62, count: 4, on: true, gain: 0, delay: 0, pol: false, x: 0, y: 0, z: 0.31,
     hp: { type: 'butter', n: 4, f: 32 }, lp: { type: 'lr', n: 4, f: 90 } },
@@ -1036,7 +1042,13 @@ function drawChart() {
   if (tab === 'spl') {
     series = SRC.map((s, i) => ({ y: C.spl[i], c: cols[i], w: 1.4, on: s.on })); series.push({ y: C.sSpl, c: fg, w: 2.6, on: true });
     const mx = Math.max(...series.filter(q => q.on).map(q => Math.max(...q.y)));
-    const top = Math.ceil((mx + 1) / 5) * 5; yr = [top - 60, top]; yTicks = []; for (let v = yr[0]; v <= yr[1]; v += 10) yTicks.push(v);
+    const top = Math.ceil((mx + 1) / 5) * 5;
+    let span = ui.dbr;
+    if (!span) { // auto: down to the deepest value inside the displayed frequency window (clamped to 30..120 dB)
+      let mn = mx; for (const q of series) if (q.on) for (let j = 0; j < NF; j++) if (FG[j] >= ui.f0 && FG[j] <= ui.f1 && q.y[j] > mx - 120 && q.y[j] < mn) mn = q.y[j];
+      span = Math.max(30, Math.min(120, Math.ceil((top - mn + 3) / 10) * 10));
+    }
+    const dstep = span > 60 ? 20 : 10; yr = [top - span, top]; yTicks = []; for (let v = yr[0]; v <= yr[1]; v += dstep) yTicks.push(v);
   } else if (tab === 'phase') {
     series = SRC.map((s, i) => ({ y: C.ph[i], c: cols[i], w: 1.4, on: s.on })); series.push({ y: C.sPh, c: fg, w: 2.6, on: true });
     yr = [-180, 180]; yTicks = [-180, -90, 0, 90, 180];
@@ -1056,7 +1068,7 @@ function drawChart() {
     series = SRC.map((s, i) => ({ y: C.zi[i], c: cols[i], w: 1.8, on: true }));
     yr = [1, 200]; ylog = true; yTicks = [1, 2, 5, 10, 20, 50, 100, 200];
   }
-  const X = f => pad.l + pw * Math.log(f / FMIN) / Math.log(FMAX / FMIN);
+  const X = f => pad.l + pw * Math.log(f / ui.f0) / Math.log(ui.f1 / ui.f0);
   const Y = v => pad.t + ph * (1 - (ylog ? Math.log(v / yr[0]) / Math.log(yr[1] / yr[0]) : (v - yr[0]) / (yr[1] - yr[0])));
   ctx.font = `${11 * dpr}px 'IBM Plex Mono', monospace`; ctx.textBaseline = 'middle';
   ctx.lineWidth = 1 * dpr;
@@ -1065,7 +1077,8 @@ function drawChart() {
     ctx.fillStyle = muted; ctx.textAlign = 'right'; ctx.fillText(tab === 'xcur' ? v + '%' : '' + v, pad.l - 6 * dpr, y);
   }
   ctx.textAlign = 'center'; ctx.textBaseline = 'top';
-  for (const f of [20, 50, 100, 200, 500, 1000, 2000, 5000]) {
+  for (const f of [10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000]) {
+    if (f < ui.f0 * 0.999 || f > ui.f1 * 1.001) continue;
     const x = X(f); ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, H - pad.b); ctx.stroke();
     ctx.fillStyle = muted; ctx.fillText(f >= 1000 ? f / 1000 + 'k' : '' + f, x, H - pad.b + 6 * dpr);
   }
@@ -2299,12 +2312,17 @@ function wire() {
     ui.mapF = Math.round(sliderToF(+e.target.value, 20, 1000)); $('mapfv').textContent = ui.mapF + ' Hz'; if (AUD.osc) AUD.osc.frequency.setTargetAtTime(ui.mapF, AUD.ctx.currentTime, 0.02); computeMap(); mapDirty = true; drawChart();
   });
   $('extent').addEventListener('change', e => { ui.extent = +e.target.value; computeMap(); mapDirty = true; });
+  const saveView = () => { try { localStorage.setItem('hornstack-view', JSON.stringify({ dbr: ui.dbr, f0: ui.f0, f1: ui.f1 })); } catch (e) { } };
+  $('dbrange').value = String(ui.dbr); $('frange').value = ui.f0 + '-' + ui.f1;
+  if ($('frange').value !== ui.f0 + '-' + ui.f1) { ui.f0 = 20; ui.f1 = 5000; $('frange').value = '20-5000'; }
+  $('dbrange').addEventListener('change', e => { ui.dbr = +e.target.value; saveView(); drawChart(); });
+  $('frange').addEventListener('change', e => { [ui.f0, ui.f1] = e.target.value.split('-').map(Number); saveView(); drawChart(); });
   const ch = $('chart');
   ch.addEventListener('pointermove', e => {
     const g = ch._geom; if (!g) return;
     const r = ch.getBoundingClientRect(), px = (e.clientX - r.left) * g.dpr;
     const u = (px - g.pad.l) / g.pw; if (u < 0 || u > 1) return;
-    ui.hover = Math.round(u * (NF - 1)); drawChart(); readout(ui.hover);
+    const fh = ui.f0 * Math.pow(ui.f1 / ui.f0, u); ui.hover = Math.max(0, Math.min(NF - 1, Math.round(Math.log(fh / FMIN) / Math.log(FMAX / FMIN) * (NF - 1)))); drawChart(); readout(ui.hover);
   });
   ch.addEventListener('pointerleave', () => { ui.hover = -1; drawChart(); $('readout').textContent = 'Hover the curve to read the values.'; });
   const mp = $('map'); let drag = false;
