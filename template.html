@@ -67,7 +67,7 @@ input[type=range] { width: 100%; accent-color: var(--accent); min-width: 0; marg
 .cfgchip { display: inline-flex; gap: 2px; }
 canvas { display: block; width: 100%; max-width: 100%; border-radius: 4px; }
 #chart { aspect-ratio: 16 / 8; background: var(--surface); }
-#map { aspect-ratio: 4 / 3; background: var(--surface2); touch-action: none; cursor: crosshair; }
+#map { aspect-ratio: 4 / 3; display: block; width: min(100%, calc(78vh * 4 / 3)); margin-inline: auto; background: var(--surface2); touch-action: none; cursor: crosshair; }
 .readout { font-family: var(--mono); font-size: 12px; color: var(--muted); min-height: 1.5em; overflow-wrap: anywhere; }
 .legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; }
 .legend i { display: inline-block; width: 18px; height: 3px; vertical-align: middle; margin-right: 5px; border-radius: 2px; }
@@ -579,7 +579,7 @@ function buildSources() {
 }
 function fillOrders(sel, type, n) {
   const list = ORDERS[type] || [1];
-  sel.innerHTML = list.map(o => `<option value="${o}">${o === 1 ? '1er' : o + 'e'} ordre</option>`).join('');
+  sel.innerHTML = list.map(o => `<option value="${o}">${o}${['th', 'st', 'nd', 'rd'][o] || 'th'} order</option>`).join('');
   if (!list.includes(n)) n = list[Math.min(list.length - 1, 1)];
   sel.value = n;
   return n;

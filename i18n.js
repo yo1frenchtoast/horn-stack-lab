@@ -419,7 +419,7 @@ const I18N = (() => {
     [/(\d+) settings? applied/g, (m, n) => `${n} réglage${n > 1 ? 's' : ''} appliqué${n > 1 ? 's' : ''}`],
     [/in (\d+) passes/g, 'en $1 passes'],
     [/(\d+) more undos? possible/g, (m, n) => `encore ${n} annulation${n > 1 ? 's' : ''} possible${n > 1 ? 's' : ''}`],
-    [/(\d+)th order/g, '$1e ordre'],
+    [/(\d+)(?:st|nd|rd|th) order/g, (m, n) => n == 1 ? '1er ordre' : `${n}e ordre`],
     [/SPL at (\d)/g, 'SPL à $1'],
     [/(Hz|kHz|ms|dB) to (\d)/g, '$1 à $2'],
   ];
