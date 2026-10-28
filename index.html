@@ -320,7 +320,7 @@ button.btn.sm { padding: 3px 9px; }
         </div>
         <div class="row">
           <label class="f">Signal
-            <select id="asrc"><option value="pink">Pink noise</option><option value="kickbass">Kick + bass</option><option value="beat">Test loop (kick, bass, snare, hi-hat, chord)</option><option value="mixer">Instrument mixer (kick, bass, snare, hi-hat, chord)</option><option value="sweep">Sweep 20 Hz – 20 kHz</option><option value="tone">Sine at the map frequency</option><option value="file">Mon audio file…</option></select></label>
+            <select id="asrc"><option value="pink">Pink noise</option><option value="kickbass">Kick + bass</option><option value="mixer">Instrument mixer (kick, bass, snare, hi-hat, chord)</option><option value="sweep">Sweep 20 Hz – 20 kHz</option><option value="tone">Sine at the map frequency</option><option value="file">Mon audio file…</option></select></label>
           <label class="f" id="bpmrow" hidden>Tempo (bpm)<input type="number" id="abpm" value="120" min="60" max="200" step="1" style="width:80px"></label>
           <label class="f inline" id="sweepfollowrow" hidden><input type="checkbox" id="sweepfollow" checked> Map follows the sweep</label>
           <label class="f">Listen to <select id="amode"></select></label>
@@ -730,7 +730,6 @@ const I18N = (() => {
     "■ Stop": "■ Arrêter",
     "Pink noise": "Bruit rose",
     "Kick + bass": "Kick + basse",
-    "Test loop (kick, bass, snare, hi-hat, chord)": "Boucle de test (kick, basse, caisse claire, charley, accord)",
     "Sweep 20 Hz – 20 kHz": "Balayage 20 Hz – 20 kHz",
     "Sine at the map frequency": "Sinus à la fréquence de la carte",
     "My audio file…": "Mon fichier audio…",
@@ -966,7 +965,6 @@ const I18N = (() => {
     ["Move up stage ", "Monter l'étage "],
     ["Filter type ", "Type de filtre "],
     [" of Xmax around ", " de Xmax vers "],
-    ["test loop", "boucle de test"],
     ["Q of band ", "Q de la bande "],
     ["and its HF way", "et sa voie HF"],
     [" updated.", " mise à jour."],
@@ -2770,7 +2768,7 @@ function scheduleIR() {
   clearTimeout(AUD.timer); $('astatus').textContent = 'Recomputing the filter…';
   AUD.timer = setTimeout(() => { buildIR(); $('astatus').textContent = 'Playing: ' + srcLabel() + ' · ' + modeLabel(); }, 160);
 }
-const srcLabel = () => ({ pink: 'pink noise', beat: 'test loop', kickbass: 'kick + bass', mixer: 'instrument mix', sweep: 'sweep 20 Hz – 20 kHz', tone: 'sinus ' + ui.mapF + ' Hz', file: 'audio file' }[AUD.srcType]);
+const srcLabel = () => ({ pink: 'pink noise', kickbass: 'kick + bass', mixer: 'instrument mix', sweep: 'sweep 20 Hz – 20 kHz', tone: 'sinus ' + ui.mapF + ' Hz', file: 'audio file' }[AUD.srcType]);
 const modeLabel = () => AUD.mode < 0 ? 'system sum' : shortName(SRC[AUD.mode]) + ' alone';
 
 // test signals, all normalised to 0.1 rms (-20 dBFS)
@@ -2802,29 +2800,6 @@ function genSignal(type, sr) {
         let ph = 0; add(t0 + b * beat, Math.min(0.45, beat * 0.95), t => { ph += 2 * Math.PI * (48 + 100 * Math.exp(-t * 38)) / sr; return 0.95 * Math.sin(ph) * Math.exp(-t * 6.5); });
         add(t0 + (b + 0.5) * beat, Math.min(0.22, beat * 0.45), t => 0.6 * (Math.sin(2 * Math.PI * nf * t) + 0.3 * Math.sin(4 * Math.PI * nf * t)) * Math.min(1, t / 0.006) * Math.exp(-t * 8));
       }
-    }
-    normRms(a);
-  } else { // loop: kick, bass line, snare, hi-hat, mid chord; 120 bpm, 2 bars
-    const bar = 2 * sr, bars = 2; a = new Float32Array(bar * bars); const notes = [41.2, 41.2, 49, 55];
-    let seed = 7; const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 1073741823.5 - 1; };
-    const add = (start, len, fn) => { const s0 = Math.floor(start * sr), n = Math.floor(len * sr), fi = 0.002 * sr, fo = 0.012 * sr; for (let i = 0; i < n && s0 + i < a.length; i++) { const w = Math.min(1, i / fi, (n - i) / fo); a[s0 + i] += fn(i / sr) * w * w * (3 - 2 * w); } }; // 2 ms fade-in and 12 ms fade-out: no hard cut (click)
-    for (let m = 0; m < bars; m++) {
-      const t0 = m * 2;
-      for (let b = 0; b < 4; b++) { // kick on every beat
-        let ph = 0; add(t0 + b * 0.5, 0.4, t => { ph += 2 * Math.PI * (45 + 90 * Math.exp(-t * 35)) / sr; return 0.9 * Math.sin(ph) * Math.exp(-t * 7); });
-      }
-      for (const b of [1, 3]) { // snare
-        add(t0 + b * 0.5, 0.25, t => 0.35 * rnd() * Math.exp(-t * 18) + 0.3 * Math.sin(2 * Math.PI * 190 * t) * Math.exp(-t * 25));
-      }
-      for (let e = 0; e < 8; e++) { // hi-hat + bass on the off-beats
-        if (e % 2 === 1) {
-          let prev = 0; add(t0 + e * 0.25, 0.08, t => { const n = rnd(), v = n - prev; prev = n; return 0.18 * v * Math.exp(-t * 70); });
-          const nf = notes[(m * 2 + (e >> 2)) % 4];
-          add(t0 + e * 0.25, 0.22, t => 0.55 * (Math.sin(2 * Math.PI * nf * t) + 0.35 * Math.sin(4 * Math.PI * nf * t)) * Math.exp(-t * 9));
-        }
-      }
-      const nr = notes[(m * 2) % 4], cr = nr * 4, cf = [cr, cr * Math.pow(2, (nr > 45 && nr < 52 ? 4 : 3) / 12), cr * Math.pow(2, 7 / 12)]; // chord on the bass root of the bar
-      add(t0 + 0.75, 0.5, t => 0.14 * cf.reduce((s, f) => s + Math.sin(2 * Math.PI * f * t) + 0.4 * Math.sin(4 * Math.PI * f * t) + 0.2 * Math.sin(6 * Math.PI * f * t), 0) * Math.exp(-t * 6));
     }
     normRms(a);
   }
