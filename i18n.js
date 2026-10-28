@@ -152,10 +152,12 @@ const I18N = (() => {
     "Position in file:": "Position dans le fichier :",
     "Fine FFT": "FFT fine",
     "Third-octave": "Tiers d'octave",
+    "Clear isolator": "Effacer l'isolateur",
+    "Isolator cleared.": "Isolateur effacé.",
     "Overlay the source": "Superposer la source",
     "Clear peaks": "Effacer les crêtes",
     "Hover the map to read the coordinates (x: lateral, y: distance in front of the face, z: height) and the level.": "Survole la carte pour lire les coordonnées (x : latéral, y : distance devant la façade, z : hauteur) et le niveau.",
-    "Hover the spectrum to read the frequency and the level. Solid: system output, dotted: source, thin line: peaks.": "Survole le spectre pour lire la fréquence et le niveau. Trait plein : sortie du système, pointillés : source, trait fin : crêtes.",
+    "Hover the spectrum to read the frequency and the level. Solid: system output, dotted: source, thin line: peaks. Drag across the spectrum to isolate a frequency range (steep band-pass on the simulated system).": "Survole le spectre pour lire la fréquence et le niveau. Trait plein : sortie du système, pointillés : source, trait fin : crêtes. Glisse sur le spectre pour isoler une plage de fréquences (passe-bande raide sur le système simulé).",
     "Press Play. Start with a low volume: the bass can climb fast.": "Appuie sur Écouter. Commence avec un volume bas : les graves peuvent monter vite.",
     "References (manufacturer datasheets)": "Références (fiches constructeur)",
     "References (Hornresp scripts)": "Références (scripts Hornresp)",
@@ -411,6 +413,7 @@ const I18N = (() => {
     ["Stage ", "Étage "],
     ["stage ", "étage "],
   ];
+  FR.push(["(third-octave)", "(tiers d'octave)"], ["Isolator: ", "Isolateur : "], ["simulated system only, steep band-pass 48 dB/oct", "système simulé uniquement, passe-bande raide 48 dB/oct"]);
   const FRAGS = FR.slice().sort((a, b) => b[0].length - a[0].length);
   // patterns with agreement (plurals) and numbers
   const RX = [

@@ -325,10 +325,10 @@ button.btn.sm { padding: 3px 9px; }
         <div class="readout" id="astatus">Press Play. Start with a low volume: the bass can climb fast.</div>
         <div class="row" style="justify-content:space-between">
           <div class="tabs" id="specmode"><button class="btn on" data-sm="fine">Fine FFT</button><button class="btn" data-sm="third">Third-octave</button></div>
-          <div class="row" style="gap:10px"><label class="f inline"><input type="checkbox" id="specsrc" checked> Overlay the source</label><button class="btn" id="specreset">Clear peaks</button></div>
+          <div class="row" style="gap:10px"><label class="f inline"><input type="checkbox" id="specsrc" checked> Overlay the source</label><button class="btn" id="specreset">Clear peaks</button><button class="btn" id="isoclear" disabled>Clear isolator</button></div>
         </div>
         <canvas id="speccv"></canvas>
-        <div class="readout" id="specrd">Hover the spectrum to read the frequency and the level. Solid: system output, dotted: source, thin line: peaks.</div>
+        <div class="readout" id="specrd">Hover the spectrum to read the frequency and the level. Solid: system output, dotted: source, thin line: peaks. Drag across the spectrum to isolate a frequency range (steep band-pass on the simulated system).</div>
 
       </div>
     </div>
@@ -1802,7 +1802,12 @@ function drawSpec() {
   ctx.textAlign = 'center'; ctx.textBaseline = 'top';
   for (const f of [20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000]) { ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(X(f), pad.t); ctx.lineTo(X(f), H - pad.b); ctx.stroke(); ctx.fillStyle = muted; ctx.fillText(f >= 1000 ? f / 1000 + 'k' : '' + f, X(f), H - pad.b + 5 * dpr); }
   cv._g = { pad, pw, ph, dpr, X, Y };
-  if (!SPEC.has) { ctx.fillStyle = muted; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(T('Start the listening to see the spectrum.'), pad.l + pw / 2, pad.t + ph / 2); return; }
+  const isoDraw = () => {
+    if (!ISO.on) return;
+    const x0 = X(ISO.lo), x1 = X(ISO.hi);
+    ctx.save(); ctx.globalAlpha = 0.12; ctx.fillStyle = acc; ctx.fillRect(pad.l, pad.t, x0 - pad.l, ph); ctx.fillRect(x1, pad.t, pad.l + pw - x1, ph); ctx.globalAlpha = 0.9; ctx.strokeStyle = acc; ctx.lineWidth = 1.5 * dpr; ctx.setLineDash([5 * dpr, 3 * dpr]); ctx.beginPath(); ctx.moveTo(x0, pad.t); ctx.lineTo(x0, pad.t + ph); ctx.moveTo(x1, pad.t); ctx.lineTo(x1, pad.t + ph); ctx.stroke(); ctx.restore();
+  };
+  if (!SPEC.has) { isoDraw();  ctx.fillStyle = muted; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(T('Start the listening to see the spectrum.'), pad.l + pw / 2, pad.t + ph / 2); return; }
   ctx.save(); ctx.beginPath(); ctx.rect(pad.l, pad.t, pw, ph); ctx.clip();
   if (SPEC.mode === 'fine') {
     const n = Math.floor(pw), out = specCols(SPEC.bufO, n), src = SPEC.overlay ? specCols(SPEC.bufS, n) : null;
@@ -1827,7 +1832,36 @@ function drawSpec() {
       if (src) { ctx.fillStyle = muted; ctx.fillRect(x0 + dpr, Y(src[i]) - dpr, bw, 2 * dpr); }
     });
   }
-  ctx.restore();
+  ctx.restore(); isoDraw();
+}
+// ---------- isolator: steep band-pass on the simulated system only (the raw source is left untouched), selected by dragging on the spectrum ----------
+// 4 cascaded Butterworth biquads per side = 8th order (48 dB/octave). Bypassed (not in the signal path) when no range is selected.
+const ISO = { lo: 0, hi: 0, on: false, hp: [], lp: [], drag: null };
+function isoApply() {
+  if (!AUD.ctx || !AUD.sysGain) return;
+  const ctx = AUD.ctx, t = ctx.currentTime;
+  if (ISO.on && !ISO.hp.length) {
+    for (let i = 0; i < 4; i++) {
+      const h = ctx.createBiquadFilter(); h.type = 'highpass'; h.Q.value = 0.707;
+      const l = ctx.createBiquadFilter(); l.type = 'lowpass'; l.Q.value = 0.707; ISO.hp.push(h); ISO.lp.push(l);
+    }
+    for (let i = 0; i < 3; i++) { ISO.hp[i].connect(ISO.hp[i + 1]); ISO.lp[i].connect(ISO.lp[i + 1]); }
+    ISO.hp[3].connect(ISO.lp[0]); ISO.lp[3].connect(AUD.mix);
+  }
+  if (ISO.on) { for (const h of ISO.hp) h.frequency.setTargetAtTime(ISO.lo, t, 0.01); for (const l of ISO.lp) l.frequency.setTargetAtTime(ISO.hi, t, 0.01); }
+  if (ISO.wired !== ISO.on) {
+    AUD.sysGain.disconnect();
+    AUD.sysGain.connect(ISO.on ? ISO.hp[0] : AUD.mix);
+    ISO.wired = ISO.on;
+  }
+}
+function isoUi() {
+  const b = $('isoclear'); if (b) b.disabled = !ISO.on;
+  const r = $('specrd'); if (ISO.on && r) r.textContent = `Isolator: ${fmtF(ISO.lo)} – ${fmtF(ISO.hi)} (simulated system only, steep band-pass 48 dB/oct)`;
+}
+function isoSet(a, b) {
+  const lo = Math.max(SP_F0, Math.min(a, b)), hi = Math.min(SP_F1, Math.max(a, b));
+  ISO.lo = lo; ISO.hi = hi; ISO.on = hi / lo > 1.05; isoApply(); isoUi(); drawSpec();
 }
 function wireSpec() {
   $('specmode').addEventListener('click', e => {
@@ -1836,14 +1870,20 @@ function wireSpec() {
   });
   $('specsrc').addEventListener('change', e => { SPEC.overlay = e.target.checked; drawSpec(); });
   $('specreset').addEventListener('click', () => { SPEC.peak = null; });
-  const cv = $('speccv');
+  const cv = $('speccv'); cv.style.touchAction = 'none'; cv.style.cursor = 'crosshair';
+  const fAt = e => { const g = cv._g, r = cv.getBoundingClientRect(), u = Math.max(0, Math.min(1, ((e.clientX - r.left) * g.dpr - g.pad.l) / g.pw)); return SP_F0 * Math.pow(SP_F1 / SP_F0, u); };
+  cv.addEventListener('pointerdown', e => { if (!cv._g || e.button > 0) return; ISO.drag = { f0: fAt(e), x0: e.clientX, moved: false }; cv.setPointerCapture(e.pointerId); });
+  cv.addEventListener('pointerup', e => { const d = ISO.drag; ISO.drag = null; if (d && !d.moved) { /* a plain click does not change the isolator */ } });
+  cv.addEventListener('pointercancel', () => { ISO.drag = null; });
+  $('isoclear').addEventListener('click', () => { ISO.on = false; isoApply(); isoUi(); $('specrd').textContent = T('Isolator cleared.'); drawSpec(); });
   cv.addEventListener('pointermove', e => {
+    if (ISO.drag) { const d = ISO.drag; if (!d.moved && Math.abs(e.clientX - d.x0) < 4) return; d.moved = true; isoSet(d.f0, fAt(e)); return; }
     const g = cv._g; if (!g || !SPEC.has) return;
     const r = cv.getBoundingClientRect(), px = (e.clientX - r.left) * g.dpr - g.pad.l, u = px / g.pw; if (u < 0 || u > 1) return;
     const f = SP_F0 * Math.pow(SP_F1 / SP_F0, u);
     let d = null;
     if (SPEC.mode === 'fine' && SPEC.cols) d = SPEC.cols[Math.min(SPEC.cols.length - 1, Math.floor(px))];
-    else if (SPEC.bands) { let bi = 0; THIRDS.forEach((fc, i) => { if (Math.abs(Math.log(f / fc)) < Math.abs(Math.log(f / THIRDS[bi]))) bi = i; }); d = SPEC.bands[bi]; $('specrd').textContent = `${fmtF(THIRDS[bi])} (tiers d'octave) · ${d.toFixed(1)} dB`; return; }
+    else if (SPEC.bands) { let bi = 0; THIRDS.forEach((fc, i) => { if (Math.abs(Math.log(f / fc)) < Math.abs(Math.log(f / THIRDS[bi]))) bi = i; }); d = SPEC.bands[bi]; $('specrd').textContent = `${fmtF(THIRDS[bi])} (third-octave) · ${d.toFixed(1)} dB`; return; }
     if (d !== null) $('specrd').textContent = `${fmtF(f)} · ${d.toFixed(1)} dB`;
   });
 }
@@ -2043,7 +2083,7 @@ function ensureAudio() {
   AUD.anOut = ctx.createAnalyser(); AUD.anSrc = ctx.createAnalyser();
   for (const a of [AUD.anOut, AUD.anSrc]) { a.fftSize = 16384; a.smoothingTimeConstant = 0.8; a.minDecibels = -120; a.maxDecibels = 0; }
   AUD.mix.connect(AUD.anOut); AUD.srcGain.connect(AUD.anSrc);
-  AUD.master.gain.value = 0; applyAB(); return true;
+  AUD.master.gain.value = 0; isoApply(); applyAB(); return true;
 }
 // playback position in the imported file (s)
 function filePos() {
