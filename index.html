@@ -33,10 +33,15 @@ body { background: var(--bg); color: var(--fg); font-family: var(--font); font-s
 h1 { font-size: 22px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
 h2 { font-size: 12px; font-weight: 600; margin: 0; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
 p { margin: 0; }
-.head { display: flex; flex-wrap: wrap; gap: 6px 24px; align-items: baseline; justify-content: space-between; }
-.head p { color: var(--muted); max-width: 70ch; }
-.tools { display: flex; gap: 12px; flex-wrap: wrap; margin-left: auto; align-items: center; }
+.head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px 24px; align-items: center; padding: 16px 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; border-left: 4px solid var(--accent); }
+.brand { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.brand svg { width: 44px; height: 44px; flex: none; color: var(--accent); }
+.brand h1 { font-size: 26px; line-height: 1.1; font-weight: 600; letter-spacing: -0.02em; }
+.brand small { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.head p { grid-column: 1 / -1; color: var(--muted); max-width: 110ch; }
+.tools { display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
 .tools .f { margin: 0; }
+@media (max-width: 640px) { .head { grid-template-columns: minmax(0, 1fr); padding: 14px; } .tools { justify-content: flex-start; } .brand h1 { font-size: 22px; } }
 .grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; align-items: start; }
 @media (min-width: 1020px) { .grid { grid-template-columns: minmax(340px, 410px) minmax(0, 1fr); } }
 .col { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
@@ -108,7 +113,7 @@ button.btn.sm { padding: 3px 9px; }
 
 <div class="wrap">
   <div class="head">
-    <h1>Horn Stack Lab</h1>
+    <div class="brand"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19h7v10H5z"/><path d="M12 19 28 7v34L12 29"/><path d="M34 17c3 4 3 10 0 14M39 11c6 8 6 18 0 26"/></svg><div><small>Hornresp · PA stacks</small><h1>Horn Stack Lab</h1></div></div>
     <div class="tools"><label class="f inline">Theme <select id="themesel" aria-label="Theme"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option></select></label><label class="f inline">Language <select id="langsel" aria-label="Language"><option value="fr">Français</option><option value="en">English</option></select></label></div>
     <p>Horn and bass-reflex PA stack simulator, computed from Hornresp scripts: Cubo 18, Cubo Sub, Kick, MT130, MHB, E15, GK MB112 and more. Stack the cabinets in a column or a pyramid, aim them, set filters, delays, gains and equaliser, add your own drivers, then read the response at the listening spot (SPL, phase, group delay, excursion, impedance), the waves in 2D or 3D and a simulated listening.</p>
   </div>
