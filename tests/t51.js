@@ -14,4 +14,4 @@ const st=await p.evaluate(()=>({on:ISO.on,lo:Math.round(ISO.lo),hi:Math.round(IS
 const after=[await level(1000,1500),await level(100,150)];
 console.log('graph must stay intact (both ~unchanged):');console.log('before dB (1-1.5k, 100-150)',before.map(v=>v.toFixed(0)),'after',after.map(v=>v.toFixed(0)),st);
 await p.click('#isoclear');await p.waitForTimeout(2500);console.log('cleared',await p.evaluate(()=>ISO.on),(await level(1000,1500)).toFixed(0));
-console.log('ERR',errs);await b.close()})();
+console.log('source analyser alive',await p.evaluate(()=>{const a=AUD.anSrc,b=new Float32Array(a.frequencyBinCount);a.getFloatFrequencyData(b);return Math.max(...b)>-100}));console.log('ERR',errs);await b.close()})();

@@ -2082,7 +2082,7 @@ function ensureAudio() {
   AUD.srcGain.connect(AUD.rawGain); AUD.rawGain.connect(AUD.mix); AUD.sysGain.connect(AUD.mix); AUD.mix.connect(AUD.master); AUD.master.connect(lim); lim.connect(ctx.destination);
   AUD.anOut = ctx.createAnalyser(); AUD.anSrc = ctx.createAnalyser();
   for (const a of [AUD.anOut, AUD.anSrc]) { a.fftSize = 16384; a.smoothingTimeConstant = 0.8; a.minDecibels = -120; a.maxDecibels = 0; }
-  AUD.tap = ctx.createGain(); AUD.rawGain.connect(AUD.tap); AUD.sysGain.connect(AUD.tap); AUD.tap.connect(AUD.anOut); // spectrum tap taken before the isolator AUD.srcGain.connect(AUD.anSrc);
+  AUD.tap = ctx.createGain(); AUD.rawGain.connect(AUD.tap); AUD.sysGain.connect(AUD.tap); AUD.tap.connect(AUD.anOut); AUD.srcGain.connect(AUD.anSrc); // the spectrum taps are taken before the isolator
   AUD.master.gain.value = 0; isoApply(); applyAB(); return true;
 }
 // playback position in the imported file (s)
