@@ -2823,7 +2823,8 @@ function genSignal(type, sr) {
           add(t0 + e * 0.25, 0.22, t => 0.55 * (Math.sin(2 * Math.PI * nf * t) + 0.35 * Math.sin(4 * Math.PI * nf * t)) * Math.exp(-t * 9));
         }
       }
-      add(t0 + 0.75, 0.5, t => 0.14 * [220, 261.6, 329.6].reduce((s, f) => s + Math.sin(2 * Math.PI * f * t) + 0.4 * Math.sin(4 * Math.PI * f * t) + 0.2 * Math.sin(6 * Math.PI * f * t), 0) * Math.exp(-t * 6));
+      const nr = notes[(m * 2) % 4], cr = nr * 4, cf = [cr, cr * Math.pow(2, (nr > 45 && nr < 52 ? 4 : 3) / 12), cr * Math.pow(2, 7 / 12)]; // chord on the bass root of the bar
+      add(t0 + 0.75, 0.5, t => 0.14 * cf.reduce((s, f) => s + Math.sin(2 * Math.PI * f * t) + 0.4 * Math.sin(4 * Math.PI * f * t) + 0.2 * Math.sin(6 * Math.PI * f * t), 0) * Math.exp(-t * 6));
     }
     normRms(a);
   }
@@ -2856,7 +2857,9 @@ function genMix(sr) {
       let prev = 0; add('hat', t0 + (b + 0.5) * beat, 0.08, t => { const n = rnd(), v = n - prev; prev = n; return 0.18 * v * Math.exp(-t * 70); });
       if (b === 1 || b === 3) add('snare', t0 + b * beat, 0.25, t => 0.35 * rnd() * Math.exp(-t * 18) + 0.3 * Math.sin(2 * Math.PI * 190 * t) * Math.exp(-t * 25));
     }
-    add('chord', t0 + 1.5 * beat, Math.min(0.6, beat), t => 0.14 * [220, 261.6, 329.6].reduce((q, f) => q + Math.sin(2 * Math.PI * f * t) + 0.4 * Math.sin(4 * Math.PI * f * t) + 0.2 * Math.sin(6 * Math.PI * f * t), 0) * Math.exp(-t * 6));
+    // the chord follows the bass root of the bar (two octaves above it): minor on E and A, major on G
+    const cr = nf * 4, third = nf > 45 && nf < 52 ? 4 : 3, cf = [cr, cr * Math.pow(2, third / 12), cr * Math.pow(2, 7 / 12)];
+    add('chord', t0 + 1.5 * beat, Math.min(0.6, beat), t => 0.14 * cf.reduce((q, f) => q + Math.sin(2 * Math.PI * f * t) + 0.4 * Math.sin(4 * Math.PI * f * t) + 0.2 * Math.sin(6 * Math.PI * f * t), 0) * Math.exp(-t * 6));
   }
   let e = 0; for (let i = 0; i < len; i++) { let v = 0; for (const k of INS) v += tr[k.id][i]; e += v * v; }
   const g = 0.1 / Math.sqrt(e / len || 1), out = {};
