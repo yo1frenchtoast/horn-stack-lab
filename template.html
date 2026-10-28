@@ -35,6 +35,9 @@ p { margin: 0; }
 .head p { grid-column: 1 / -1; color: var(--muted); max-width: 110ch; }
 .tools { display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
 .tools .f { margin: 0; }
+.gh { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); text-decoration: none; font-size: 13px; padding: 4px 8px; border: 1px solid var(--line); border-radius: 6px; }
+.gh:hover { color: var(--fg); border-color: var(--muted); }
+.gh svg { width: 16px; height: 16px; }
 @media (max-width: 640px) { .head { grid-template-columns: minmax(0, 1fr); padding: 14px; } .tools { justify-content: flex-start; } .brand h1 { font-size: 22px; } }
 .grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; align-items: start; }
 @media (min-width: 1020px) { .grid { grid-template-columns: minmax(340px, 410px) minmax(0, 1fr); } }
@@ -113,7 +116,7 @@ button.btn.sm { padding: 3px 9px; }
 <div class="wrap">
   <div class="head">
     <div class="brand"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19h7v10H5z"/><path d="M12 19 28 7v34L12 29"/><path d="M34 17c3 4 3 10 0 14M39 11c6 8 6 18 0 26"/></svg><div><small>Hornresp · PA stacks</small><h1>Horn Stack Lab</h1></div></div>
-    <div class="tools"><label class="f inline">Theme <select id="themesel" aria-label="Theme"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option></select></label><label class="f inline">Language <select id="langsel" aria-label="Language"><option value="fr">Français</option><option value="en">English</option></select></label></div>
+    <div class="tools"><a class="gh" href="https://github.com/yo1frenchtoast/horn-stack-lab" target="_blank" rel="noopener" title="Source code on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a><label class="f inline">Theme <select id="themesel" aria-label="Theme"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option></select></label><label class="f inline">Language <select id="langsel" aria-label="Language"><option value="fr">Français</option><option value="en">English</option></select></label></div>
     <p>Horn and bass-reflex PA stack simulator, computed from Hornresp scripts: Cubo 18, Cubo Sub, Kick, MT130, MHB, E15, GK MB112 and more. Stack the cabinets in a column or a pyramid, aim them, set filters, delays, gains and equaliser, add your own drivers, then read the response at the listening spot (SPL, phase, group delay, excursion, impedance), the waves in 2D or 3D and a simulated listening.</p>
   </div>
 
