@@ -6,7 +6,7 @@
   "scripts": {
     "gen": "node gen.js",
     "build": "node gen.js && node build.js",
-    "test": "node tests/i18n_roundtrip.js && node tests/i18n_fr.js && node tests/t42.js && node tests/t46.js && node tests/t47.js && node tests/t50.js && node tests/t45.js && node tests/t51.js && node tests/t52.js && node tests/t53.js && node tests/t54.js && node tests/t55.js"
+    "test": "node tests/i18n_roundtrip.js && node tests/i18n_fr.js && node tests/t42.js && node tests/t46.js && node tests/t47.js && node tests/t50.js && node tests/t45.js && node tests/t51.js && node tests/t52.js && node tests/t53.js && node tests/t54.js && node tests/t55.js && node tests/i18n_audit.js"
   },
   "devDependencies": {
     "playwright": "^1.45.0"
