@@ -5,7 +5,7 @@ const vis=await p.evaluate(()=>{const r=document.getElementById('multirow');retu
 for(const v of ['top','side']){
  await p.evaluate(v=>{document.querySelector('#mapview [data-v="'+v+'"]').click()},v);
  await p.evaluate(()=>{const c=document.getElementById('multifollow');c.checked=true;c.dispatchEvent(new Event('change'))});
- await p.evaluate(()=>{document.getElementById('asrc').value='kickbass';document.getElementById('asrc').dispatchEvent(new Event('change'));document.getElementById('aplay').click()}).catch(e=>console.log('play',e.message));
+ await p.evaluate(()=>{document.getElementById('asrc').value='mixer';document.getElementById('asrc').dispatchEvent(new Event('change'));document.getElementById('aplay').click()}).catch(e=>console.log('play',e.message));
  await p.waitForTimeout(2500);
  const r=await p.evaluate(()=>({ready:MB.ready,live:mbLive(),w:[...MB.w].map(x=>+x.toFixed(2)),playing:AUD.playing}));
  console.log(v,JSON.stringify(r));

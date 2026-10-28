@@ -314,7 +314,7 @@ button.btn.sm { padding: 3px 9px; }
         </div>
         <div class="row">
           <label class="f">Signal
-            <select id="asrc"><option value="pink">Pink noise</option><option value="kickbass">Kick + bass</option><option value="mixer">Instrument mixer (kick, bass, snare, hi-hat, chord)</option><option value="sweep">Sweep 20 Hz – 20 kHz</option><option value="tone">Sine at the map frequency</option><option value="file">Mon audio file…</option></select></label>
+            <select id="asrc"><option value="pink">Pink noise</option><option value="mixer">Instrument mixer (kick, bass, snare, hi-hat, chord)</option><option value="sweep">Sweep 20 Hz – 20 kHz</option><option value="tone">Sine at the map frequency</option><option value="file">Mon audio file…</option></select></label>
           <label class="f" id="bpmrow" hidden>Tempo (bpm)<input type="number" id="abpm" value="120" min="60" max="200" step="1" style="width:80px"></label>
           <label class="f inline" id="sweepfollowrow" hidden><input type="checkbox" id="sweepfollow" checked> Map follows the sweep</label>
           <label class="f">Listen to <select id="amode"></select></label>
@@ -2009,13 +2009,13 @@ function scheduleIR() {
   clearTimeout(AUD.timer); $('astatus').textContent = 'Recomputing the filter…';
   AUD.timer = setTimeout(() => { buildIR(); $('astatus').textContent = 'Playing: ' + srcLabel() + ' · ' + modeLabel(); }, 160);
 }
-const srcLabel = () => ({ pink: 'pink noise', kickbass: 'kick + bass', mixer: 'instrument mix', sweep: 'sweep 20 Hz – 20 kHz', tone: 'sinus ' + ui.mapF + ' Hz', file: 'audio file' }[AUD.srcType]);
+const srcLabel = () => ({ pink: 'pink noise', mixer: 'instrument mix', sweep: 'sweep 20 Hz – 20 kHz', tone: 'sinus ' + ui.mapF + ' Hz', file: 'audio file' }[AUD.srcType]);
 const modeLabel = () => AUD.mode < 0 ? 'system sum' : shortName(SRC[AUD.mode]) + ' alone';
 
 // test signals, all normalised to 0.1 rms (-20 dBFS)
 function normRms(a, target = 0.1) { let s = 0; for (let i = 0; i < a.length; i++) s += a[i] * a[i]; const g = target / Math.sqrt(s / a.length || 1); for (let i = 0; i < a.length; i++) a[i] *= g; return a; }
 function genSignal(type, sr) {
-  const key = type + sr + (type === 'kickbass' ? '@' + AUD.bpm : ''); if (AUD.bufCache[key]) return AUD.bufCache[key];
+  const key = type + sr; if (AUD.bufCache[key]) return AUD.bufCache[key];
   let a;
   if (type === 'pink') {
     a = new Float32Array(sr * 10); let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
@@ -2032,17 +2032,6 @@ function genSignal(type, sr) {
       a[i] = Math.sin(2 * Math.PI * f0 * T / L * (Math.exp(t / T * L) - 1)) * fade;
     }
     normRms(a);
-  } else if (type === 'kickbass') { // kick and bass only: 120 bpm, kick on every beat, bass note on every off-beat, 4 bars
-    const beat = 60 / AUD.bpm, bars = 4; a = new Float32Array(Math.round(4 * beat * sr) * bars); const notes = [41.2, 41.2, 49, 55];
-    const add = (start, len, fn) => { const s0 = Math.floor(start * sr), n = Math.floor(len * sr), fi = 0.002 * sr, fo = 0.012 * sr; for (let i = 0; i < n && s0 + i < a.length; i++) { const w = Math.min(1, i / fi, (n - i) / fo); a[s0 + i] += fn(i / sr) * w * w * (3 - 2 * w); } }; // 2 ms fade-in and 12 ms fade-out: no hard cut (click)
-    for (let m = 0; m < bars; m++) {
-      const t0 = m * 4 * beat, nf = notes[m % 4];
-      for (let b = 0; b < 4; b++) {
-        let ph = 0; add(t0 + b * beat, Math.min(0.45, beat * 0.95), t => { ph += 2 * Math.PI * (48 + 100 * Math.exp(-t * 38)) / sr; return 0.95 * Math.sin(ph) * Math.exp(-t * 6.5); });
-        add(t0 + (b + 0.5) * beat, Math.min(0.22, beat * 0.45), t => 0.6 * (Math.sin(2 * Math.PI * nf * t) + 0.3 * Math.sin(4 * Math.PI * nf * t)) * Math.min(1, t / 0.006) * Math.exp(-t * 8));
-      }
-    }
-    normRms(a);
   }
   const buf = AUD.ctx.createBuffer(1, a.length, sr); buf.copyToChannel(a, 0);
   return (AUD.bufCache[key] = buf);
@@ -2051,9 +2040,9 @@ function genSignal(type, sr) {
 const INS = [
   { id: 'kick', name: 'Kick', db: 0, m: false, s: false },
   { id: 'bass', name: 'Bass', db: 0, m: false, s: false },
-  { id: 'snare', name: 'Snare', db: -3, m: false, s: false },
-  { id: 'hat', name: 'Hi-hat', db: -6, m: false, s: false },
-  { id: 'chord', name: 'Chord', db: -6, m: false, s: false },
+  { id: 'snare', name: 'Snare', db: -3, m: true, s: false },
+  { id: 'hat', name: 'Hi-hat', db: -6, m: true, s: false },
+  { id: 'chord', name: 'Chord', db: -6, m: true, s: false },
 ];
 // 4 bars of 4 beats at the current tempo; all tracks share one scale factor so that the whole mix (faders at 0 dB) is 0.1 rms
 function genMix(sr) {
@@ -2098,7 +2087,7 @@ function mixStart(ctx, t) {
 }
 function mixUi() {
   const el = $('mixer'); if (!el || el.dataset.built) return; el.dataset.built = '1';
-  el.innerHTML = INS.map(k => `<div class="mixch" data-k="${k.id}"><span class="mname">${k.name}</span><input type="range" min="-40" max="6" step="1" value="${k.db}" aria-label="${k.name} level"><b class="mval">${k.db} dB</b><button class="btn sm" data-ms="m" title="Mute">M</button><button class="btn sm" data-ms="s" title="Solo">S</button></div>`).join('');
+  el.innerHTML = INS.map(k => `<div class="mixch" data-k="${k.id}"><span class="mname">${k.name}</span><input type="range" min="-40" max="6" step="1" value="${k.db}" aria-label="${k.name} level"><b class="mval">${k.db} dB</b><button class="btn sm${k.m ? ' on' : ''}" data-ms="m" title="Mute">M</button><button class="btn sm" data-ms="s" title="Solo">S</button></div>`).join('');
   el.addEventListener('input', e => { const ch = e.target.closest('.mixch'); if (!ch || e.target.type !== 'range') return; const k = INS.find(x => x.id === ch.dataset.k); k.db = +e.target.value; ch.querySelector('.mval').textContent = k.db + ' dB'; mixApply(); });
   el.addEventListener('click', e => { const b = e.target.closest('[data-ms]'); if (!b) return; const k = INS.find(x => x.id === b.closest('.mixch').dataset.k); k[b.dataset.ms] = !k[b.dataset.ms]; el.querySelectorAll('.mixch').forEach(c => { const q = INS.find(x => x.id === c.dataset.k); c.querySelector('[data-ms="m"]').classList.toggle('on', q.m); c.querySelector('[data-ms="s"]').classList.toggle('on', q.s); }); mixApply(); });
 }
@@ -2179,7 +2168,7 @@ function wireAudio() {
   $('aplay').addEventListener('click', () => AUD.playing ? stopAudio() : startAudio());
   $('asrc').addEventListener('change', e => {
     if (AUD.srcType === 'file') AUD.fileOff = filePos();
-    AUD.srcType = e.target.value; $('sweepfollowrow').hidden = AUD.srcType !== 'sweep'; $('bpmrow').hidden = AUD.srcType !== 'kickbass' && AUD.srcType !== 'mixer'; $('mixer').hidden = AUD.srcType !== 'mixer';
+    AUD.srcType = e.target.value; $('sweepfollowrow').hidden = AUD.srcType !== 'sweep'; $('bpmrow').hidden = AUD.srcType !== 'mixer'; $('mixer').hidden = AUD.srcType !== 'mixer';
     if (AUD.srcType === 'file' && !AUD.fileBuf) { $('afilein').click(); AUD.srcType = 'pink'; e.target.value = 'pink'; return; }
     if (AUD.playing) { makeSource(); $('astatus').textContent = 'Playing: ' + srcLabel() + ' · ' + modeLabel(); }
     updateSeek();
@@ -2386,7 +2375,7 @@ function wire() {
   });
   mp.addEventListener('wheel', e => { if (ui.view !== '3d') return; e.preventDefault(); CAM.zoom = Math.max(0.4, Math.min(4, CAM.zoom * Math.exp(-e.deltaY * 0.001))); mapDirty = true; }, { passive: false });
   document.addEventListener('click', applyAdvice); $('advall').addEventListener('click', applyAllAdvice); $('advreset').addEventListener('click', resetAdvice); $('advundo').addEventListener('click', undoAdvice);
-  $('abpm').addEventListener('change', e => { const v = Math.min(200, Math.max(60, Math.round(+e.target.value) || 120)); e.target.value = v; AUD.bpm = v; if (AUD.playing && (AUD.srcType === 'kickbass' || AUD.srcType === 'mixer')) { makeSource(); $('astatus').textContent = 'Playing: ' + srcLabel() + ' · ' + modeLabel(); } });
+  $('abpm').addEventListener('change', e => { const v = Math.min(200, Math.max(60, Math.round(+e.target.value) || 120)); e.target.value = v; AUD.bpm = v; if (AUD.playing && AUD.srcType === 'mixer') { makeSource(); $('astatus').textContent = 'Playing: ' + srcLabel() + ' · ' + modeLabel(); } });
   $('multifollow').addEventListener('change', e => { MB.on = e.target.checked; MB.ready = false; MB.w.fill(0); MB.pk = -30; computeMap(); mapDirty = true; });
   $('camviews').addEventListener('click', e => {
     const b = e.target.closest('[data-c]'); if (!b) return;
