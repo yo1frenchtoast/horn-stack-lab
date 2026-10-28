@@ -167,6 +167,9 @@ const I18N = (() => {
     "Ear spacing (cm)": "Écartement des oreilles (cm)",
     "Two ears: the system response is computed at two points on either side of the listening spot, so moving along x shifts the image (time and level differences between the ears). No head model.": "Deux oreilles : la réponse du système est calculée en deux points de part et d'autre du point d'écoute, donc se déplacer sur x décale l'image (différences de temps et de niveau entre les oreilles). Pas de modèle de tête.",
     "Source code on GitHub": "Code source sur GitHub",
+    "Collapse the advice panel": "Replier le panneau de conseils",
+    "Show the tuning advice": "Afficher les conseils de réglage",
+    "Group": "Groupe",
     "Clear isolator": "Effacer l'isolateur",
     "Isolator cleared.": "Isolateur effacé.",
     "Overlay the source": "Superposer la source",
@@ -426,7 +429,7 @@ const I18N = (() => {
     ["Stage ", "Étage "],
     ["stage ", "étage "],
   ];
-  FR.push(["(third-octave)", "(tiers d'octave)"], ["Isolator: ", "Isolateur : "], ["simulated system only, steep band-pass 48 dB/oct", "système simulé uniquement, passe-bande raide 48 dB/oct"]);
+  FR.push(["show the tuning advice", "afficher les conseils de réglage"], ["All set: ", "Tout est réglé : "], ["(third-octave)", "(tiers d'octave)"], ["Isolator: ", "Isolateur : "], ["simulated system only, steep band-pass 48 dB/oct", "système simulé uniquement, passe-bande raide 48 dB/oct"]);
   const FRAGS = FR.slice().sort((a, b) => b[0].length - a[0].length);
   // patterns with agreement (plurals) and numbers
   const RX = [

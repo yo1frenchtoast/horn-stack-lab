@@ -1,6 +1,6 @@
 const {chromium}=require('playwright');const fs=require('fs');
 (async()=>{const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
-const pg=await b.newPage({viewport:{width:1280,height:1000}});const errs=[];pg.on('pageerror',e=>errs.push(e.message));
+const pg=await b.newPage({viewport:{width:1600,height:1000}});const errs=[];pg.on('pageerror',e=>errs.push(e.message));
 await pg.setContent('<!doctype html><html><head><style>[hidden]{display:none!important}</style></head><body>'+fs.readFileSync('page.html','utf8')+'</body></html>');await pg.waitForTimeout(1000);
 const p=process.argv[2];
 const dump=()=>pg.evaluate(()=>SRC.map(s=>s.id+':'+s.count+' hp '+(s.hp.type==='off'?'off':s.hp.type+s.hp.n+'@'+s.hp.f)+' lp '+(s.lp.type==='off'?'off':s.lp.type+s.lp.n+'@'+s.lp.f)+' g'+s.gain+' d'+s.delay).join(' | '));

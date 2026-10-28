@@ -1,10 +1,10 @@
 const {chromium}=require('playwright');const fs=require('fs');
-(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:1300,height:900}});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:1600,height:900}});const errs=[];p.on('pageerror',e=>errs.push(e.message));
 await p.setContent(fs.readFileSync('page.html','utf8'));await p.waitForTimeout(800);
 const fr0=await p.evaluate(()=>document.body.innerText.length);
 await p.selectOption('#langsel','en');await p.selectOption('#themesel','dark');await p.waitForTimeout(500);
 await p.screenshot({path:'/tmp/en_dark.png'});
 const th=await p.evaluate(()=>[document.documentElement.dataset.theme,getComputedStyle(document.body).backgroundColor,document.documentElement.lang]);
 await p.selectOption('#langsel','fr');await p.waitForTimeout(500);
-const frTxt=await p.evaluate(()=>[document.querySelector('h1').nextElementSibling.nextElementSibling.textContent.slice(0,60),document.querySelector('#advall').textContent,document.querySelector('#advall').title.slice(0,40)]);
+const frTxt=await p.evaluate(()=>[document.querySelector('.head p').textContent.slice(0,60),document.querySelector('#advall').textContent,document.querySelector('#advall').title.slice(0,40)]);
 console.log(th,frTxt,fr0,errs);await b.close()})();

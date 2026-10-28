@@ -98,6 +98,22 @@ table.stk { border-collapse: collapse; width: 100%; font-size: 13px; }
 .stk input[type=number] { width: 74px; }
 .stk select { width: 100%; min-width: 150px; }
 .advice { margin-top: 10px; border-top: 1px dashed var(--line); padding-top: 8px; }
+/* advice sidebar: pushes the page on wide screens (>= 1500 px), overlays it below; collapsed to a tab with the counter */
+.advside { position: fixed; top: 0; right: 0; bottom: 0; width: min(340px, 100vw); background: var(--surface); border-left: 1px solid var(--line); z-index: 40; display: none; flex-direction: column; box-shadow: -8px 0 24px rgba(0, 0, 0, 0.12); }
+body.advopen .advside { display: flex; }
+.advside-head { padding: 14px 16px 12px; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
+.advside-body { flex: 1; overflow-y: auto; padding: 12px 16px 24px; display: flex; flex-direction: column; gap: 14px; }
+#advstages { display: flex; flex-direction: column; gap: 14px; }
+.advsec h3 { margin: 0 0 6px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.advsec .hints { display: flex; flex-direction: column; gap: 6px; }
+.advside .hint b { min-width: 0; flex: 1 1 100%; }
+.advside .hint .tx { flex: 1 1 100%; }
+.advtab { position: fixed; right: 0; top: 96px; z-index: 39; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 10px 8px; border: 1px solid var(--line); border-right: 0; border-radius: 8px 0 0 8px; background: var(--surface); color: var(--fg); cursor: pointer; font-family: inherit; }
+body.advopen .advtab { display: none; }
+.advtab-n { min-width: 26px; height: 26px; border-radius: 13px; background: var(--accent); color: var(--bg); font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+.advtab-n.zero { background: var(--surface2); color: var(--muted); }
+.advtab-t { writing-mode: vertical-rl; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+@media (min-width: 1500px) { body.advopen { padding-right: 356px; } .advside { box-shadow: none; } }
 .advcount { font-size: 11px; text-transform: none; letter-spacing: 0; margin-left: 6px; padding: 1px 7px; border-radius: 9px; border: 1px solid var(--line); color: var(--muted); }
 .advcount.on { color: var(--fg); border-color: var(--fg); font-weight: 600; }
 .advice summary { cursor: pointer; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
@@ -119,6 +135,18 @@ button.btn.sm { padding: 3px 9px; }
 #speccv { aspect-ratio: 16 / 6; background: var(--surface); }
 </style>
 
+<button class="advtab" id="advtab" aria-controls="advside" aria-expanded="false" title="Show the tuning advice"><span class="advtab-n" id="advtotal">0</span><span class="advtab-t">Tuning advice</span></button>
+<aside class="advside" id="advside" aria-label="Tuning advice">
+  <div class="advside-head">
+    <div class="row" style="gap:8px;align-items:center;flex-wrap:nowrap"><h2 style="flex:1">Tuning advice</h2><span class="advcount" id="advcountall"></span><button class="btn sm" id="advclose" aria-label="Collapse the advice panel" title="Collapse the advice panel">›</button></div>
+    <div class="row" style="gap:8px"><button class="btn" id="advall" title="Applies the advice in the right order (filters, polarity, delays, gains, level) and recomputes between each step until it settles">Apply all advice</button><button class="btn" id="advundo" disabled>Undo</button><button class="btn" id="advreset" title="Puts the filters, gains, delays, polarity and offset of every stage back to their original values (can be undone)">Reset settings</button></div>
+    <div class="note" id="advmsg"></div>
+  </div>
+  <div class="advside-body">
+    <div id="advstages"></div>
+    <section class="advsec"><h3>Group <span class="advcount" id="advcountg"></span></h3><div class="hints" id="ghints"></div></section>
+  </div>
+</aside>
 <div class="wrap">
   <div class="head">
     <div class="brand"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19h7v10H5z"/><path d="M12 19 28 7v34L12 29"/><path d="M34 17c3 4 3 10 0 14M39 11c6 8 6 18 0 26"/></svg><div><small>Hornresp · PA stacks</small><h1>Horn Stack Lab</h1></div></div>
@@ -150,13 +178,6 @@ button.btn.sm { padding: 3px 9px; }
       <button class="btn" id="spfind" title="Searches, at the set listening height, the position that gives the best sum between 40 Hz and 4 kHz, according to the chosen criterion.">Find the best listening spot</button>
       <button class="btn" id="spundo" disabled>Undo</button>
       <span class="note" id="spmsg" style="flex:1 1 260px"></span>
-    </div>
-    <div class="row">
-      
-      <div class="row" style="flex:1 1 100%;gap:8px;align-items:center"><button class="btn" id="advall" title="Applies the advice in the right order (filters, polarity, delays, gains, level) and recomputes between each step until it settles">Apply all advice</button><button class="btn" id="advundo" disabled>Undo</button><button class="btn" id="advreset" title="Puts the filters, gains, delays, polarity and offset of every stage back to their original values (can be undone)">Reset settings</button><span class="note" id="advmsg" style="flex:1 1 260px"></span></div>
-      <details class="advice" style="flex:1 1 100%"><summary>Tuning advice <span class="advcount" id="advcountg"></span></summary>
-        <div class="hints" id="ghints"></div></details>
-
     </div>
   </div>
 
@@ -327,7 +348,6 @@ button.btn.sm { padding: 3px 9px; }
           <label class="f" id="bpmrow" hidden>Tempo (bpm)<input type="number" id="abpm" value="120" min="60" max="200" step="1" style="width:80px"></label>
           <label class="f inline" title="Two ears: the system response is computed at two points on either side of the listening spot, so moving along x shifts the image (time and level differences between the ears). No head model."><input type="checkbox" id="astereo"> Stereo (two ears)</label>
           <label class="f" id="earrow" hidden>Ear spacing (cm)<input type="number" id="aear" value="17" min="5" max="40" step="1" style="width:70px"></label>
-          <label class="f inline" id="sweepfollowrow" hidden><input type="checkbox" id="sweepfollow" checked> Map follows the sweep</label>
           <label class="f">Listen to <select id="amode"></select></label>
           <div class="tabs" id="aab"><button class="btn on" data-ab="sys">Simulated system</button><button class="btn" data-ab="raw">Raw source</button></div>
         </div>
@@ -765,6 +785,9 @@ const I18N = (() => {
     "Ear spacing (cm)": "Écartement des oreilles (cm)",
     "Two ears: the system response is computed at two points on either side of the listening spot, so moving along x shifts the image (time and level differences between the ears). No head model.": "Deux oreilles : la réponse du système est calculée en deux points de part et d'autre du point d'écoute, donc se déplacer sur x décale l'image (différences de temps et de niveau entre les oreilles). Pas de modèle de tête.",
     "Source code on GitHub": "Code source sur GitHub",
+    "Collapse the advice panel": "Replier le panneau de conseils",
+    "Show the tuning advice": "Afficher les conseils de réglage",
+    "Group": "Groupe",
     "Clear isolator": "Effacer l'isolateur",
     "Isolator cleared.": "Isolateur effacé.",
     "Overlay the source": "Superposer la source",
@@ -1024,7 +1047,7 @@ const I18N = (() => {
     ["Stage ", "Étage "],
     ["stage ", "étage "],
   ];
-  FR.push(["(third-octave)", "(tiers d'octave)"], ["Isolator: ", "Isolateur : "], ["simulated system only, steep band-pass 48 dB/oct", "système simulé uniquement, passe-bande raide 48 dB/oct"]);
+  FR.push(["show the tuning advice", "afficher les conseils de réglage"], ["All set: ", "Tout est réglé : "], ["(third-octave)", "(tiers d'octave)"], ["Isolator: ", "Isolateur : "], ["simulated system only, steep band-pass 48 dB/oct", "système simulé uniquement, passe-bande raide 48 dB/oct"]);
   const FRAGS = FR.slice().sort((a, b) => b[0].length - a[0].length);
   // patterns with agreement (plurals) and numbers
   const RX = [
@@ -1351,9 +1374,12 @@ function buildSources() {
     </details>
     ${filtRow(i, 'hp')}
     ${filtRow(i, 'lp')}
-    <details class="advice"><summary>Tuning advice <span class="advcount" data-advcount="${i}"></span></summary><div class="hints" data-hints="${i}"></div></details>
   </div>`).join('');
+  buildAdviceStages();
   syncControls();
+}
+function buildAdviceStages() {
+  $('advstages').innerHTML = SRC.map((s, i) => `<section class="advsec" style="--sc:var(${s.cssv})"><h3><i class="blk"></i><span data-advname="${i}">Stage ${i + 1}</span> <span class="advcount" data-advcount="${i}"></span></h3><div class="hints" data-hints="${i}"></div></section>`).join('');
 }
 function fillOrders(sel, type, n) {
   const list = ORDERS[type] || [1];
@@ -2279,25 +2305,8 @@ function mapHover(e) {
 }
 function mapLeave() { if (!CUR.on) return; CUR.on = false; $('mapcoord').textContent = 'Hover the map to read the coordinates (x: lateral, y: distance in front of the face, z: height) and the level.'; mapDirty = true; }
 let t0 = performance.now(), tPause = 0, raf = 0;
-// instantaneous frequency of the sweep being played (12 s logarithmic sweep, looped)
-let sweepLast = 0, sweepCost = 0;
-function sweepFollow(now) {
-  if (!AUD.playing || AUD.srcType !== 'sweep' || !AUD.ctx || !$('sweepfollow').checked || mbLive()) return;
-  if (now - sweepLast < Math.max(70, sweepCost * 1.5)) return;
-  sweepLast = now;
-  const T = 12, lat = (AUD.ctx.outputLatency || AUD.ctx.baseLatency || 0), tt = (((AUD.ctx.currentTime - AUD.fileT0 - lat) % T) + T) % T;
-  const f = 20 * Math.exp(tt / T * Math.log(1000)), fm = Math.min(1000, f);
-  const fr = Math.round(fm);
-  $('mapf').value = Math.round(fToSlider(fm, 20, 1000));
-  if (fr !== ui.mapF) {
-    ui.mapF = fr; $('mapfv').textContent = fr + ' Hz';
-    const c0 = performance.now(); computeMap(); drawChart(); mapDirty = true; sweepCost = performance.now() - c0;
-  }
-  $('astatus').textContent = 'Playing: ' + srcLabel() + ' · ' + modeLabel() + ' · ' + (f >= 1000 ? (f / 1000).toFixed(2) + ' kHz (outside the map, 1 kHz maximum)' : Math.round(f) + ' Hz');
-}
 function loop(now) {
   raf = requestAnimationFrame(loop);
-  sweepFollow(now);
   if (ui.playing) tPause = (now - t0) / 1000; else t0 = now - tPause * 1000;
   if (ui.playing || mapDirty || mbLive()) { paintMap(tPause); mapDirty = false; }
 }
@@ -2428,9 +2437,11 @@ function updateAdvice() {
     else h.push(H('ok', 'Low-pass', lpOn ? `Highest way: a low-pass at ${Math.round(s.lp.f)} Hz only serves as protection (useful band up to ≈ ${fmtF(niceF(bd.fH))}).` : `Highest way: no low-pass needed (useful band up to ≈ ${fmtF(niceF(bd.fH))}).`));
   });
   // display of the advice per stage + info bubbles
+  let advTotal = 0;
   SRC.forEach((s, i) => {
     const el = document.querySelector(`[data-hints="${i}"]`); if (!el) return;
-    const nAp = out[i].filter(x => x.ap).length, ce = document.querySelector(`[data-advcount="${i}"]`); if (ce) setAdvCount(ce, nAp);
+    const nAp = out[i].filter(x => x.ap).length, ce = document.querySelector(`[data-advcount="${i}"]`); if (ce) setAdvCount(ce, nAp); advTotal += nAp;
+    const nn = document.querySelector(`[data-advname="${i}"]`); if (nn) nn.textContent = `Stage ${i + 1} · ${shortName(s)}`;
     el.innerHTML = out[i].map(x => `<div class="hint ${x.cls}"><b>${x.k}</b><span class="tx">${x.tx}</span>${x.ap ? `<button class="btn sm" data-adv="${x.ap.k}" data-i="${i}" data-v="${x.ap.v}">Apply ${x.ap.l}</button>` : ''}</div>`).join('');
     const map = { Gain: 'gain', 'Delay': 'delay', 'Forward y': 'y', 'Offset x': 'x', 'Height z': 'z', 'Cabinet height': 'h', 'Polarity': 'pol' };
     out[i].forEach(x => { const p = map[x.k]; if (!p) return; const inp = document.querySelector(`[data-i="${i}"][data-p="${p}"]`); const lab = inp && (inp.closest('label') || inp); if (lab) lab.title = x.tx; });
@@ -2454,9 +2465,10 @@ function updateAdvice() {
     G.push(H(lf < 120 && ui.base > 0.05 ? 'tip' : 'ok', 'Floor height', lf < 120 ? '0: a bass cabinet on the floor benefits from floor coupling (+3 to +6 dB).' : 'With no bass in the stack, adjust freely to aim at the listening height.', lf < 120 && ui.base > 0.05 ? { k: 'base', v: 0, l: '0' } : null));
     const hi = lowest !== undefined ? M.band[lowest].fH : 100;
     G.push(H('tip', 'Groups / spacing', ui.stacks > 1 ? `In the bass, keep the spacing under ${fmtNum(C_SND / (2 * hi), 1)} m (λ/2 at ${fmtF(niceF(hi))}) so the groups couple; beyond that they interfere and dig holes.` : '1 group is enough for a central source; add groups for coverage or +6 dB per doubling in the bass.'));
-  } else G.push(H('tip', 'Conseils', 'Enable at least one stage to get advice.'));
+  } else G.push(H('tip', 'Advice', 'Enable at least one stage to get advice.'));
   ADV.out = out; ADV.G = G; ADV.M = M;
-  setAdvCount($('advcountg'), G.filter(x => x.ap).length);
+  const nG = G.filter(x => x.ap).length; setAdvCount($('advcountg'), nG); advTotal += nG; setAdvCount($('advcountall'), advTotal);
+  $('advtotal').textContent = advTotal; $('advtotal').classList.toggle('zero', !advTotal); $('advtab').title = advTotal ? `${advTotal} parameter${advTotal > 1 ? 's' : ''} to adjust: show the tuning advice` : 'All set: show the tuning advice';
   $('ghints').innerHTML = G.map(x => `<div class="hint ${x.cls}"><b>${x.k}</b><span class="tx">${x.tx}</span>${x.ap ? `<button class="btn sm" data-adv="${x.ap.k}" data-v="${x.ap.v}">Apply ${x.ap.l}</button>` : ''}</div>`).join('');
 }
 
@@ -2524,7 +2536,7 @@ function resetAdvice() {
 }
 function undoAdvice() {
   const u = ADV.stack.pop(); if (!u) return; restoreSnap(u);
-  $('advundo').disabled = !ADV.stack.length; $('advmsg').textContent = 'Previous settings restored' + (ADV.stack.length ? ` (encore ${ADV.stack.length} annulation${ADV.stack.length > 1 ? 's' : ''} possible${ADV.stack.length > 1 ? 's' : ''})` : '') + '.';
+  $('advundo').disabled = !ADV.stack.length; $('advmsg').textContent = 'Previous settings restored' + (ADV.stack.length ? ` (${ADV.stack.length} more undo${ADV.stack.length > 1 ? 's' : ''} possible)` : '') + '.';
   syncControls(); refresh();
 }
 
@@ -2932,12 +2944,25 @@ function buildListenOptions() {
   if (cur >= SRC.length) AUD.mode = -1;
   sel.value = AUD.mode;
 }
+// ---------- advice sidebar (open by default on wide screens, remembered per viewer) ----------
+function advSide(open, save) {
+  document.body.classList.toggle('advopen', open);
+  $('advtab').setAttribute('aria-expanded', open ? 'true' : 'false');
+  if (save) { try { localStorage.setItem('hornstack-advside', open ? 'open' : 'closed'); } catch (e) { } }
+}
+function wireAdviceSide() {
+  let st = null; try { st = localStorage.getItem('hornstack-advside'); } catch (e) { }
+  advSide(st ? st === 'open' : window.innerWidth >= 1500, false);
+  $('advtab').addEventListener('click', () => { advSide(true, true); $('advclose').focus(); });
+  $('advclose').addEventListener('click', () => { advSide(false, true); $('advtab').focus(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.body.classList.contains('advopen') && window.innerWidth < 1500 && document.activeElement && $('advside').contains(document.activeElement)) { advSide(false, true); $('advtab').focus(); } });
+}
 function wireAudio() {
   mixUi();
   $('aplay').addEventListener('click', () => AUD.playing ? stopAudio() : startAudio());
   $('asrc').addEventListener('change', e => {
     if (AUD.srcType === 'file') AUD.fileOff = filePos();
-    AUD.srcType = e.target.value; $('sweepfollowrow').hidden = AUD.srcType !== 'sweep'; $('bpmrow').hidden = AUD.srcType !== 'mixer'; $('mixer').hidden = AUD.srcType !== 'mixer';
+    AUD.srcType = e.target.value; $('bpmrow').hidden = AUD.srcType !== 'mixer'; $('mixer').hidden = AUD.srcType !== 'mixer';
     if (AUD.srcType === 'file' && !AUD.fileBuf) { $('afilein').click(); AUD.srcType = 'pink'; e.target.value = 'pink'; return; }
     if (AUD.playing) { makeSource(); $('astatus').textContent = 'Playing: ' + srcLabel() + ' · ' + modeLabel(); }
     updateSeek();
@@ -3161,7 +3186,7 @@ function wire() {
   new MutationObserver(() => { drawChart(); drawEq(); drawSpec(); mapDirty = true; }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) { ui.playing = false; $('play').textContent = 'Play'; }
 }
-buildTable(); buildSources(); buildEqTable(); eqUpdate(); wire(); wireDrivers(); buildListenOptions(); drawEq(); drawSpec(); refresh();
+buildTable(); buildSources(); buildEqTable(); eqUpdate(); wire(); wireAdviceSide(); wireDrivers(); buildListenOptions(); drawEq(); drawSpec(); refresh();
 cfgInit();
 initI18n(() => { drawChart(); drawEq(); drawSpec(); mapDirty = true; });
 raf = requestAnimationFrame(loop);
