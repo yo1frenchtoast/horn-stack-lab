@@ -322,6 +322,8 @@ button.btn.sm { padding: 3px 9px; }
           <label class="f">Signal
             <select id="asrc"><option value="pink">Pink noise</option><option value="mixer">Instrument mixer (kick, bass, snare, hi-hat, chord)</option><option value="sweep">Sweep 20 Hz – 20 kHz</option><option value="tone">Sine at the map frequency</option><option value="file">Mon audio file…</option></select></label>
           <label class="f" id="bpmrow" hidden>Tempo (bpm)<input type="number" id="abpm" value="120" min="60" max="200" step="1" style="width:80px"></label>
+          <label class="f inline" title="Two ears: the system response is computed at two points on either side of the listening spot, so moving along x shifts the image (time and level differences between the ears). No head model."><input type="checkbox" id="astereo"> Stereo (two ears)</label>
+          <label class="f" id="earrow" hidden>Ear spacing (cm)<input type="number" id="aear" value="17" min="5" max="40" step="1" style="width:70px"></label>
           <label class="f inline" id="sweepfollowrow" hidden><input type="checkbox" id="sweepfollow" checked> Map follows the sweep</label>
           <label class="f">Listen to <select id="amode"></select></label>
           <div class="tabs" id="aab"><button class="btn on" data-ab="sys">Simulated system</button><button class="btn" data-ab="raw">Raw source</button></div>
@@ -756,6 +758,9 @@ const I18N = (() => {
     "Bass": "Basse", "Snare": "Caisse claire", "Hi-hat": "Charleston", "Chord": "Accord",
     "Bass level": "Niveau basse", "Kick level": "Niveau kick", "Snare level": "Niveau caisse claire", "Hi-hat level": "Niveau charleston", "Chord level": "Niveau accord",
     "Mute": "Muet", "Solo": "Solo", "instrument mix": "mélange d'instruments",
+    "Stereo (two ears)": "Stéréo (deux oreilles)",
+    "Ear spacing (cm)": "Écartement des oreilles (cm)",
+    "Two ears: the system response is computed at two points on either side of the listening spot, so moving along x shifts the image (time and level differences between the ears). No head model.": "Deux oreilles : la réponse du système est calculée en deux points de part et d'autre du point d'écoute, donc se déplacer sur x décale l'image (différences de temps et de niveau entre les oreilles). Pas de modèle de tête.",
     "Clear isolator": "Effacer l'isolateur",
     "Isolator cleared.": "Isolateur effacé.",
     "Overlay the source": "Superposer la source",
@@ -2666,7 +2671,7 @@ function wireSpec() {
 
 // ---------- simulated listening ----------
 // The signal goes through a filter (ConvolverNode) whose impulse response comes from the system's complex response at the listening spot.
-const AUD = { ctx: null, N: 16384, K: null, playing: false, mode: -1, srcType: 'pink', bpm: 120, ab: 'sys', vol: -6, fileBuf: null, fileGain: 1, fileOff: 0, fileT0: 0, seeking: false,
+const AUD = { ctx: null, N: 16384, K: null, stereo: false, ear: 17, playing: false, mode: -1, srcType: 'pink', bpm: 120, ab: 'sys', vol: -6, fileBuf: null, fileGain: 1, fileOff: 0, fileT0: 0, seeking: false,
   srcNode: null, osc: null, srcGain: null, sysGain: null, rawGain: null, mix: null, master: null, curConv: null, curGain: null, timer: 0, bufCache: {} };
 
 function fft(re, im) { // in-place radix-2 complex FFT (e^{-j})
@@ -2697,14 +2702,15 @@ function hornBins(s, sr) {
   return s._ac.p;
 }
 // complex spectrum of the system at the listening spot; mode -1 = sum of the active ways, i >= 0 = way i alone
-function systemSpectrum(sr, mode) {
+// ex: lateral offset (m) of the listening point along x (used for the two ears; the time reference stays that of the centre point)
+function systemSpectrum(sr, mode, ex = 0) {
   const N = AUD.N, K = N / 2, P = positions(), drive = Math.pow(10, ui.drive / 20);
   const inc = SRC.map((s, i) => mode < 0 ? s.on : i === mode);
   const mine = P.filter(p => inc[p.i]);
   const re = new Float64Array(N), im = new Float64Array(N);
   if (!mine.length) return { re, im, rms: 1 };
-  const dist = p => Math.max(0.1, Math.sqrt((ui.lx - p.X) ** 2 + (ui.ly - p.Y) ** 2 + (ui.lz - p.Z) ** 2));
-  const r0 = Math.min(...mine.map(dist)), t0 = 0.015;
+  const lxE = ui.lx + ex, dist = p => Math.max(0.1, Math.sqrt((lxE - p.X) ** 2 + (ui.ly - p.Y) ** 2 + (ui.lz - p.Z) ** 2));
+  const r0 = Math.min(...mine.map(p => Math.max(0.1, Math.sqrt((ui.lx - p.X) ** 2 + (ui.ly - p.Y) ** 2 + (ui.lz - p.Z) ** 2)))), t0 = 0.015;
   const bins = SRC.map((s, i) => inc[i] ? hornBins(s, sr) : null);
   let sw = 0, sp = 0;
   for (let k = 1; k <= K; k++) {
@@ -2715,7 +2721,7 @@ function systemSpectrum(sr, mode) {
       const W = cx.sc(cx.mul(bins[i][k - 1], wayFactor(s, f)), drive);
       for (const q of mine) {
         if (q.i !== i) continue;
-        const dx = ui.lx - q.X, dy = ui.ly - q.Y, dz = ui.lz - q.Z, r = dist(q);
+        const dx = lxE - q.X, dy = ui.ly - q.Y, dz = ui.lz - q.Z, r = dist(q);
         const ad = axisDir(q, dx, dy, dz), prop = cx.fromPolar(dirFactor(aOf(s, f), f, ad[0], r, ad[1]) / r, -kw * (r - r0));
         sum = cx.add(sum, cx.mul(W, prop));
       }
@@ -2748,8 +2754,10 @@ function buildIR() {
   if (!AUD.ctx) return;
   const sr = AUD.ctx.sampleRate;
   if (AUD.K == null) calibrate();
-  const ir = spectrumToIR(systemSpectrum(sr, AUD.mode), AUD.K);
-  const buf = AUD.ctx.createBuffer(1, AUD.N, sr); buf.copyToChannel(ir, 0);
+  // stereo: the listener faces the stack (looking towards -y), so the left ear is at +x and the right ear at -x of the listening point
+  const buf = AUD.ctx.createBuffer(AUD.stereo ? 2 : 1, AUD.N, sr), h = AUD.stereo ? AUD.ear / 200 : 0;
+  buf.copyToChannel(spectrumToIR(systemSpectrum(sr, AUD.mode, h), AUD.K), 0);
+  if (AUD.stereo) buf.copyToChannel(spectrumToIR(systemSpectrum(sr, AUD.mode, -h), AUD.K), 1);
   const conv = AUD.ctx.createConvolver(); conv.normalize = false; conv.buffer = buf;
   const g = AUD.ctx.createGain(), t = AUD.ctx.currentTime;
   g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(1, t + 0.08);
@@ -2930,6 +2938,8 @@ function wireAudio() {
     if (AUD.playing) { makeSource(); $('astatus').textContent = 'Playing: ' + srcLabel() + ' · ' + modeLabel(); }
     updateSeek();
   });
+  $('astereo').addEventListener('change', e => { AUD.stereo = e.target.checked; $('earrow').hidden = !AUD.stereo; scheduleIR(); });
+  $('aear').addEventListener('change', e => { const v = Math.min(40, Math.max(5, +e.target.value || 17)); e.target.value = v; AUD.ear = v; if (AUD.stereo) scheduleIR(); });
   $('amode').addEventListener('change', e => { AUD.mode = +e.target.value; scheduleIR(); });
   $('aab').addEventListener('click', e => {
     const b = e.target.closest('[data-ab]'); if (!b) return;
