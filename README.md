@@ -15,7 +15,8 @@ Simulateur de stacks de sono à pavillons et bass-reflex, calculé à partir de 
 | `params.js`, `gen.js` | Enceintes estimées ou mesurées : pilotes `D` et fonction `mk` ; `node gen.js` écrit `est/*.txt` |
 | `build.js` | Assemble `page.html` (moteur + données + traduction + template) et vérifie la syntaxe |
 | `tests/` | Tests headless Playwright (`node tests/t43.js`, etc., à lancer depuis la racine) |
-| `page.html` | Page construite, prête à être servie ou publiée |
+| `page.html` | Page construite sans squelette HTML (format de l'artefact Claude) |
+| `index.html` | Même page avec `<!doctype>`, charset et viewport : c'est celle que sert GitHub Pages |
 
 ## Construire
 
@@ -24,6 +25,10 @@ node gen.js && node build.js   # écrit page.html
 ```
 
 Les tests demandent Playwright (`npm install`).
+
+## Publier sur GitHub Pages
+
+Pages ne construit rien : il sert `index.html`, qui est commité. Réglages : *Settings → Pages → Deploy from a branch → `main` / `(root)`*. Après une modification, lancer `node gen.js && node build.js`, puis commiter `index.html` et `page.html`.
 
 ## Ajouter une enceinte
 
