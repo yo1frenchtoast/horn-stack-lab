@@ -202,6 +202,7 @@ const I18N = (() => {
     "Language": "Langue",
     "Light": "Clair",
     "Dark": "Sombre",
+    "Blueprint": "Plan bleu",
     "Datasheet": "Fiche technique",
     "Normal": "Normale",
     "Inverted": "Inversée",
@@ -509,7 +510,7 @@ function setLang(l, redraw) {
   const sel = document.getElementById('langsel'); if (sel) sel.value = LANG;
   if (redraw) redraw();
 }
-const THEMES = ['auto', 'light', 'dark', 'datasheet'];
+const THEMES = ['auto', 'light', 'dark', 'blueprint', 'datasheet'];
 function setTheme(t) {
   const root = document.documentElement;
   if (!THEMES.includes(t)) t = 'auto';

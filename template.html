@@ -27,6 +27,12 @@
   --accent: #8a1c1c; --c1: #1a1a1a; --c2: #8a1c1c; --c3: #1f3f73; --c4: #2f5f1a; --c5: #0f5f66; --c6: #7a6208; --c7: #4b3492; --c8: #6a2a5a; --warn: #8a1c1c;
   --map-neutral: #fbfaf6; --map-neg: #2d3f66; --map-pos: #8a1c1c; --font: 'Source Serif 4', Georgia, 'Times New Roman', serif; color-scheme: light;
 }
+/* Blueprint: a cyanotype drawing sheet (graph-paper grid, white line-work, drafting caps, framed sections, title block). */
+:root[data-theme="blueprint"] {
+  --bg: #134a94; --surface: #0e3c7e; --surface2: #185aa8; --fg: #eef6ff; --muted: #a9c8ee; --line: #4f80c4;
+  --accent: #ffe27a; --c1: #ffffff; --c2: #ffe27a; --c3: #8fe3ff; --c4: #b6f5a8; --c5: #ffb4a2; --c6: #d6b8ff; --c7: #7ff0d6; --c8: #ffc2e2; --warn: #ffb4a2;
+  --map-neutral: #0e3c7e; --map-neg: #6fd3ff; --map-pos: #ffe27a; --font: 'IBM Plex Mono', ui-monospace, monospace; color-scheme: dark;
+}
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 14px; line-height: 1.45; padding-inline: 16px; padding-block: 20px 40px; }
 .wrap { max-width: 1440px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
@@ -171,6 +177,39 @@ button.btn.sm { padding: 3px 9px; }
 :root[data-theme="datasheet"] .advtab { border-radius: 0; border-color: var(--fg); }
 :root[data-theme="datasheet"] .advtab-n, :root[data-theme="datasheet"] .advcount { border-radius: 0; }
 :root[data-theme="datasheet"] .hint { border-left-width: 2px; }
+/* Blueprint theme: shapes and typography (everything below only applies to data-theme="blueprint") */
+:root[data-theme="blueprint"] body { counter-reset: sec; font-size: 13.5px; background-image: linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(rgba(255,255,255,.13) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.13) 1px, transparent 1px); background-size: 20px 20px, 20px 20px, 100px 100px, 100px 100px; background-attachment: fixed; }
+:root[data-theme="blueprint"] .head { position: relative; background: none; border: 2px solid var(--fg); border-radius: 0; outline: 1px solid var(--line); outline-offset: 4px; padding: 30px 20px 14px; }
+:root[data-theme="blueprint"] .head::before { content: "Sheet 1/1 · Rev. A · Scale 1:1 · Unit m"; position: absolute; top: 0; right: 0; padding: 3px 10px; border-left: 1px solid var(--fg); border-bottom: 1px solid var(--fg); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+:root[data-theme="blueprint"]:lang(fr) .head::before { content: "Feuille 1/1 · Rév. A · Éch. 1:1 · Unité m"; }
+:root[data-theme="blueprint"] .brand h1 { font-size: 30px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; }
+:root[data-theme="blueprint"] .brand svg { color: var(--fg); stroke-width: 1.4; }
+:root[data-theme="blueprint"] .gh { border-radius: 0; border-color: var(--fg); color: var(--fg); }
+:root[data-theme="blueprint"] .panel { background: none; border: 1px solid var(--fg); border-radius: 0; outline: 1px solid var(--line); outline-offset: 4px; margin: 5px; padding: 14px; }
+:root[data-theme="blueprint"] h2 { counter-increment: sec; font-size: 12px; font-weight: 500; letter-spacing: 0.16em; color: var(--fg); border-bottom: 1px dashed var(--line); padding-bottom: 4px; }
+:root[data-theme="blueprint"] h2::before { content: counter(sec, decimal-leading-zero) " / "; color: var(--accent); }
+:root[data-theme="blueprint"] summary h2 { border-bottom: 0; }
+:root[data-theme="blueprint"] .advside h2 { counter-increment: none; }
+:root[data-theme="blueprint"] .advside h2::before { content: none; }
+:root[data-theme="blueprint"] label.f { letter-spacing: 0.1em; }
+:root[data-theme="blueprint"] input[type=number], :root[data-theme="blueprint"] select, :root[data-theme="blueprint"] input[type=text] { background: transparent; border: 1px solid var(--line); border-radius: 0; }
+:root[data-theme="blueprint"] input[type=number]:focus, :root[data-theme="blueprint"] select:focus, :root[data-theme="blueprint"] input[type=text]:focus { border-color: var(--fg); }
+:root[data-theme="blueprint"] select option { background: var(--surface); color: var(--fg); }
+:root[data-theme="blueprint"] button.btn { background: transparent; border: 1px solid var(--fg); border-radius: 0; text-transform: uppercase; letter-spacing: 0.08em; font-size: 12px; font-family: var(--font); }
+:root[data-theme="blueprint"] button.btn:hover, :root[data-theme="blueprint"] button.btn.on { background: var(--fg); color: var(--surface); border-color: var(--fg); }
+:root[data-theme="blueprint"] canvas { border-radius: 0; }
+:root[data-theme="blueprint"] #chart, :root[data-theme="blueprint"] #eqcv, :root[data-theme="blueprint"] #speccv, :root[data-theme="blueprint"] #map { border: 1px solid var(--fg); }
+:root[data-theme="blueprint"] .src { border-left: 0; border-top: 2px solid var(--sc); }
+:root[data-theme="blueprint"] .blk, :root[data-theme="blueprint"] .legend i { border-radius: 0; }
+:root[data-theme="blueprint"] .stk th { letter-spacing: 0.1em; color: var(--fg); border-bottom: 1px solid var(--fg); }
+:root[data-theme="blueprint"] .stk td { border-bottom: 1px dashed var(--line); }
+:root[data-theme="blueprint"] .stk td.lvl { border-left: 0; }
+:root[data-theme="blueprint"] .info .tip { background: var(--surface); border-color: var(--fg); border-radius: 0; box-shadow: none; }
+:root[data-theme="blueprint"] .advside { background: var(--surface); border-left: 2px solid var(--fg); box-shadow: none; }
+:root[data-theme="blueprint"] .advtab { background: var(--surface); border-radius: 0; border-color: var(--fg); }
+:root[data-theme="blueprint"] .advtab-n, :root[data-theme="blueprint"] .advcount { border-radius: 0; }
+:root[data-theme="blueprint"] .hint { border-left-width: 2px; }
+:root[data-theme="blueprint"] .advice { border-top-color: var(--line); }
 </style>
 
 <button class="advtab" id="advtab" aria-controls="advside" aria-expanded="false" title="Show the tuning advice"><span class="advtab-n" id="advtotal">0</span><span class="advtab-t">Tuning advice</span></button>
@@ -188,7 +227,7 @@ button.btn.sm { padding: 3px 9px; }
 <div class="wrap">
   <div class="head">
     <div class="brand"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19h7v10H5z"/><path d="M12 19 28 7v34L12 29"/><path d="M34 17c3 4 3 10 0 14M39 11c6 8 6 18 0 26"/></svg><div><small>Hornresp · PA stacks</small><h1>Horn Stack Lab</h1></div></div>
-    <div class="tools"><a class="gh" href="https://github.com/yo1frenchtoast/horn-stack-lab" target="_blank" rel="noopener" title="Source code on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a><label class="f inline">Theme <select id="themesel" aria-label="Theme"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option><option value="datasheet">Datasheet</option></select></label><label class="f inline">Language <select id="langsel" aria-label="Language"><option value="fr">Français</option><option value="en">English</option></select></label></div>
+    <div class="tools"><a class="gh" href="https://github.com/yo1frenchtoast/horn-stack-lab" target="_blank" rel="noopener" title="Source code on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a><label class="f inline">Theme <select id="themesel" aria-label="Theme"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option><option value="blueprint">Blueprint</option><option value="datasheet">Datasheet</option></select></label><label class="f inline">Language <select id="langsel" aria-label="Language"><option value="fr">Français</option><option value="en">English</option></select></label></div>
     <p>Horn and bass-reflex PA stack simulator, computed from Hornresp scripts: Cubo 18, Cubo Sub, Kick, MT130, MHB, E15, GK MB112 and more. Stack the cabinets in a column or a pyramid, aim them, set filters, delays, gains and equaliser, add your own drivers, then read the response at the listening spot (SPL, phase, group delay, excursion, impedance), the waves in 2D or 3D and a simulated listening.</p>
   </div>
 
@@ -1061,9 +1100,9 @@ function wayFactor(s, f) {
   const g = Math.pow(10, s.gain / 20) * (s.pol ? -1 : 1);
   return cx.mul(cx.mul(F, eqResponse(f)), cx.fromPolar(g, -2 * Math.PI * f * s.delay / 1000));
 }
-// datasheet theme: the ways are told apart by their dash pattern as well as by colour, like a printed figure
+// datasheet and blueprint themes: the ways are told apart by their dash pattern as well as by colour, like a printed figure
 const DASHES = [[7, 3], [2, 3], [12, 3, 2, 3], [4, 2], [1, 3], [9, 3, 1, 3], [6, 6], [3, 3, 1, 3]];
-const dashFor = i => document.documentElement.dataset.theme === 'datasheet' && i >= 0 ? DASHES[i % DASHES.length] : [];
+const dashFor = i => ['datasheet', 'blueprint'].includes(document.documentElement.dataset.theme) && i >= 0 ? DASHES[i % DASHES.length] : [];
 let CURVES = null;
 function computeCurves() {
   const drive = Math.pow(10, ui.drive / 20);
