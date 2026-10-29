@@ -202,6 +202,10 @@ const I18N = (() => {
     "Language": "Langue",
     "Light": "Clair",
     "Dark": "Sombre",
+    "Studio": "Studio",
+    "Phosphor": "Phosphore",
+    "Blueprint": "Plan bleu",
+    "Paper": "Papier",
     "Normal": "Normale",
     "Inverted": "Inversée",
   };
@@ -508,11 +512,13 @@ function setLang(l, redraw) {
   const sel = document.getElementById('langsel'); if (sel) sel.value = LANG;
   if (redraw) redraw();
 }
+const THEMES = ['auto', 'light', 'dark', 'studio', 'phosphor', 'blueprint', 'paper'];
 function setTheme(t) {
   const root = document.documentElement;
-  if (t === 'light' || t === 'dark') root.setAttribute('data-theme', t); else root.removeAttribute('data-theme');
+  if (!THEMES.includes(t)) t = 'auto';
+  if (t !== 'auto') root.setAttribute('data-theme', t); else root.removeAttribute('data-theme');
   try { localStorage.setItem('cubo-theme', t); } catch (e) { }
-  const sel = document.getElementById('themesel'); if (sel) sel.value = (t === 'light' || t === 'dark') ? t : 'auto';
+  const sel = document.getElementById('themesel'); if (sel) sel.value = t;
 }
 function initI18n(redraw) {
   let l = null, th = 'auto';
