@@ -2053,7 +2053,7 @@ function paintMap(t) {
   });
   // listening spot
   const lx = top ? X(ui.lx) : X(ui.ly), ly = top ? Y(ui.ly) : Y(ui.lz);
-  ctx.strokeStyle = ink; ctx.lineWidth = 2 * dpr; ctx.beginPath(); ctx.arc(lx, ly, 7 * dpr, 0, 6.2832); ctx.stroke();
+  ctx.strokeStyle = ink; ctx.lineWidth = 2 * dpr;
   ctx.beginPath(); ctx.moveTo(lx - 11 * dpr, ly); ctx.lineTo(lx + 11 * dpr, ly); ctx.moveTo(lx, ly - 11 * dpr); ctx.lineTo(lx, ly + 11 * dpr); ctx.stroke();
   if (CUR.on) drawCursor(ctx, dpr, top ? X(CUR.x) : X(CUR.y), top ? Y(CUR.y) : Y(CUR.z));
 }
