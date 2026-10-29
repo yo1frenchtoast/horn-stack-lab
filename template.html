@@ -1,5 +1,5 @@
 <title>Horn Stack Lab</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap">
 <style>
 /* Layout: settings column (3 ways) on the left, curves and wave map on the right; a single column on phones.
    Palette: cold blue-grey, one colour per way (blue, amber, magenta), sum in the text colour. */
@@ -37,10 +37,11 @@
   --accent: #7fe3ff; --c1: #7fe3ff; --c2: #ffd166; --c3: #ff9ecb; --c4: #a8f08a; --c5: #5ee6c8; --c6: #ffb86b; --c7: #b9a6ff; --c8: #ff8a8a; --warn: #ff9a8a;
   --map-neutral: #0c2a50; --map-neg: #4aa8ff; --map-pos: #ffb74a; --font: 'IBM Plex Mono', ui-monospace, monospace; color-scheme: dark;
 }
-:root[data-theme="paper"] {
-  --bg: #f4efe4; --surface: #fbf8f1; --surface2: #ebe4d4; --fg: #231f1a; --muted: #6a6256; --line: #d3c8b2;
-  --accent: #b3261e; --c1: #1f4e8c; --c2: #b3541e; --c3: #8a2b6e; --c4: #3d6b1f; --c5: #0f6b73; --c6: #8a6a0a; --c7: #5b3aa8; --c8: #a3213c; --warn: #b3261e;
-  --map-neutral: #efe8d8; --map-neg: #2d5f9a; --map-pos: #c4521c; color-scheme: light;
+/* Datasheet: a printed technical notice (serif, hairline rules, numbered sections, flat controls, dashed curves). */
+:root[data-theme="datasheet"] {
+  --bg: #fbfaf6; --surface: #ffffff; --surface2: #f1eee4; --fg: #1a1a1a; --muted: #55514a; --line: #c9c5b8;
+  --accent: #8a1c1c; --c1: #1a1a1a; --c2: #8a1c1c; --c3: #1f3f73; --c4: #2f5f1a; --c5: #0f5f66; --c6: #7a6208; --c7: #4b3492; --c8: #6a2a5a; --warn: #8a1c1c;
+  --map-neutral: #fbfaf6; --map-neg: #2d3f66; --map-pos: #8a1c1c; --font: 'Source Serif 4', Georgia, 'Times New Roman', serif; color-scheme: light;
 }
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 14px; line-height: 1.45; padding-inline: 16px; padding-block: 20px 40px; }
@@ -149,6 +150,43 @@ button.btn.sm { padding: 3px 9px; }
 .mixch .mval { font-family: var(--mono); font-size: 12px; text-align: right; }
 .mixch input[type=range] { width: 100%; min-width: 0; }
 #speccv { aspect-ratio: 16 / 6; background: var(--surface); }
+/* Datasheet theme: shapes and typography (everything below only applies to data-theme="datasheet") */
+:root[data-theme="datasheet"] body { font-size: 15px; counter-reset: sec; }
+:root[data-theme="datasheet"] .wrap { gap: 22px; }
+:root[data-theme="datasheet"] .head { position: relative; padding: 34px 0 12px; background: none; border: 0; border-bottom: 1px solid var(--fg); border-radius: 0; }
+:root[data-theme="datasheet"] .head::before { content: "Simulation notice"; position: absolute; top: 0; left: 0; right: 0; padding-bottom: 4px; border-bottom: 1px solid var(--fg); font-size: 12px; font-variant: small-caps; letter-spacing: 0.1em; }
+:root[data-theme="datasheet"]:lang(fr) .head::before { content: "Notice de simulation"; }
+:root[data-theme="datasheet"] .brand svg { display: none; }
+:root[data-theme="datasheet"] .brand h1 { font-size: 52px; line-height: 1; font-weight: 700; letter-spacing: -0.01em; }
+:root[data-theme="datasheet"] .brand small { font-family: var(--font); font-size: 13px; font-variant: small-caps; letter-spacing: 0.1em; text-transform: none; }
+:root[data-theme="datasheet"] .head p { font-style: italic; color: var(--muted); }
+:root[data-theme="datasheet"] .gh { border: 0; border-bottom: 1px solid var(--fg); border-radius: 0; color: var(--fg); padding: 2px 0; }
+:root[data-theme="datasheet"] .panel { background: none; border: 0; border-radius: 0; padding: 0; gap: 12px; }
+:root[data-theme="datasheet"] h2 { counter-increment: sec; font-size: 17px; font-weight: 700; text-transform: none; letter-spacing: 0; color: var(--fg); border-bottom: 1px solid var(--fg); padding-bottom: 3px; }
+:root[data-theme="datasheet"] h2::before { content: counter(sec) "."; font-family: var(--mono); font-weight: 500; font-size: 14px; margin-right: 8px; }
+:root[data-theme="datasheet"] summary h2 { border-bottom: 0; }
+:root[data-theme="datasheet"] .advside h2 { counter-increment: none; font-size: 15px; }
+:root[data-theme="datasheet"] .advside h2::before { content: none; }
+:root[data-theme="datasheet"] label.f { font-size: 13px; font-variant: small-caps; text-transform: none; letter-spacing: 0.06em; }
+:root[data-theme="datasheet"] label.f.inline { font-variant: normal; letter-spacing: 0; font-size: 14px; }
+:root[data-theme="datasheet"] input[type=number], :root[data-theme="datasheet"] select, :root[data-theme="datasheet"] input[type=text] { background: transparent; border: 0; border-bottom: 1px solid var(--fg); border-radius: 0; padding: 3px 2px; }
+:root[data-theme="datasheet"] button.btn { background: transparent; border: 1px solid var(--fg); border-radius: 0; padding: 3px 10px; font-variant: small-caps; letter-spacing: 0.05em; font-weight: 600; }
+:root[data-theme="datasheet"] button.btn:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+:root[data-theme="datasheet"] button.btn.on { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+:root[data-theme="datasheet"] canvas { border-radius: 0; }
+:root[data-theme="datasheet"] #chart, :root[data-theme="datasheet"] #eqcv, :root[data-theme="datasheet"] #speccv { border: 1px solid var(--fg); background: var(--surface); }
+:root[data-theme="datasheet"] #map { border: 1px solid var(--fg); }
+:root[data-theme="datasheet"] .src { border-left: 0; border-top: 3px solid var(--sc); padding-top: 8px; }
+:root[data-theme="datasheet"] .blk, :root[data-theme="datasheet"] .legend i { border-radius: 0; }
+:root[data-theme="datasheet"] .stk th { font-size: 13px; font-variant: small-caps; text-transform: none; letter-spacing: 0.06em; color: var(--fg); font-weight: 600; border-top: 1px solid var(--fg); border-bottom: 1px solid var(--fg); }
+:root[data-theme="datasheet"] .stk td.lvl { border-left: 0; }
+:root[data-theme="datasheet"] .stk tbody tr:last-child td { border-bottom-color: var(--fg); }
+:root[data-theme="datasheet"] .readout, :root[data-theme="datasheet"] .note, :root[data-theme="datasheet"] .legend { font-style: italic; }
+:root[data-theme="datasheet"] .info .tip { border-color: var(--fg); border-radius: 0; box-shadow: none; }
+:root[data-theme="datasheet"] .advside { border-left: 1px solid var(--fg); box-shadow: none; }
+:root[data-theme="datasheet"] .advtab { border-radius: 0; border-color: var(--fg); }
+:root[data-theme="datasheet"] .advtab-n, :root[data-theme="datasheet"] .advcount { border-radius: 0; }
+:root[data-theme="datasheet"] .hint { border-left-width: 2px; }
 </style>
 
 <button class="advtab" id="advtab" aria-controls="advside" aria-expanded="false" title="Show the tuning advice"><span class="advtab-n" id="advtotal">0</span><span class="advtab-t">Tuning advice</span></button>
@@ -166,7 +204,7 @@ button.btn.sm { padding: 3px 9px; }
 <div class="wrap">
   <div class="head">
     <div class="brand"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19h7v10H5z"/><path d="M12 19 28 7v34L12 29"/><path d="M34 17c3 4 3 10 0 14M39 11c6 8 6 18 0 26"/></svg><div><small>Hornresp · PA stacks</small><h1>Horn Stack Lab</h1></div></div>
-    <div class="tools"><a class="gh" href="https://github.com/yo1frenchtoast/horn-stack-lab" target="_blank" rel="noopener" title="Source code on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a><label class="f inline">Theme <select id="themesel" aria-label="Theme"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option><option value="studio">Studio</option><option value="phosphor">Phosphor</option><option value="blueprint">Blueprint</option><option value="paper">Paper</option></select></label><label class="f inline">Language <select id="langsel" aria-label="Language"><option value="fr">Français</option><option value="en">English</option></select></label></div>
+    <div class="tools"><a class="gh" href="https://github.com/yo1frenchtoast/horn-stack-lab" target="_blank" rel="noopener" title="Source code on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a><label class="f inline">Theme <select id="themesel" aria-label="Theme"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option><option value="studio">Studio</option><option value="phosphor">Phosphor</option><option value="blueprint">Blueprint</option><option value="datasheet">Datasheet</option></select></label><label class="f inline">Language <select id="langsel" aria-label="Language"><option value="fr">Français</option><option value="en">English</option></select></label></div>
     <p>Horn and bass-reflex PA stack simulator, computed from Hornresp scripts: Cubo 18, Cubo Sub, Kick, MT130, MHB, E15, GK MB112 and more. Stack the cabinets in a column or a pyramid, aim them, set filters, delays, gains and equaliser, add your own drivers, then read the response at the listening spot (SPL, phase, group delay, excursion, impedance), the waves in 2D or 3D and a simulated listening.</p>
   </div>
 
@@ -1039,6 +1077,9 @@ function wayFactor(s, f) {
   const g = Math.pow(10, s.gain / 20) * (s.pol ? -1 : 1);
   return cx.mul(cx.mul(F, eqResponse(f)), cx.fromPolar(g, -2 * Math.PI * f * s.delay / 1000));
 }
+// datasheet theme: the ways are told apart by their dash pattern as well as by colour, like a printed figure
+const DASHES = [[7, 3], [2, 3], [12, 3, 2, 3], [4, 2], [1, 3], [9, 3, 1, 3], [6, 6], [3, 3, 1, 3]];
+const dashFor = i => document.documentElement.dataset.theme === 'datasheet' && i >= 0 ? DASHES[i % DASHES.length] : [];
 let CURVES = null;
 function computeCurves() {
   const drive = Math.pow(10, ui.drive / 20);
@@ -1147,14 +1188,14 @@ function drawChart() {
   ctx.beginPath(); ctx.moveTo(X(ui.mapF), pad.t); ctx.lineTo(X(ui.mapF), H - pad.b); ctx.stroke(); ctx.setLineDash([]);
   for (const q of series) {
     if (!q.on) continue;
-    ctx.strokeStyle = q.c; ctx.lineWidth = q.w * dpr; ctx.lineJoin = 'round'; ctx.beginPath();
+    ctx.strokeStyle = q.c; ctx.lineWidth = q.w * dpr; ctx.lineJoin = 'round'; ctx.setLineDash(dashFor(q.w < 2 ? series.indexOf(q) : -1).map(v => v * dpr)); ctx.beginPath();
     let started = false;
     for (let j = 0; j < NF; j++) {
       const v = ylog ? Math.max(q.y[j], yr[0]) : q.y[j], x = X(FG[j]), y = Y(v);
       const jump = tab === 'phase' && j > 0 && Math.abs(q.y[j] - q.y[j - 1]) > 180;
       if (!started || jump) { ctx.moveTo(x, y); started = true; } else ctx.lineTo(x, y);
     }
-    ctx.stroke();
+    ctx.stroke(); ctx.setLineDash([]);
   }
   if (ui.hover >= 0) { ctx.strokeStyle = fg; ctx.lineWidth = 1 * dpr; ctx.beginPath(); ctx.moveTo(X(FG[ui.hover]), pad.t); ctx.lineTo(X(FG[ui.hover]), H - pad.b); ctx.stroke(); }
   ctx.restore();
@@ -1162,7 +1203,7 @@ function drawChart() {
   ctx.fillText(T({ spl: 'dB SPL', phase: 'degrees', gd: 'ms', xcur: '% of Xmax', imp: 'Ω' }[tab]), 4 * dpr, 0);
   cv._geom = { pad, pw, dpr };
   // legend
-  $('legend').innerHTML = SRC.map((s, i) => `<span><i style="background:var(${s.cssv});opacity:${s.on ? 1 : 0.3}"></i>${shortName(s)}</span>`).join('') +
+  $('legend').innerHTML = SRC.map((s, i) => `<span><i style="background:${dashFor(i).length ? `repeating-linear-gradient(90deg, var(${s.cssv}) 0 ${dashFor(i)[0] * 1.5}px, transparent ${dashFor(i)[0] * 1.5}px ${dashFor(i)[0] * 1.5 + 3}px)` : `var(${s.cssv})`};opacity:${s.on ? 1 : 0.3}"></i>${shortName(s)}</span>`).join('') +
     (tab === 'spl' || tab === 'phase' || tab === 'gd' ? `<span><i style="background:var(--fg);height:4px"></i>Sum</span>` : '') +
     `<span><i style="background:var(--accent);height:2px"></i>Map frequency</span>` + (tab === 'xcur' ? `<span class="warn"><i style="background:var(--warn);height:2px"></i>Xmax</span>` : '');
 }

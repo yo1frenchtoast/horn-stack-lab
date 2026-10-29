@@ -205,7 +205,7 @@ const I18N = (() => {
     "Studio": "Studio",
     "Phosphor": "Phosphore",
     "Blueprint": "Plan bleu",
-    "Paper": "Papier",
+    "Datasheet": "Fiche technique",
     "Normal": "Normale",
     "Inverted": "Inversée",
   };
@@ -512,7 +512,7 @@ function setLang(l, redraw) {
   const sel = document.getElementById('langsel'); if (sel) sel.value = LANG;
   if (redraw) redraw();
 }
-const THEMES = ['auto', 'light', 'dark', 'studio', 'phosphor', 'blueprint', 'paper'];
+const THEMES = ['auto', 'light', 'dark', 'studio', 'phosphor', 'blueprint', 'datasheet'];
 function setTheme(t) {
   const root = document.documentElement;
   if (!THEMES.includes(t)) t = 'auto';
