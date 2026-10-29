@@ -27,22 +27,6 @@
   --accent: #3ccfc3; --c1: #6aa8f5; --c2: #f0a050; --c3: #e77fcf; --c4: #8bd05a; --c5: #5ad0e6; --c6: #e3c14a; --c7: #b79cf5; --c8: #ff7f9c; --warn: #ff8a7a;
   --map-neutral: #12181c; --map-neg: #4a90e2; --map-pos: #ff7a45; color-scheme: dark;
 }
-/* Extra themes (selected explicitly; the tokens are the same as above). Phosphor and Blueprint also switch to the monospace face. */
-:root[data-theme="studio"] {
-  --bg: #121110; --surface: #1b1917; --surface2: #252220; --fg: #efe8dc; --muted: #9d9388; --line: #38332e;
-  --accent: #ffc23d; --c1: #6fb3ff; --c2: #ff8a3d; --c3: #e86fc8; --c4: #9ad45a; --c5: #4fd1c5; --c6: #e6d35a; --c7: #b49bff; --c8: #ff6f7d; --warn: #ff7a66;
-  --map-neutral: #151311; --map-neg: #4f8fe0; --map-pos: #ff8a3d; color-scheme: dark;
-}
-:root[data-theme="phosphor"] {
-  --bg: #050a06; --surface: #0a130c; --surface2: #102014; --fg: #c8ffd4; --muted: #6fae80; --line: #1f4228;
-  --accent: #39ff6a; --c1: #5cff8a; --c2: #ffd24a; --c3: #4fd8ff; --c4: #ff6ad5; --c5: #b8ff3a; --c6: #ff9a3a; --c7: #9a8cff; --c8: #ff5a5a; --warn: #ff6a5a;
-  --map-neutral: #07100a; --map-neg: #1fb89a; --map-pos: #e6ff4a; --font: 'IBM Plex Mono', ui-monospace, monospace; color-scheme: dark;
-}
-:root[data-theme="blueprint"] {
-  --bg: #0b2545; --surface: #0f2f58; --surface2: #153c6e; --fg: #e8f1ff; --muted: #92b2da; --line: #2f5f9a;
-  --accent: #7fe3ff; --c1: #7fe3ff; --c2: #ffd166; --c3: #ff9ecb; --c4: #a8f08a; --c5: #5ee6c8; --c6: #ffb86b; --c7: #b9a6ff; --c8: #ff8a8a; --warn: #ff9a8a;
-  --map-neutral: #0c2a50; --map-neg: #4aa8ff; --map-pos: #ffb74a; --font: 'IBM Plex Mono', ui-monospace, monospace; color-scheme: dark;
-}
 /* Datasheet: a printed technical notice (serif, hairline rules, numbered sections, flat controls, dashed curves). */
 :root[data-theme="datasheet"] {
   --bg: #fbfaf6; --surface: #ffffff; --surface2: #f1eee4; --fg: #1a1a1a; --muted: #55514a; --line: #c9c5b8;
@@ -210,7 +194,7 @@ button.btn.sm { padding: 3px 9px; }
 <div class="wrap">
   <div class="head">
     <div class="brand"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19h7v10H5z"/><path d="M12 19 28 7v34L12 29"/><path d="M34 17c3 4 3 10 0 14M39 11c6 8 6 18 0 26"/></svg><div><small>Hornresp · PA stacks</small><h1>Horn Stack Lab</h1></div></div>
-    <div class="tools"><a class="gh" href="https://github.com/yo1frenchtoast/horn-stack-lab" target="_blank" rel="noopener" title="Source code on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a><label class="f inline">Theme <select id="themesel" aria-label="Theme"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option><option value="studio">Studio</option><option value="phosphor">Phosphor</option><option value="blueprint">Blueprint</option><option value="datasheet">Datasheet</option></select></label><label class="f inline">Language <select id="langsel" aria-label="Language"><option value="fr">Français</option><option value="en">English</option></select></label></div>
+    <div class="tools"><a class="gh" href="https://github.com/yo1frenchtoast/horn-stack-lab" target="_blank" rel="noopener" title="Source code on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a><label class="f inline">Theme <select id="themesel" aria-label="Theme"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option><option value="datasheet">Datasheet</option></select></label><label class="f inline">Language <select id="langsel" aria-label="Language"><option value="fr">Français</option><option value="en">English</option></select></label></div>
     <p>Horn and bass-reflex PA stack simulator, computed from Hornresp scripts: Cubo 18, Cubo Sub, Kick, MT130, MHB, E15, GK MB112 and more. Stack the cabinets in a column or a pyramid, aim them, set filters, delays, gains and equaliser, add your own drivers, then read the response at the listening spot (SPL, phase, group delay, excursion, impedance), the waves in 2D or 3D and a simulated listening.</p>
   </div>
 
@@ -882,9 +866,6 @@ const I18N = (() => {
     "Language": "Langue",
     "Light": "Clair",
     "Dark": "Sombre",
-    "Studio": "Studio",
-    "Phosphor": "Phosphore",
-    "Blueprint": "Plan bleu",
     "Datasheet": "Fiche technique",
     "Normal": "Normale",
     "Inverted": "Inversée",
@@ -1192,7 +1173,7 @@ function setLang(l, redraw) {
   const sel = document.getElementById('langsel'); if (sel) sel.value = LANG;
   if (redraw) redraw();
 }
-const THEMES = ['auto', 'light', 'dark', 'studio', 'phosphor', 'blueprint', 'datasheet'];
+const THEMES = ['auto', 'light', 'dark', 'datasheet'];
 function setTheme(t) {
   const root = document.documentElement;
   if (!THEMES.includes(t)) t = 'auto';
