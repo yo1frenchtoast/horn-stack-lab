@@ -2,6 +2,8 @@
 
 This document explains what Horn Stack Lab computes, how, and where the results stop being trustworthy. Code references point to `engine.js` (the single-cabinet model and the filters) and `template.html` (stack geometry, summation, maps, listening, advice).
 
+> **Read this first.** Horn Stack Lab is a sandbox for exploring the theoretical effects of speaker placement and settings. It is not a reliable prediction or measurement tool: use it to compare options and understand trends, then confirm with measurements and listening (see section 10).
+
 **In one sentence**: each cabinet is simulated alone with a Hornresp-style lumped/plane-wave model, giving a complex pressure at 1 m; the stack is then built by summing these complex pressures at the listening point with free-field propagation, piston directivity, and each way's filters, gain, polarity and delay.
 
 ```

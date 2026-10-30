@@ -1,6 +1,6 @@
 # Horn Stack Lab
 
-Simulator for horn and bass-reflex PA stacks, computed from Hornresp scripts (plane-wave model); see [docs/METHODOLOGY.md](docs/METHODOLOGY.md) for the methodology and its limits. The UI is available in English and French (selector in the page; defaults to the browser language).
+Simulator for horn and bass-reflex PA stacks, computed from Hornresp scripts (plane-wave model). **This is a sandbox for testing the theoretical effects of speaker placement and settings, not a reliable prediction tool**: the model is simplified (free field, no room, estimated cabinets) and results must be confirmed with measurements and listening. See [docs/METHODOLOGY.md](docs/METHODOLOGY.md) for the methodology and its limits. The UI is available in English and French (selector in the page; defaults to the browser language).
 
 **Features**: column or pyramid stacking, per-stage aiming and convergence, crossover filters, delays, gains, polarity, SPL / phase / group delay / excursion / impedance curves, 2D/3D pressure maps, multi-band listening-spot following, automatic advice engine with undo, simulated listening (kick, tempo), saved stack configurations, light/dark theme.
 
